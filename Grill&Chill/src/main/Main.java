@@ -5,7 +5,7 @@
  */
 package main;
 
-import ui.forme.FPrijava;
+import ui.forme.prijava.FPrijava;
 
 /**
  *

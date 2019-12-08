@@ -16,7 +16,8 @@ public class StavkaRacuna {
     private Long racunID;
     private Long stavkaID;
     private int kolicina;
-    private double prodajnaCena;
+    //TODO: izmeniti naziv atributa prodajnaCena u ukupanIznos
+    private double ukupanIznos;
     private Proizvod proizvod;
 
     public StavkaRacuna() {
@@ -25,7 +26,7 @@ public class StavkaRacuna {
         this.racunID = racunID;
         this.stavkaID = stavkaID;
         this.kolicina = kolicina;
-        this.prodajnaCena = kolicina*proizvod.getCena();
+        this.ukupanIznos = kolicina*proizvod.getCena();
         this.proizvod = proizvod;
     }
     
@@ -51,11 +52,11 @@ public class StavkaRacuna {
         this.kolicina = kolicina;
     }
 
-    public double getProdajnaCena() {
-        return prodajnaCena;
+    public double getUkupanIznos() {
+        return ukupanIznos;
     }
-    public void setProdajnaCena(double prodajnaCena) {
-        this.prodajnaCena = prodajnaCena;
+    public void setUkupanIznos(double ukupanIznos) {
+        this.ukupanIznos = ukupanIznos;
     }
 
     public Proizvod getProizvod() {

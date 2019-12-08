@@ -3,14 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ui.forme;
+package ui.forme.prijava;
+
+import domen.Zaposleni;
 
 /**
  *
  * @author urosv
  */
 public class FPrijava extends javax.swing.JFrame {
-
+    
+    Zaposleni ulogovaniZaposleni;
     /**
      * Creates new form FPrijava
      */
