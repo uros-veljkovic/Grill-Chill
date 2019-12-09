@@ -5,18 +5,26 @@
  */
 package ui.forme.glavna;
 
+import kontroler.KontrolerLogike;
+import ui.forme.zaposleni.FRacun;
+import ui.forme.menadzer.FZaposleni;
+import ui.forme.mode.FormMode;
+import ui.forme.zaposleni.FRacunPretraga;
+
 /**
  *
  * @author urosv
  */
-public class FGlavnaForma extends javax.swing.JDialog {
-
+public class FGlavnaForma extends javax.swing.JFrame {
+    
     /**
      * Creates new form FGlavnaForma
      */
-    public FGlavnaForma(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public FGlavnaForma(java.awt.Frame parent) {
         initComponents();
+        this.pack();
+        this.setLocationRelativeTo(null);
+        postaviUlogovanogZaposlenog();
     }
 
     /**
@@ -28,6 +36,7 @@ public class FGlavnaForma extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jlblUlogovaniZaposleni = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmenuZaposleni = new javax.swing.JMenu();
         jmiKreirajZaposlenog = new javax.swing.JMenuItem();
@@ -45,12 +54,26 @@ public class FGlavnaForma extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jlblUlogovaniZaposleni.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jlblUlogovaniZaposleni.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblUlogovaniZaposleni.setText("[ulogovaniZaposleni]");
+
         jmenuZaposleni.setText("Zaposleni");
 
         jmiKreirajZaposlenog.setText("Kreiraj");
+        jmiKreirajZaposlenog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiKreirajZaposlenogActionPerformed(evt);
+            }
+        });
         jmenuZaposleni.add(jmiKreirajZaposlenog);
 
         jmiObrisiZaposlenog.setText("Obrisi");
+        jmiObrisiZaposlenog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiObrisiZaposlenogActionPerformed(evt);
+            }
+        });
         jmenuZaposleni.add(jmiObrisiZaposlenog);
 
         jMenuBar1.add(jmenuZaposleni);
@@ -58,6 +81,11 @@ public class FGlavnaForma extends javax.swing.JDialog {
         jmenuRacun.setText("Racun");
 
         jmiKreirajRacun.setText("Kreiraj");
+        jmiKreirajRacun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiKreirajRacunActionPerformed(evt);
+            }
+        });
         jmenuRacun.add(jmiKreirajRacun);
 
         jmiPretraziRacun.setText("Pretrazi");
@@ -103,23 +131,53 @@ public class FGlavnaForma extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 809, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlblUlogovaniZaposleni, javax.swing.GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 527, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jlblUlogovaniZaposleni, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(462, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jmiPretraziRacunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPretraziRacunActionPerformed
-        // TODO add your handling code here:
+        FRacunPretraga formPretragaRacuna = new FRacunPretraga(this, false);
+        formPretragaRacuna.setVisible(true);
     }//GEN-LAST:event_jmiPretraziRacunActionPerformed
 
     private void jmiObrisiProizvodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiObrisiProizvodActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jmiObrisiProizvodActionPerformed
+
+    private void jmiKreirajZaposlenogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiKreirajZaposlenogActionPerformed
+        //TODO: Implementirati mogucnost da se salje enumeracija koja odredjuje sta ce na novoj formi biti omoguceno a sta ne
+        FZaposleni zaposleniForma = new FZaposleni(this, false);
+        zaposleniForma.setVisible(true);
+    }//GEN-LAST:event_jmiKreirajZaposlenogActionPerformed
+
+    private void jmiObrisiZaposlenogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiObrisiZaposlenogActionPerformed
+        //TODO: Implementirati mogucnost da se salje enumeracija koja odredjuje sta ce na novoj formi biti omoguceno a sta ne
+        FZaposleni zaposleniForma = new FZaposleni(this, false);
+        zaposleniForma.setVisible(true);
+    }//GEN-LAST:event_jmiObrisiZaposlenogActionPerformed
+
+    private void jmiKreirajRacunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiKreirajRacunActionPerformed
+        FRacun formaRacun = new FRacun(this, false, FormMode.FORM_KREIRAJ);
+        formaRacun.setVisible(true);
+    }//GEN-LAST:event_jmiKreirajRacunActionPerformed
+
+    private void pokreniFormuZaposleni() {
+        FZaposleni zaposleniForma = new FZaposleni(this, false);
+        zaposleniForma.setVisible(true);
+        this.setVisible(false);
+    }
 
     /**
      * @param args the command line arguments
@@ -151,20 +209,21 @@ public class FGlavnaForma extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FGlavnaForma dialog = new FGlavnaForma(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                FGlavnaForma form = new FGlavnaForma(new javax.swing.JFrame());
+                form.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }
                 });
-                dialog.setVisible(true);
+                form.setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JLabel jlblUlogovaniZaposleni;
     private javax.swing.JMenu jmenuProizvod;
     private javax.swing.JMenu jmenuRacun;
     private javax.swing.JMenu jmenuZaposleni;
@@ -179,4 +238,8 @@ public class FGlavnaForma extends javax.swing.JDialog {
     private javax.swing.JMenuItem jmiPretraziRacun;
     private javax.swing.JMenuItem jmiStoranirajRacun;
     // End of variables declaration//GEN-END:variables
+
+    private void postaviUlogovanogZaposlenog() {
+        jlblUlogovaniZaposleni.setText("Trenutno ulogovan: " + KontrolerLogike.getInstanca().getZaposleni());
+    }
 }
