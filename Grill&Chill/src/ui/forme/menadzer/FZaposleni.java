@@ -5,18 +5,32 @@
  */
 package ui.forme.menadzer;
 
+import domen.Zaposleni;
+import kontroler.KontrolerGUI;
+import ui.forme.glavna.FGlavnaForma;
+import ui.forme.mode.ModeForm;
+import ui.forme.prijava.FPrijava;
+
 /**
  *
  * @author urosv
  */
 public class FZaposleni extends javax.swing.JDialog {
 
+    Zaposleni ulogovanZaposleni;
+    ModeForm mode;
+
     /**
      * Creates new form FZaposleni
      */
-    public FZaposleni(java.awt.Frame parent, boolean modal) {
+    public FZaposleni(java.awt.Frame parent, boolean modal, ModeForm mode) {
         super(parent, modal);
         initComponents();
+        postaviUlogovanogZaposlenog();
+        //formirajFormuPoModu();
+        postaviLabeluZaposleni();
+        this.pack();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -28,9 +42,9 @@ public class FZaposleni extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jlblZaposleniID = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -40,19 +54,20 @@ public class FZaposleni extends javax.swing.JDialog {
         jtxtKorisnickoIme = new javax.swing.JTextField();
         jtxtLozinka = new javax.swing.JTextField();
         jbtnKreirajZaposlenog = new javax.swing.JButton();
+        jtxtZaposleniID = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jlblUlogovaniMenadzer = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jcmbZaposleni = new javax.swing.JComboBox<>();
         jbtnObrisiZaposlenog = new javax.swing.JButton();
 
+        jTextField1.setText("jTextField1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "Kreiranje zaposlenog"));
 
         jLabel1.setText("ID:");
-
-        jlblZaposleniID.setText("[IDZaposlenog]");
 
         jLabel3.setText("Ime:");
 
@@ -63,6 +78,11 @@ public class FZaposleni extends javax.swing.JDialog {
         jLabel6.setText("Lozinka:");
 
         jbtnKreirajZaposlenog.setText("KREIRAJ ZAPOSLENOG");
+        jbtnKreirajZaposlenog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnKreirajZaposlenogActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -83,7 +103,7 @@ public class FZaposleni extends javax.swing.JDialog {
                         .addGap(274, 274, 274)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jlblZaposleniID)
+                        .addComponent(jtxtZaposleniID, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -98,14 +118,14 @@ public class FZaposleni extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(212, 212, 212)
                 .addComponent(jbtnKreirajZaposlenog, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(209, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jlblZaposleniID)
-                    .addComponent(jLabel1))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jtxtZaposleniID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -131,7 +151,7 @@ public class FZaposleni extends javax.swing.JDialog {
 
         jlblUlogovaniMenadzer.setText("[imeUlogovanogMenadzera]");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.red, null), "Brisanje zaposlenog"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Brisanje zaposlenog"));
 
         jcmbZaposleni.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -146,7 +166,7 @@ public class FZaposleni extends javax.swing.JDialog {
                 .addComponent(jcmbZaposleni, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
                 .addComponent(jbtnObrisiZaposlenog, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,7 +175,7 @@ public class FZaposleni extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jbtnObrisiZaposlenog, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
                     .addComponent(jcmbZaposleni))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -192,6 +212,10 @@ public class FZaposleni extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jbtnKreirajZaposlenogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnKreirajZaposlenogActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnKreirajZaposlenogActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
@@ -201,14 +225,23 @@ public class FZaposleni extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jbtnKreirajZaposlenog;
     private javax.swing.JButton jbtnObrisiZaposlenog;
     private javax.swing.JComboBox<String> jcmbZaposleni;
     private javax.swing.JLabel jlblUlogovaniMenadzer;
-    private javax.swing.JLabel jlblZaposleniID;
     private javax.swing.JTextField jtxtIme;
     private javax.swing.JTextField jtxtKorisnickoIme;
     private javax.swing.JTextField jtxtLozinka;
     private javax.swing.JTextField jtxtPrezime;
+    private javax.swing.JTextField jtxtZaposleniID;
     // End of variables declaration//GEN-END:variables
+
+    private void postaviLabeluZaposleni() {
+        jlblUlogovaniMenadzer.setText(ulogovanZaposleni.toString());
+    }
+    
+    private void postaviUlogovanogZaposlenog(){
+        ulogovanZaposleni = KontrolerGUI.getInstanca().getUlogovaniZaposleni();
+    }
 }

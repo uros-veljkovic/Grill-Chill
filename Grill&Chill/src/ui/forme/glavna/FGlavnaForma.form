@@ -69,16 +69,25 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Kreiraj"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiKreirajProizvodActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiPretraziProizvod">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Pretrazi"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiPretraziProizvodActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiIzmeniProizvod">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Izmeni"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiIzmeniProizvodActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiObrisiProizvod">
               <Properties>

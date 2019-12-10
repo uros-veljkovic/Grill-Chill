@@ -14,12 +14,12 @@ import java.util.List;
  */
 public interface ServisProizvod {
 
-    Proizvod kreirajNoviProizvod(Proizvod proizvod);
+    boolean kreirajNoviProizvod(Proizvod proizvod);
 
     Proizvod zapamtiProizvod(Proizvod proizvod);
 
     Proizvod obrisiProizvod(Proizvod proizvod);
 
-    Proizvod pretraziProizvode(String kriterijum, List<Proizvod> proizvodi);
+    List<Proizvod> pretraziProizvode(String kriterijum);
 
 }

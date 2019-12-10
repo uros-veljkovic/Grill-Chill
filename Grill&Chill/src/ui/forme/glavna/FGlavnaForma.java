@@ -5,10 +5,16 @@
  */
 package ui.forme.glavna;
 
-import kontroler.KontrolerLogike;
+import domen.Zaposleni;
+import javax.swing.JOptionPane;
+import kontroler.KontrolerGUI;
+import ui.forme.menadzer.FProizvod;
+import ui.forme.menadzer.FProizvodPretraga;
 import ui.forme.zaposleni.FRacun;
 import ui.forme.menadzer.FZaposleni;
-import ui.forme.mode.FormMode;
+import ui.forme.mode.ModeForm;
+import ui.forme.mode.ModeUlogovani;
+import ui.forme.prijava.FPrijava;
 import ui.forme.zaposleni.FRacunPretraga;
 
 /**
@@ -16,7 +22,7 @@ import ui.forme.zaposleni.FRacunPretraga;
  * @author urosv
  */
 public class FGlavnaForma extends javax.swing.JFrame {
-    
+    Zaposleni ulogovaniZaposleni;
     /**
      * Creates new form FGlavnaForma
      */
@@ -24,7 +30,9 @@ public class FGlavnaForma extends javax.swing.JFrame {
         initComponents();
         this.pack();
         this.setLocationRelativeTo(null);
+        //TODO: Proslediti iz FPrijava zaposlenog kako bismo znali mod glavne forme
         postaviUlogovanogZaposlenog();
+        postaviPristupMenijima();
     }
 
     /**
@@ -107,12 +115,27 @@ public class FGlavnaForma extends javax.swing.JFrame {
         jmenuProizvod.setText("Proizvod");
 
         jmiKreirajProizvod.setText("Kreiraj");
+        jmiKreirajProizvod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiKreirajProizvodActionPerformed(evt);
+            }
+        });
         jmenuProizvod.add(jmiKreirajProizvod);
 
         jmiPretraziProizvod.setText("Pretrazi");
+        jmiPretraziProizvod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiPretraziProizvodActionPerformed(evt);
+            }
+        });
         jmenuProizvod.add(jmiPretraziProizvod);
 
         jmiIzmeniProizvod.setText("Izmeni");
+        jmiIzmeniProizvod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiIzmeniProizvodActionPerformed(evt);
+            }
+        });
         jmenuProizvod.add(jmiIzmeniProizvod);
 
         jmiObrisiProizvod.setText("Obrisi");
@@ -148,36 +171,47 @@ public class FGlavnaForma extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jmiPretraziRacunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPretraziRacunActionPerformed
-        FRacunPretraga formPretragaRacuna = new FRacunPretraga(this, false);
+        FRacunPretraga formPretragaRacuna = new FRacunPretraga(this, true, ModeForm.FORM_PRETRAZI);
         formPretragaRacuna.setVisible(true);
     }//GEN-LAST:event_jmiPretraziRacunActionPerformed
 
     private void jmiObrisiProizvodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiObrisiProizvodActionPerformed
-        // TODO add your handling code here:
+        FProizvodPretraga formaPretragaProizvod = new FProizvodPretraga(this, true, ModeForm.FORM_OBRISI);
+        formaPretragaProizvod.setVisible(true);
     }//GEN-LAST:event_jmiObrisiProizvodActionPerformed
 
     private void jmiKreirajZaposlenogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiKreirajZaposlenogActionPerformed
         //TODO: Implementirati mogucnost da se salje enumeracija koja odredjuje sta ce na novoj formi biti omoguceno a sta ne
-        FZaposleni zaposleniForma = new FZaposleni(this, false);
+        FZaposleni zaposleniForma = new FZaposleni(this, true, ModeForm.FORM_KREIRAJ);
         zaposleniForma.setVisible(true);
     }//GEN-LAST:event_jmiKreirajZaposlenogActionPerformed
 
     private void jmiObrisiZaposlenogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiObrisiZaposlenogActionPerformed
         //TODO: Implementirati mogucnost da se salje enumeracija koja odredjuje sta ce na novoj formi biti omoguceno a sta ne
-        FZaposleni zaposleniForma = new FZaposleni(this, false);
+        FZaposleni zaposleniForma = new FZaposleni(this, true, ModeForm.FORM_OBRISI);
         zaposleniForma.setVisible(true);
     }//GEN-LAST:event_jmiObrisiZaposlenogActionPerformed
 
     private void jmiKreirajRacunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiKreirajRacunActionPerformed
-        FRacun formaRacun = new FRacun(this, false, FormMode.FORM_KREIRAJ);
+        FRacun formaRacun = new FRacun(this, true, ModeForm.FORM_KREIRAJ);
         formaRacun.setVisible(true);
     }//GEN-LAST:event_jmiKreirajRacunActionPerformed
 
-    private void pokreniFormuZaposleni() {
-        FZaposleni zaposleniForma = new FZaposleni(this, false);
-        zaposleniForma.setVisible(true);
-        this.setVisible(false);
-    }
+    private void jmiKreirajProizvodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiKreirajProizvodActionPerformed
+        FProizvod formaProizvod = new FProizvod(this, true, ModeForm.FORM_KREIRAJ);
+        formaProizvod.setVisible(true);
+    }//GEN-LAST:event_jmiKreirajProizvodActionPerformed
+
+    private void jmiPretraziProizvodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPretraziProizvodActionPerformed
+        FProizvodPretraga formPretragaProizvoda = new FProizvodPretraga(this, true, ModeForm.FORM_PRETRAZI);
+        formPretragaProizvoda.setVisible(true);
+    }//GEN-LAST:event_jmiPretraziProizvodActionPerformed
+
+    private void jmiIzmeniProizvodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiIzmeniProizvodActionPerformed
+        FProizvodPretraga formaPretragaProizvod = new FProizvodPretraga(this, true, ModeForm.FORM_IZMENI);
+        formaPretragaProizvod.setVisible(true);
+    }//GEN-LAST:event_jmiIzmeniProizvodActionPerformed
+
 
     /**
      * @param args the command line arguments
@@ -240,6 +274,19 @@ public class FGlavnaForma extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void postaviUlogovanogZaposlenog() {
-        jlblUlogovaniZaposleni.setText("Trenutno ulogovan: " + KontrolerLogike.getInstanca().getZaposleni());
+        ulogovaniZaposleni = KontrolerGUI.getInstanca().getUlogovaniZaposleni();
+        jlblUlogovaniZaposleni.setText("Trenutno ulogovan: " + ulogovaniZaposleni );
+    }
+
+    private void postaviPristupMenijima() {
+        if(!ulogovaniZaposleni.isMenadzer()){
+            jmenuProizvod.setEnabled(false);
+            jmenuZaposleni.setEnabled(false);
+        }else
+            jmenuRacun.setEnabled(false);
+    }
+
+    public Zaposleni getUlogovaniZaposleni() {
+        return ulogovaniZaposleni;
     }
 }

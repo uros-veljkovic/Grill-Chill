@@ -22,21 +22,17 @@ public class FabrikaKonekcija {
     private static FabrikaKonekcija instance;
     private Connection konekcija;
 
-    private FabrikaKonekcija() {
-        
-        String dbUrl = SettingsLoader.getInstance().getValue("dbUrl");
+    private FabrikaKonekcija() throws SQLException {
+
+        String url = SettingsLoader.getInstance().getValue("url");
         String username = SettingsLoader.getInstance().getValue("username");
         String password = SettingsLoader.getInstance().getValue("password");
 
-        try {
-            konekcija = DriverManager.getConnection(dbUrl, username, password);
-            konekcija.setAutoCommit(false);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Konekcija ka bazi nije kreirana!" + ex.getMessage());
-        }
+        konekcija = DriverManager.getConnection(url, username, password);
+        konekcija.setAutoCommit(false);
     }
 
-    public static FabrikaKonekcija getInstance() {
+    public static FabrikaKonekcija getInstance() throws SQLException {
         if (instance == null) {
             instance = new FabrikaKonekcija();
         }
@@ -46,12 +42,12 @@ public class FabrikaKonekcija {
     public Connection getKonekcija() {
         return konekcija;
     }
-    
-    public void commit() throws SQLException{
+
+    public void commit() throws SQLException {
         konekcija.commit();
     }
-    
-    public void rollback() throws SQLException{
+
+    public void rollback() throws SQLException {
         konekcija.rollback();
     }
 

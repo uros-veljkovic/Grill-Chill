@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class Racun {
     
-    private Long racunID;
+    private int racunID;
     private Zaposleni kreiraoZaposleni;
     private Date datumIzrade;
     private double ukupanIznos;
@@ -29,7 +29,7 @@ public class Racun {
     public Racun() {
         stavke = new ArrayList<StavkaRacuna>();
     }
-    public Racun(Long racunID, Zaposleni kreiraoZaposleni, Date datumIzrade, double ukupanIznos, boolean obradjen, boolean storniran, List<StavkaRacuna> stavke) {
+    public Racun(int racunID, Zaposleni kreiraoZaposleni, Date datumIzrade, double ukupanIznos, boolean obradjen, boolean storniran, List<StavkaRacuna> stavke) {
         this.racunID = racunID;
         this.kreiraoZaposleni = kreiraoZaposleni;
         this.datumIzrade = datumIzrade;
@@ -40,10 +40,10 @@ public class Racun {
     }
     
 
-    public Long getRacunID() {
+    public int getRacunID() {
         return racunID;
     }
-    public void setRacunID(Long racunID) {
+    public void setRacunID(int racunID) {
         this.racunID = racunID;
     }
 

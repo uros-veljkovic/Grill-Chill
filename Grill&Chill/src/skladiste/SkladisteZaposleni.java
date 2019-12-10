@@ -6,6 +6,7 @@
 package skladiste;
 
 import domen.Zaposleni;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public interface SkladisteZaposleni {
 
-    Zaposleni prijaviZaposlenog(String username, String password);
+    Zaposleni prijaviZaposlenog(String username, String password) throws SQLException;
 
     Zaposleni kreirajZaposlenog(Zaposleni zaposleni);
 

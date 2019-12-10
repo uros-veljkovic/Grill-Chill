@@ -12,31 +12,36 @@ import java.util.Objects;
  * @author urosv
  */
 public class Proizvod {
-    
-    private Long proizvodID;
+
+    private int proizvodID;
     private String naziv;
     private String opis;
     private Double cena;
+    private MernaJedinica mernaJedinica;
 
     public Proizvod() {
     }
-    public Proizvod(Long proizvodID, String naziv, String opis, Double cena) {
+
+    public Proizvod(int proizvodID, String naziv, String opis, Double cena, MernaJedinica mernaJedinica) {
         this.proizvodID = proizvodID;
         this.naziv = naziv;
         this.opis = opis;
         this.cena = cena;
+        this.mernaJedinica = mernaJedinica;
     }
-    
-    public Long getProizvodID() {
+
+    public int getProizvodID() {
         return proizvodID;
     }
-    public void setProizvodID(Long proizvodID) {
+
+    public void setProizvodID(int proizvodID) {
         this.proizvodID = proizvodID;
     }
 
     public String getNaziv() {
         return naziv;
     }
+
     public void setNaziv(String naziv) {
         this.naziv = naziv;
     }
@@ -44,6 +49,7 @@ public class Proizvod {
     public String getOpis() {
         return opis;
     }
+
     public void setOpis(String opis) {
         this.opis = opis;
     }
@@ -51,6 +57,7 @@ public class Proizvod {
     public Double getCena() {
         return cena;
     }
+
     public void setCena(Double cena) {
         this.cena = cena;
     }
@@ -59,6 +66,15 @@ public class Proizvod {
     public String toString() {
         return naziv;
     }
+
+    public MernaJedinica getMernaJedinica() {
+        return mernaJedinica;
+    }
+
+    public void setMernaJedinica(MernaJedinica mernaJedinica) {
+        this.mernaJedinica = mernaJedinica;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -77,7 +93,4 @@ public class Proizvod {
         return true;
     }
 
-    
-    
-    
 }

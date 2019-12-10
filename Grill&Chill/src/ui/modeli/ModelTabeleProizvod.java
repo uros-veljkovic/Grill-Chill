@@ -6,6 +6,7 @@
 package ui.modeli;
 
 import domen.Proizvod;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -18,6 +19,10 @@ public class ModelTabeleProizvod extends AbstractTableModel{
     List<Proizvod> listaProizvoda;
     String[] koloneTabele = {"ID proizvoda", "Naziv", "Cena"};
 
+    public ModelTabeleProizvod() {
+        listaProizvoda = new ArrayList<>();
+    }
+    
     @Override
     public int getRowCount() {
         return listaProizvoda.size();
@@ -47,6 +52,15 @@ public class ModelTabeleProizvod extends AbstractTableModel{
     @Override
     public String getColumnName(int colNum) {
         return koloneTabele[colNum];
+    }
+
+    public void postaviProizvode(ArrayList<Proizvod> listaProizvoda) {
+        this.listaProizvoda = listaProizvoda;
+        fireTableDataChanged();
+    }
+
+    public Proizvod vratiOdabraniProizvod(int selectedRow) {
+        return listaProizvoda.get(selectedRow);
     }
     
     

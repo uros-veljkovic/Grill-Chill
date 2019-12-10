@@ -13,8 +13,8 @@ import java.util.Objects;
  */
 public class StavkaRacuna {
     
-    private Long racunID;
-    private Long stavkaID;
+    private int racunID;
+    private int stavkaID;
     private int kolicina;
     //TODO: izmeniti naziv atributa prodajnaCena u ukupanIznos
     private double ukupanIznos;
@@ -22,7 +22,7 @@ public class StavkaRacuna {
 
     public StavkaRacuna() {
     }
-    public StavkaRacuna(Long racunID, Long stavkaID, int kolicina, Proizvod proizvod) {
+    public StavkaRacuna(int racunID, int stavkaID, int kolicina, Proizvod proizvod) {
         this.racunID = racunID;
         this.stavkaID = stavkaID;
         this.kolicina = kolicina;
@@ -31,17 +31,17 @@ public class StavkaRacuna {
     }
     
 
-    public Long getRacunID() {
+    public int getRacunID() {
         return racunID;
     }
-    public void setRacunID(Long racunID) {
+    public void setRacunID(int racunID) {
         this.racunID = racunID;
     }
 
-    public Long getStavkaID() {
+    public int getStavkaID() {
         return stavkaID;
     }
-    public void setStavkaID(Long stavkaID) {
+    public void setStavkaID(int stavkaID) {
         this.stavkaID = stavkaID;
     }
 

@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class Zaposleni {
     
-    private Long zaposleniID;
+    private int zaposleniID;
     private String imePrezime;
     private String username;
     private String password;
@@ -22,7 +22,7 @@ public class Zaposleni {
 
     public Zaposleni() {
     }
-    public Zaposleni(Long zaposleniID, String imePrezime, String username, String password, boolean menadzer, Mesto mestoBoravista) {
+    public Zaposleni(int zaposleniID, String imePrezime, String username, String password, boolean menadzer, Mesto mestoBoravista) {
         this.zaposleniID = zaposleniID;
         this.imePrezime = imePrezime;
         this.username = username;
@@ -32,10 +32,10 @@ public class Zaposleni {
     }
 
     
-    public Long getZaposleniID() {
+    public int getZaposleniID() {
         return zaposleniID;
     }
-    public void setZaposleniID(Long zaposleniID) {
+    public void setZaposleniID(int zaposleniID) {
         this.zaposleniID = zaposleniID;
     }
 

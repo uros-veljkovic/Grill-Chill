@@ -6,6 +6,9 @@
 package ui.forme.prijava;
 
 import domen.Zaposleni;
+import javax.swing.JOptionPane;
+import kontroler.KontrolerGUI;
+import ui.forme.glavna.FGlavnaForma;
 
 /**
  *
@@ -35,9 +38,9 @@ public class FPrijava extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jbtnKorisnickoIme = new javax.swing.JTextField();
+        jtxtKorisnickoIme = new javax.swing.JTextField();
         jpswLozinka = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        jbtnPrijava = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Prijava");
@@ -62,7 +65,7 @@ public class FPrijava extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(29, 69, 0, 0);
         getContentPane().add(jLabel3, gridBagConstraints);
 
-        jbtnKorisnickoIme.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jtxtKorisnickoIme.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -72,7 +75,7 @@ public class FPrijava extends javax.swing.JFrame {
         gridBagConstraints.ipady = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(63, 29, 0, 62);
-        getContentPane().add(jbtnKorisnickoIme, gridBagConstraints);
+        getContentPane().add(jtxtKorisnickoIme, gridBagConstraints);
 
         jpswLozinka.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -86,8 +89,13 @@ public class FPrijava extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(18, 29, 0, 62);
         getContentPane().add(jpswLozinka, gridBagConstraints);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jButton1.setText("PRIJAVA");
+        jbtnPrijava.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbtnPrijava.setText("PRIJAVA");
+        jbtnPrijava.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnPrijavaActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -96,17 +104,38 @@ public class FPrijava extends javax.swing.JFrame {
         gridBagConstraints.ipady = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(43, 209, 52, 0);
-        getContentPane().add(jButton1, gridBagConstraints);
+        getContentPane().add(jbtnPrijava, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jbtnPrijavaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPrijavaActionPerformed
+        String username = jtxtKorisnickoIme.getText();
+        String password = String.valueOf(jpswLozinka.getPassword());
+        
+        //TODO: Validacija
+        ulogovaniZaposleni = KontrolerGUI.getInstanca().prijaviZaposlenog(username, password);
+        
+        if(ulogovaniZaposleni == null){
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da pronadje zaposlenog na osnovu unetih vrednosti za prijavljivanje");
+            return;
+        }else{
+            FGlavnaForma glavnaForma = new FGlavnaForma(this);
+            glavnaForma.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_jbtnPrijavaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField jbtnKorisnickoIme;
+    private javax.swing.JButton jbtnPrijava;
     private javax.swing.JPasswordField jpswLozinka;
+    private javax.swing.JTextField jtxtKorisnickoIme;
     // End of variables declaration//GEN-END:variables
+
+    public Zaposleni getUlogovaniZaposleni() {
+        return ulogovaniZaposleni;
+    }
 }
