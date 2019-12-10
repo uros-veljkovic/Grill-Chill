@@ -23,7 +23,8 @@ public class SkladisteZaposleniImpl implements SkladisteZaposleni{
 
     @Override
     public Zaposleni prijaviZaposlenog(String username, String password) throws SQLException{
-        String upit = "SELECT * FROM zaposleni WHERE username = ? AND password = ?";
+        
+        String upit = "SELECT z.*, m.PostanskiBroj, m.Grad, m.Drzava FROM zaposleni z JOIN mesto m ON (z.MestoID = m.PostanskiBroj) WHERE z.Username = ? AND z.Password = ?";
         Zaposleni ulogovaniZaposleni= null;
         Connection konekcija = FabrikaKonekcija.getInstance().getKonekcija();
         
@@ -38,10 +39,11 @@ public class SkladisteZaposleniImpl implements SkladisteZaposleni{
             ulogovaniZaposleni.setZaposleniID(rs.getInt("ZaposleniID"));
             ulogovaniZaposleni.setImePrezime(rs.getString("ImePrezime"));
             ulogovaniZaposleni.setMenadzer(rs.getBoolean("Menadzer"));
-            //TODO: Implementirati da se mesto boravka povuce iz baze da bi se napravio ceo zaposleni
-            ulogovaniZaposleni.setMestoBoravista(null);
             ulogovaniZaposleni.setPassword(rs.getString("Password"));
             ulogovaniZaposleni.setUsername(rs.getString("Username"));
+            
+            Mesto mestoZaposlenog = new Mesto(rs.getInt("MestoID"), rs.getString("Grad"), rs.getString("Drzava"));
+            ulogovaniZaposleni.setMestoBoravista(mestoZaposlenog);
         }
         
         return ulogovaniZaposleni;

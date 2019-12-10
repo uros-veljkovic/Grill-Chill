@@ -5,14 +5,18 @@
  */
 package ui.forme.zaposleni;
 
+import hint.HintTextFieldUI;
 import ui.forme.mode.ModeForm;
+import ui.modeli.ModelTabeleRacun;
 
 /**
  *
  * @author urosv
  */
 public class FRacunPretraga extends javax.swing.JDialog {
+
     ModeForm mode;
+
     /**
      * Creates new form FRacunPretraga
      */
@@ -20,8 +24,10 @@ public class FRacunPretraga extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.pack();
-        this.mode = mode;
         this.setLocationRelativeTo(null);
+        this.mode = mode;
+        srediTabelu();
+        postaviHint();
     }
 
     /**
@@ -40,9 +46,11 @@ public class FRacunPretraga extends javax.swing.JDialog {
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jtxtVrednostZaPretragu = new javax.swing.JTextField();
         jlblPomocZaPretragu = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtblRacun = new javax.swing.JTable();
 
         jTextField1.setText("jTextField1");
 
@@ -56,20 +64,43 @@ public class FRacunPretraga extends javax.swing.JDialog {
         jRadioButton1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jRadioButton1.setSelected(true);
         jRadioButton1.setText("Datumu");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
 
         jbgPretragaPo.add(jRadioButton2);
         jRadioButton2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jRadioButton2.setText("Zaposlenom");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel2.setText("Vrednost za pretragu:");
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jtxtVrednostZaPretragu.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
 
         jlblPomocZaPretragu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jButton1.setText("PRETRAZI");
+
+        jtblRacun.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jtblRacun);
 
         javax.swing.GroupLayout jpnlPretragaRacunaLayout = new javax.swing.GroupLayout(jpnlPretragaRacuna);
         jpnlPretragaRacuna.setLayout(jpnlPretragaRacunaLayout);
@@ -78,28 +109,30 @@ public class FRacunPretraga extends javax.swing.JDialog {
             .addGroup(jpnlPretragaRacunaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jpnlPretragaRacunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlPretragaRacunaLayout.createSequentialGroup()
+                        .addGap(0, 477, Short.MAX_VALUE)
+                        .addComponent(jlblPomocZaPretragu, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(164, 164, 164))
                     .addGroup(jpnlPretragaRacunaLayout.createSequentialGroup()
                         .addGroup(jpnlPretragaRacunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
                             .addGroup(jpnlPretragaRacunaLayout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jpnlPretragaRacunaLayout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jpnlPretragaRacunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(26, 26, 26)
-                                .addComponent(jTextField2)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlPretragaRacunaLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jpnlPretragaRacunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlPretragaRacunaLayout.createSequentialGroup()
-                                .addComponent(jlblPomocZaPretragu, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(164, 164, 164))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlPretragaRacunaLayout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(150, 150, 150))))))
+                                .addGroup(jpnlPretragaRacunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jpnlPretragaRacunaLayout.createSequentialGroup()
+                                        .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jtxtVrednostZaPretragu))))
+                        .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlPretragaRacunaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(303, 303, 303))
         );
         jpnlPretragaRacunaLayout.setVerticalGroup(
             jpnlPretragaRacunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,8 +147,10 @@ public class FRacunPretraga extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpnlPretragaRacunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
+                    .addComponent(jtxtVrednostZaPretragu, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -134,12 +169,19 @@ public class FRacunPretraga extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jpnlPretragaRacuna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        jtxtVrednostZaPretragu.setUI(new HintTextFieldUI("Unesite datum u sledecem obliku: [dd.MM.yyyy.]", true));
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+        jtxtVrednostZaPretragu.setUI(new HintTextFieldUI("Unesite ivrednost npr: Nikola Nikolic", true));
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -148,10 +190,21 @@ public class FRacunPretraga extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.ButtonGroup jbgPretragaPo;
     private javax.swing.JLabel jlblPomocZaPretragu;
     private javax.swing.JPanel jpnlPretragaRacuna;
+    private javax.swing.JTable jtblRacun;
+    private javax.swing.JTextField jtxtVrednostZaPretragu;
     // End of variables declaration//GEN-END:variables
+
+    private void srediTabelu() {
+        ModelTabeleRacun mtr = new ModelTabeleRacun();
+        jtblRacun.setModel(mtr);
+    }
+
+    private void postaviHint() {
+        jtxtVrednostZaPretragu.setUI(new HintTextFieldUI("Unesite datum u sledecem obliku: [dd.MM.yyyy.]", true));
+    }
 }
