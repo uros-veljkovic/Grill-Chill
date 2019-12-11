@@ -6,6 +6,9 @@
 package ui.forme.prijava;
 
 import domen.Zaposleni;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import kontroler.KontrolerGUI;
 import ui.forme.glavna.FGlavnaForma;
@@ -15,8 +18,9 @@ import ui.forme.glavna.FGlavnaForma;
  * @author urosv
  */
 public class FPrijava extends javax.swing.JFrame {
-    
+
     Zaposleni ulogovaniZaposleni;
+
     /**
      * Creates new form FPrijava
      */
@@ -112,18 +116,18 @@ public class FPrijava extends javax.swing.JFrame {
     private void jbtnPrijavaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPrijavaActionPerformed
         String username = jtxtKorisnickoIme.getText();
         String password = String.valueOf(jpswLozinka.getPassword());
-        
-        //TODO: Validacija
-        ulogovaniZaposleni = KontrolerGUI.getInstanca().prijaviZaposlenog(username, password);
-        
-        if(ulogovaniZaposleni == null){
-            JOptionPane.showMessageDialog(this, "Sistem ne moze da pronadje zaposlenog na osnovu unetih vrednosti za prijavljivanje");
-            return;
-        }else{
+
+        try {
+            //TODO: Validacija
+            ulogovaniZaposleni = KontrolerGUI.getInstanca().prijaviZaposlenog(username, password);
             FGlavnaForma glavnaForma = new FGlavnaForma(this);
             glavnaForma.setVisible(true);
             this.dispose();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da pronadje zaposlenog na osnovu unetih vrednosti za prijavljivanje");
+            return;
         }
+
     }//GEN-LAST:event_jbtnPrijavaActionPerformed
 
 

@@ -6,7 +6,11 @@
 package ui.forme.menadzer;
 
 import domen.Proizvod;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import kontroler.KontrolerGUI;
 import ui.forme.mode.ModeForm;
 import ui.modeli.ModelTabeleProizvod;
@@ -149,7 +153,11 @@ public class FProizvodPretraga extends javax.swing.JDialog {
     private void jbtnPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPretraziActionPerformed
         String nazivProizvoda = jtxtVrednostZaPretragu.getText();
         
-        listaProizvoda = KontrolerGUI.getInstanca().pretraziProizvode(nazivProizvoda);
+        try {
+            listaProizvoda = KontrolerGUI.getInstanca().pretraziProizvode(nazivProizvoda);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
         ModelTabeleProizvod mtp = (ModelTabeleProizvod) jtblPronadjeniProizvodi.getModel();
         mtp.postaviProizvode(listaProizvoda);
         

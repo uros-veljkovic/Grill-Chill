@@ -8,7 +8,10 @@ package ui.forme.menadzer;
 import domen.MernaJedinica;
 import domen.Proizvod;
 import domen.Zaposleni;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import kontroler.KontrolerGUI;
 import ui.forme.mode.ModeForm;
@@ -244,14 +247,19 @@ public class FProizvod extends javax.swing.JDialog {
         String opis = jtxtOpis.getText();
         double cena = Double.parseDouble(jtxtCena.getText());
         MernaJedinica mernaJedinica = (MernaJedinica) jcmbMernaJedinica.getSelectedItem();
-        
+
         Proizvod noviProizvod = new Proizvod(id, naziv, opis, cena, mernaJedinica);
-        
-        boolean kreiran = KontrolerGUI.getInstanca().kreirajNoviProizvod(noviProizvod);
-        if(kreiran)
-            JOptionPane.showMessageDialog(this, "Sistem je kreirao proizvod.");
-        else
+
+        boolean kreiran;
+        try {
+            kreiran = KontrolerGUI.getInstanca().kreirajNoviProizvod(noviProizvod);
+            if (kreiran) {
+                JOptionPane.showMessageDialog(this, "Sistem je kreirao proizvod.");
+            }
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira proizvod.");
+        }
+
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
 
 

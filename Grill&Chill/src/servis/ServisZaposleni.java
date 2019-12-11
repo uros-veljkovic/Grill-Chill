@@ -6,6 +6,8 @@
 package servis;
 
 import domen.Zaposleni;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,14 +16,16 @@ import java.util.List;
  */
 public interface ServisZaposleni {
 
-    Zaposleni prijaviZaposlenog(String username, String password);
+    Zaposleni prijaviZaposlenog(String username, String password) throws SQLException;
 
-    Zaposleni kreirajZaposlenog(Zaposleni zaposleni);
+    Zaposleni kreirajZaposlenog(Zaposleni zaposleni) throws SQLException;
 
     Zaposleni zapamtiZaposlenog(Zaposleni zaposleni);
 
     void obrisiZaposlenog(Zaposleni zaposleni);
 
     Zaposleni pretraziZaposlene(String kriterijum, List<Zaposleni> zaposleni);
+
+    public ArrayList<Zaposleni> vratiZaposlene() throws SQLException;
 
 }

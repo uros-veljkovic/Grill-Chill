@@ -5,7 +5,13 @@
  */
 package ui.forme.menadzer;
 
+import domen.Mesto;
 import domen.Zaposleni;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import kontroler.KontrolerGUI;
 import ui.forme.glavna.FGlavnaForma;
 import ui.forme.mode.ModeForm;
@@ -27,8 +33,10 @@ public class FZaposleni extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         postaviUlogovanogZaposlenog();
-        //formirajFormuPoModu();
         postaviLabeluZaposleni();
+        popuniComboZaposleni();
+        popuniComboMesto();
+        postaviOmogucenostElemenataForme(mode);
         this.pack();
         this.setLocationRelativeTo(null);
     }
@@ -55,10 +63,12 @@ public class FZaposleni extends javax.swing.JDialog {
         jtxtLozinka = new javax.swing.JTextField();
         jbtnKreirajZaposlenog = new javax.swing.JButton();
         jtxtZaposleniID = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jcmbMesto = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
         jlblUlogovaniMenadzer = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jcmbZaposleni = new javax.swing.JComboBox<>();
+        jcmbZaposleni = new javax.swing.JComboBox();
         jbtnObrisiZaposlenog = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
@@ -84,6 +94,10 @@ public class FZaposleni extends javax.swing.JDialog {
             }
         });
 
+        jLabel2.setText("Mesto: ");
+
+        jcmbMesto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -91,34 +105,40 @@ public class FZaposleni extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtxtIme)
-                            .addComponent(jtxtPrezime, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(274, 274, 274)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtxtZaposleniID, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(274, 274, 274)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtxtZaposleniID, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(212, 212, 212)
+                                .addComponent(jbtnKreirajZaposlenog, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jtxtKorisnickoIme)
-                            .addComponent(jtxtLozinka, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtxtIme)
+                                    .addComponent(jtxtPrezime, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtxtKorisnickoIme)
+                                    .addComponent(jtxtLozinka, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(63, 63, 63)
+                                .addComponent(jcmbMesto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(212, 212, 212)
-                .addComponent(jbtnKreirajZaposlenog, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(209, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -142,7 +162,11 @@ public class FZaposleni extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jtxtLozinka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jcmbMesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jbtnKreirajZaposlenog, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -153,7 +177,7 @@ public class FZaposleni extends javax.swing.JDialog {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Brisanje zaposlenog"));
 
-        jcmbZaposleni.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcmbZaposleni.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jbtnObrisiZaposlenog.setText("OBRISI ZAPOSLENOG");
 
@@ -175,7 +199,7 @@ public class FZaposleni extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jbtnObrisiZaposlenog, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
                     .addComponent(jcmbZaposleni))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -213,11 +237,29 @@ public class FZaposleni extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnKreirajZaposlenogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnKreirajZaposlenogActionPerformed
-        // TODO add your handling code here:
+        //zaposleniID = -1 jer u svakom slucaju je autoIncrement u bazi. Promeniti ?
+        int zaposleniID = -1;
+        String ime = jtxtIme.getText();
+        String prezime = jtxtPrezime.getText();
+        String username = jtxtKorisnickoIme.getText();
+        String password = jtxtLozinka.getText();
+        Mesto mesto = (Mesto) jcmbMesto.getSelectedItem();
+        
+        Zaposleni noviZaposleni = new Zaposleni(zaposleniID, ime + " " + prezime, username, password, false, mesto);
+        try {
+            Zaposleni provera = KontrolerGUI.getInstanca().kreirajNovogZaposlenog(noviZaposleni);
+            if(provera == null)
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira novog zaposlenog");
+            else
+                JOptionPane.showMessageDialog(this, "Sistem je kreirao novog zaposlenog");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira novog zaposlenog");
+        }
     }//GEN-LAST:event_jbtnKreirajZaposlenogActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -228,7 +270,8 @@ public class FZaposleni extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jbtnKreirajZaposlenog;
     private javax.swing.JButton jbtnObrisiZaposlenog;
-    private javax.swing.JComboBox<String> jcmbZaposleni;
+    private javax.swing.JComboBox jcmbMesto;
+    private javax.swing.JComboBox jcmbZaposleni;
     private javax.swing.JLabel jlblUlogovaniMenadzer;
     private javax.swing.JTextField jtxtIme;
     private javax.swing.JTextField jtxtKorisnickoIme;
@@ -240,8 +283,71 @@ public class FZaposleni extends javax.swing.JDialog {
     private void postaviLabeluZaposleni() {
         jlblUlogovaniMenadzer.setText(ulogovanZaposleni.toString());
     }
-    
-    private void postaviUlogovanogZaposlenog(){
+
+    private void postaviUlogovanogZaposlenog() {
         ulogovanZaposleni = KontrolerGUI.getInstanca().getUlogovaniZaposleni();
     }
+
+    private void postaviOmogucenostElemenataForme(ModeForm mode) {
+        this.mode = mode;
+        
+        switch (mode) {
+            case FORM_OBRISI:
+                postaviZaBrisanje();
+                break;
+            case FORM_KREIRAJ:
+                postaviZaKreiranje();
+                break;
+            default:
+                return;
+        }
+    }
+
+    private void popuniComboZaposleni() {
+        jcmbZaposleni.removeAllItems();
+
+        ArrayList<Zaposleni> listaZaposlenih = null;
+        try {
+            listaZaposlenih = KontrolerGUI.getInstanca().vratiSveZaposlene();
+            for (Zaposleni zaposleni : listaZaposlenih) {
+                jcmbZaposleni.addItem(zaposleni);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da ucita zaposlene iz baze.");
+        }
+
+    }
+    
+    private void popuniComboMesto() {
+        jcmbMesto.removeAllItems();
+
+        ArrayList<Mesto> listaMesta = null;
+        try {
+            listaMesta = (ArrayList<Mesto>) KontrolerGUI.getInstanca().vratiSvaMesta();
+            for (Mesto mesto : listaMesta) {
+                jcmbMesto.addItem(mesto);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da ucita mesta iz baze.");
+        }
+    }
+
+    private void postaviZaBrisanje() {
+        jbtnKreirajZaposlenog.setEnabled(false);
+        jcmbMesto.setEnabled(false);
+        jtxtZaposleniID.setEnabled(false);
+        jtxtKorisnickoIme.setEnabled(false);
+        jtxtLozinka.setEnabled(false);
+        jtxtIme.setEnabled(false);
+        jtxtPrezime.setEnabled(false);
+    }
+
+    private void postaviZaKreiranje() {
+        jtxtZaposleniID.setEnabled(false);
+        jcmbZaposleni.setEnabled(false);
+        jbtnObrisiZaposlenog.setEnabled(false);
+    }
+
+    
+
 }
