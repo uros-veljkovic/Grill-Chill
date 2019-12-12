@@ -19,7 +19,7 @@ public interface SkladisteProizvod {
 
     Proizvod zapamtiProizvod(Proizvod proizvod);
 
-    Proizvod obrisiProizvod(Proizvod proizvod);
+    boolean obrisiProizvod(Proizvod proizvod);
 
     List<Proizvod> pretraziProizvode(String kriterijum);
 

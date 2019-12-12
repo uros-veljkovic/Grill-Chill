@@ -106,32 +106,32 @@ public class FProizvod extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jtxtNazivProizvoda))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(247, 247, 247)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(jtxtProizvodID, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jtxtCenaGreska)
-                            .addComponent(jtxtOpisGreska, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxtNazivProizvoda)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jtxtCena, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jcmbMernaJedinica, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jlblNazivGreska, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jtxtCenaGreska)
+                                    .addComponent(jtxtOpisGreska, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jtxtCena, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jcmbMernaJedinica, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jlblNazivGreska, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(109, 109, 109)
@@ -176,9 +176,11 @@ public class FProizvod extends javax.swing.JDialog {
         jbtnIzadji.setText("Izadji");
 
         jbtnIzmeni.setBackground(new java.awt.Color(255, 255, 153));
+        jbtnIzmeni.setForeground(new java.awt.Color(0, 0, 0));
         jbtnIzmeni.setText("IZMENI");
 
         jbtnSacuvaj.setBackground(new java.awt.Color(153, 255, 153));
+        jbtnSacuvaj.setForeground(new java.awt.Color(0, 0, 0));
         jbtnSacuvaj.setText("SACUVAJ");
         jbtnSacuvaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -187,9 +189,16 @@ public class FProizvod extends javax.swing.JDialog {
         });
 
         jbtnObrisi.setBackground(new java.awt.Color(255, 153, 153));
+        jbtnObrisi.setForeground(new java.awt.Color(0, 0, 0));
         jbtnObrisi.setText("OBRISI");
+        jbtnObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnObrisiActionPerformed(evt);
+            }
+        });
 
         jbtnOmoguciIzmenu.setBackground(new java.awt.Color(255, 255, 153));
+        jbtnOmoguciIzmenu.setForeground(new java.awt.Color(0, 0, 0));
         jbtnOmoguciIzmenu.setText("OMOGUCI IZMENU");
         jbtnOmoguciIzmenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,7 +247,8 @@ public class FProizvod extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnOmoguciIzmenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOmoguciIzmenuActionPerformed
-        omoguciKomponente(true);
+        omoguciPopunjavanjePodataka(true);
+        omoguciBtnIzmeni(true);
     }//GEN-LAST:event_jbtnOmoguciIzmenuActionPerformed
 
     private void jbtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSacuvajActionPerformed
@@ -261,6 +271,22 @@ public class FProizvod extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
+
+    //TODO: Implementirati da se nakon brisnja 
+    private void jbtnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnObrisiActionPerformed
+        boolean obrisan;
+        
+        obrisan = KontrolerGUI.getInstanca().obrisiProizvod(odabraniProizvod);
+        if(obrisan){
+            JOptionPane.showMessageDialog(this, "Sistem je obrisao proizvod.");
+            obrisiPodatkeSaForme();
+            this.setVisible(false);
+        }else{
+            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da obrise proizvod.");
+        }
+        
+            
+    }//GEN-LAST:event_jbtnObrisiActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -306,7 +332,7 @@ public class FProizvod extends javax.swing.JDialog {
                 pripremiZaIzmenu();
                 break;
             case FORM_OBRISI:
-                pripremiZabrisanje();
+                pripremiZaBrisanje();
                 break;
             case FORM_PRETRAZI:
                 pripremiZaPrikaz();
@@ -317,9 +343,15 @@ public class FProizvod extends javax.swing.JDialog {
     }
 
     private void pripremiZaKreiranje() {
-        jbtnIzmeni.setEnabled(false);
-        jbtnOmoguciIzmenu.setEnabled(false);
-        jbtnObrisi.setEnabled(false);
+
+        obrisiPodatkeSaForme();
+        omoguciPopunjavanjePodataka(true);
+
+        omoguciBtnIzmeni(false);
+        omoguciBtnOmoguciIzmenu(false);
+        omoguciBtnObrisi(false);
+
+        omoguciBtnSacuvaj(true);
     }
 
     private void pripremiZaIzmenu() {
@@ -327,34 +359,68 @@ public class FProizvod extends javax.swing.JDialog {
         return;
     }
 
-    private void pripremiZabrisanje() {
-        //TODO: Implementirati metodu za brisanje proizvoda
+    private void pripremiZaBrisanje() {
+        popuniPodatkeProizvoda();
+
+        omoguciBtnIzmeni(false);
+        omoguciBtnOmoguciIzmenu(false);
+        omoguciBtnSacuvaj(false);
+
+        omoguciBtnObrisi(true);
+
         return;
     }
 
     private void pripremiZaPrikaz() {
         popuniPodatkeProizvoda();
 
-        omoguciKomponente(false);
+        omoguciPopunjavanjePodataka(false);
+
+        omoguciBtnIzmeni(false);
+        omoguciBtnSacuvaj(false);
+        omoguciBtnObrisi(false);
+
+        omoguciBtnOmoguciIzmenu(true);
+
     }
 
-    private void omoguciKomponente(boolean opcija) {
+    private void omoguciBtnSacuvaj(boolean opcija) {
+        jbtnSacuvaj.setEnabled(opcija);
+    }
+
+    private void omoguciBtnIzmeni(boolean opcija) {
+        jbtnIzmeni.setEnabled(opcija);
+    }
+
+    private void omoguciBtnObrisi(boolean opcija) {
+        jbtnObrisi.setEnabled(opcija);
+    }
+
+    private void omoguciBtnOmoguciIzmenu(boolean opcija) {
+        jbtnOmoguciIzmenu.setEnabled(false);
+    }
+
+    private void popuniPodatkeProizvoda() {
+        jtxtNazivProizvoda.setText(odabraniProizvod.getNaziv());
+        jtxtCena.setText(String.valueOf(odabraniProizvod.getCena()));
+        jtxtOpis.setText(odabraniProizvod.getOpis());
+        jtxtProizvodID.setText(String.valueOf(odabraniProizvod.getProizvodID()));
+        jcmbMernaJedinica.setSelectedItem(odabraniProizvod.getMernaJedinica());
+
+    }
+
+    private void omoguciPopunjavanjePodataka(boolean opcija) {
         jtxtProizvodID.setEditable(opcija);
         jtxtNazivProizvoda.setEditable(opcija);
         jtxtCena.setEditable(opcija);
         jcmbMernaJedinica.setEnabled(opcija);
         jtxtOpis.setEditable(opcija);
-        jbtnObrisi.setEnabled(opcija);
-        jbtnSacuvaj.setEnabled(opcija);
-        jbtnIzmeni.setEnabled(opcija);
     }
 
-    private void popuniPodatkeProizvoda() {
-        jtxtProizvodID.setText(odabraniProizvod.getProizvodID() + "");
-        jtxtNazivProizvoda.setText(odabraniProizvod.getNaziv());
-        jtxtOpis.setText(odabraniProizvod.getOpis());
-        jcmbMernaJedinica.setSelectedItem(odabraniProizvod.getMernaJedinica());
-        jtxtCena.setText(odabraniProizvod.getCena() + "");
+    private void obrisiPodatkeSaForme(){
+        jtxtCena.setText("");
+        jtxtOpis.setText("");
+        jtxtNazivProizvoda.setText("");
+        jtxtProizvodID.setText("");
     }
-
 }

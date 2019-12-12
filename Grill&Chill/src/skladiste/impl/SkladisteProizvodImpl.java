@@ -52,8 +52,20 @@ public class SkladisteProizvodImpl implements SkladisteProizvod {
     }
 
     @Override
-    public Proizvod obrisiProizvod(Proizvod proizvod) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean obrisiProizvod(Proizvod proizvod) {
+        try {
+            String upit = "DELETE FROM proizvod WHERE ProizvodID = ?";
+            
+            Connection konekcija = FabrikaKonekcija.getInstance().getKonekcija();
+            PreparedStatement ps = konekcija.prepareStatement(upit);
+            ps.setInt(1, proizvod.getProizvodID());
+            
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
 
     @Override

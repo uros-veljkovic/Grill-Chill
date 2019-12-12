@@ -58,8 +58,24 @@ public class ServisProizvodImpl implements ServisProizvod {
     }
 
     @Override
-    public Proizvod obrisiProizvod(Proizvod proizvod) {
-        return skladisteProizvoda.obrisiProizvod(proizvod);
+    public boolean obrisiProizvod(Proizvod proizvod) {
+        boolean obrisan = skladisteProizvoda.obrisiProizvod(proizvod);
+        if(obrisan){
+            try {
+                FabrikaKonekcija.getInstance().commit();
+                return obrisan;
+            } catch (SQLException ex) {
+                Logger.getLogger(ServisProizvodImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            try {
+                FabrikaKonekcija.getInstance().rollback();
+                return obrisan;
+            } catch (SQLException ex) {
+                Logger.getLogger(ServisProizvodImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return obrisan;
     }
 
     @Override

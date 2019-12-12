@@ -18,7 +18,7 @@ public interface ServisProizvod {
 
     Proizvod zapamtiProizvod(Proizvod proizvod);
 
-    Proizvod obrisiProizvod(Proizvod proizvod);
+    boolean obrisiProizvod(Proizvod proizvod);
 
     List<Proizvod> pretraziProizvode(String kriterijum);
 

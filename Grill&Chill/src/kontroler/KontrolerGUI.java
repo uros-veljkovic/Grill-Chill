@@ -77,4 +77,8 @@ public class KontrolerGUI {
         return servisZaposleni.kreirajZaposlenog(zaposleni);
     }
 
+    public boolean obrisiProizvod(Proizvod odabraniProizvod) {
+        return servisProizvod.obrisiProizvod(odabraniProizvod);
+    }
+
 }
