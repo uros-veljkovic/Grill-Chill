@@ -257,6 +257,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="IZMENI"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnIzmeniActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jbtnSacuvaj">
       <Properties>

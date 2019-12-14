@@ -5,8 +5,14 @@
  */
 package ui.forme.zaposleni;
 
+import domen.Proizvod;
 import domen.Zaposleni;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import kontroler.KontrolerGUI;
 import ui.forme.mode.ModeForm;
+import ui.modeli.ModelTabeleProizvod;
 
 /**
  *
@@ -15,6 +21,7 @@ import ui.forme.mode.ModeForm;
 public class FRacun extends javax.swing.JDialog {
     ModeForm mode;
     Zaposleni ulogovaniZaposleni;
+    double ukupnaCena;
     /**
      * Creates new form FRacunPravi
      */
@@ -23,6 +30,8 @@ public class FRacun extends javax.swing.JDialog {
         initComponents();
         this.pack();
         this.setLocationRelativeTo(null);
+        popuniTabeluProizvod();
+        postaviPocetneVrednosti();
         postaviModForme(mode);
         postaviUlogovanogZaposlenog();
     }
@@ -47,6 +56,7 @@ public class FRacun extends javax.swing.JDialog {
         jlblUkupanIznos = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jlblRacunKreirao = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jpnlProizvodi = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblProizvodi = new javax.swing.JTable();
@@ -99,6 +109,8 @@ public class FRacun extends javax.swing.JDialog {
 
         jlblRacunKreirao.setText("jLabel9");
 
+        jLabel9.setText("RSD");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -106,7 +118,7 @@ public class FRacun extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jlblRacunID, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(86, 86, 86)
@@ -116,8 +128,11 @@ public class FRacun extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jlblUkupanIznos, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jlblUkupanIznos, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel9)
+                        .addGap(72, 72, 72))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -140,7 +155,8 @@ public class FRacun extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jlblUkupanIznos))
+                    .addComponent(jlblUkupanIznos)
+                    .addComponent(jLabel9))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -157,6 +173,11 @@ public class FRacun extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jtblProizvodi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtblProizvodiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtblProizvodi);
 
         jpnlInfoOProizvodu.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "Informacije o proizvodu"));
@@ -309,6 +330,28 @@ public class FRacun extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jtblProizvodiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblProizvodiMouseClicked
+        
+        ModelTabeleProizvod mtp = (ModelTabeleProizvod) jtblProizvodi.getModel();
+        int obelezenProizvod = jtblProizvodi.getSelectedRow();
+        
+        if(obelezenProizvod >= 0){
+           
+            Proizvod p = mtp.vratiOdabraniProizvod(obelezenProizvod);
+            
+            jlblProizvodID.setText(String.valueOf(p.getProizvodID()));
+            jlblCena.setText(p.getCena() + " RSD");
+            jlblNaziv.setText(p.getNaziv());
+            jtxtareaOpis.setEditable(false);
+            jtxtareaOpis.setText(p.getOpis());
+            
+            jtxtKolicina.setText("1");
+            jtxtKolicina.grabFocus();
+            
+        }
+        
+    }//GEN-LAST:event_jtblProizvodiMouseClicked
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -320,6 +363,7 @@ public class FRacun extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -349,5 +393,26 @@ public class FRacun extends javax.swing.JDialog {
     private void postaviUlogovanogZaposlenog() {
         ulogovaniZaposleni = kontroler.KontrolerGUI.getInstanca().getUlogovaniZaposleni();
         jlblRacunKreirao.setText(ulogovaniZaposleni.toString());
+    }
+
+    private void popuniTabeluProizvod() {
+        ModelTabeleProizvod mtp = new ModelTabeleProizvod();
+        jtblProizvodi.setModel(mtp);
+        
+        //TODO: Implementirati metodu vratiSveProizvode() u kontroleru
+        ArrayList<Proizvod> listaProizvoda = KontrolerGUI.getInstanca().vratiSveProizvode();
+        
+        mtp.postaviProizvode(listaProizvoda);
+        
+    }
+
+    private void postaviPocetneVrednosti() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
+        jtxtDatumKreiranja.setText(sdf.format(new Date()));
+        jtxtDatumKreiranja.setEditable(false);
+        
+        ukupnaCena = 0;
+        
+        jlblUkupanIznos.setText(String.valueOf(ukupnaCena));
     }
 }

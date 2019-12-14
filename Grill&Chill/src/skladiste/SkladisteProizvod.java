@@ -7,6 +7,7 @@ package skladiste;
 
 import domen.Proizvod;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,11 +18,13 @@ public interface SkladisteProizvod {
     
     boolean kreirajNoviProizvod(Proizvod proizvod) throws SQLException;
 
-    Proizvod zapamtiProizvod(Proizvod proizvod);
+    boolean zapamtiProizvod(Proizvod proizvod) throws SQLException;
 
     boolean obrisiProizvod(Proizvod proizvod);
 
     List<Proizvod> pretraziProizvode(String kriterijum);
+
+    public ArrayList<Proizvod> vratiProizvode() throws SQLException;
 
 
 }

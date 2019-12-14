@@ -81,4 +81,12 @@ public class KontrolerGUI {
         return servisProizvod.obrisiProizvod(odabraniProizvod);
     }
 
+    public boolean izmeniProizvod(Proizvod proizvod) {
+        return servisProizvod.zapamtiProizvod(proizvod);
+    }
+
+    public ArrayList<Proizvod> vratiSveProizvode() {
+        return servisProizvod.vratiProizvode();
+    }
+
 }

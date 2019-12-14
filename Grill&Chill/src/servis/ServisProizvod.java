@@ -6,6 +6,7 @@
 package servis;
 
 import domen.Proizvod;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,10 +17,12 @@ public interface ServisProizvod {
 
     boolean kreirajNoviProizvod(Proizvod proizvod);
 
-    Proizvod zapamtiProizvod(Proizvod proizvod);
+    boolean zapamtiProizvod(Proizvod proizvod);
 
     boolean obrisiProizvod(Proizvod proizvod);
 
     List<Proizvod> pretraziProizvode(String kriterijum);
+
+    public ArrayList<Proizvod> vratiProizvode();
 
 }

@@ -6,11 +6,13 @@
 package ui.forme.menadzer;
 
 import domen.Proizvod;
+import java.awt.Frame;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import kontroler.KontrolerGUI;
 import ui.forme.mode.ModeForm;
 import ui.modeli.ModelTabeleProizvod;
@@ -29,7 +31,7 @@ public class FProizvodPretraga extends javax.swing.JDialog {
     public FProizvodPretraga(java.awt.Frame parent, boolean modal, ModeForm mode) {
         super(parent, modal);
         initComponents();
-        pripremiFormu();
+        pripremiFormu(mode);
         
     }
 
@@ -145,9 +147,9 @@ public class FProizvodPretraga extends javax.swing.JDialog {
         ModelTabeleProizvod mtp = (ModelTabeleProizvod) jtblPronadjeniProizvodi.getModel();
         odabranProizvod = mtp.vratiOdabraniProizvod(jtblPronadjeniProizvodi.getSelectedRow());
         
-        FProizvod formaProizvod = new FProizvod(null, false, ModeForm.FORM_PRETRAZI, odabranProizvod);
-        formaProizvod.setVisible(true);
+        FProizvod formaProizvod = new FProizvod((Frame)SwingUtilities.getWindowAncestor(this), true, mode, odabranProizvod);
         this.dispose();
+        formaProizvod.setVisible(true);
     }//GEN-LAST:event_jbtnPrikaziDetaljeActionPerformed
 
     private void jbtnPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPretraziActionPerformed
@@ -175,7 +177,7 @@ public class FProizvodPretraga extends javax.swing.JDialog {
     private javax.swing.JTextField jtxtVrednostZaPretragu;
     // End of variables declaration//GEN-END:variables
 
-    private void pripremiFormu() {
+    private void pripremiFormu(ModeForm mode) {
         this.mode = mode;
         this.pack();
         this.setLocationRelativeTo(null);

@@ -37,8 +37,9 @@ public class ServisProizvodImpl implements ServisProizvod {
             if (bezGreske) {
                 FabrikaKonekcija.getInstance().commit();
                 return true;
-            } else 
+            } else {
                 FabrikaKonekcija.getInstance().rollback();
+            }
         } catch (SQLException ex) {
             try {
                 FabrikaKonekcija.getInstance().rollback();
@@ -48,26 +49,42 @@ public class ServisProizvodImpl implements ServisProizvod {
             }
             Logger.getLogger(ServisProizvodImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return false;
     }
 
     @Override
-    public Proizvod zapamtiProizvod(Proizvod proizvod) {
-        return skladisteProizvoda.zapamtiProizvod(proizvod);
+    public boolean zapamtiProizvod(Proizvod proizvod) {
+        try {
+            boolean zapamcen = skladisteProizvoda.zapamtiProizvod(proizvod);
+            if (zapamcen) {
+                FabrikaKonekcija.getInstance().getKonekcija().commit();
+            } else {
+                FabrikaKonekcija.getInstance().getKonekcija().rollback();
+            }
+            return zapamcen;
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+            try {
+                FabrikaKonekcija.getInstance().getKonekcija().rollback();
+            } catch (SQLException ex1) {
+                System.err.println(ex.getMessage());
+            }
+            return false;
+        }
     }
 
     @Override
     public boolean obrisiProizvod(Proizvod proizvod) {
         boolean obrisan = skladisteProizvoda.obrisiProizvod(proizvod);
-        if(obrisan){
+        if (obrisan) {
             try {
                 FabrikaKonekcija.getInstance().commit();
                 return obrisan;
             } catch (SQLException ex) {
                 Logger.getLogger(ServisProizvodImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else{
+        } else {
             try {
                 FabrikaKonekcija.getInstance().rollback();
                 return obrisan;
@@ -81,7 +98,16 @@ public class ServisProizvodImpl implements ServisProizvod {
     @Override
     public List<Proizvod> pretraziProizvode(String kriterijum) {
         return skladisteProizvoda.pretraziProizvode(kriterijum);
-
     }
 
+    @Override
+    public ArrayList<Proizvod> vratiProizvode() {
+        //Zasto mi ovde trazi da uhvatim exception kada sam ga obradio u skladistu ?
+        try {
+            return skladisteProizvoda.vratiProizvode();
+        } catch (SQLException ex) {
+            Logger.getLogger(ServisProizvodImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

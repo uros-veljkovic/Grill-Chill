@@ -7,11 +7,7 @@ package ui.forme.menadzer;
 
 import domen.MernaJedinica;
 import domen.Proizvod;
-import domen.Zaposleni;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import kontroler.KontrolerGUI;
 import ui.forme.mode.ModeForm;
@@ -29,6 +25,7 @@ public class FProizvod extends javax.swing.JDialog {
      * Creates new form FProizvod
      */
     public FProizvod(java.awt.Frame parent, boolean modal, ModeForm mode) {
+        super(parent, modal);
         initComponents();
         popuniComboMernaJedinica();
         pripremiFormu(mode);
@@ -38,6 +35,7 @@ public class FProizvod extends javax.swing.JDialog {
     }
 
     public FProizvod(java.awt.Frame parent, boolean modal, ModeForm mode, Proizvod odabraniProizvod) {
+        super(parent, modal);
         initComponents();
         popuniComboMernaJedinica();
         this.odabraniProizvod = odabraniProizvod;
@@ -178,6 +176,11 @@ public class FProizvod extends javax.swing.JDialog {
         jbtnIzmeni.setBackground(new java.awt.Color(255, 255, 153));
         jbtnIzmeni.setForeground(new java.awt.Color(0, 0, 0));
         jbtnIzmeni.setText("IZMENI");
+        jbtnIzmeni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnIzmeniActionPerformed(evt);
+            }
+        });
 
         jbtnSacuvaj.setBackground(new java.awt.Color(153, 255, 153));
         jbtnSacuvaj.setForeground(new java.awt.Color(0, 0, 0));
@@ -253,12 +256,11 @@ public class FProizvod extends javax.swing.JDialog {
 
     private void jbtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSacuvajActionPerformed
         String naziv = jtxtNazivProizvoda.getText();
-        int id = Integer.parseInt(jtxtProizvodID.getText());
         String opis = jtxtOpis.getText();
         double cena = Double.parseDouble(jtxtCena.getText());
         MernaJedinica mernaJedinica = (MernaJedinica) jcmbMernaJedinica.getSelectedItem();
 
-        Proizvod noviProizvod = new Proizvod(id, naziv, opis, cena, mernaJedinica);
+        Proizvod noviProizvod = new Proizvod(-1, naziv, opis, cena, mernaJedinica);
 
         boolean kreiran;
         try {
@@ -275,18 +277,35 @@ public class FProizvod extends javax.swing.JDialog {
     //TODO: Implementirati da se nakon brisnja 
     private void jbtnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnObrisiActionPerformed
         boolean obrisan;
-        
+
         obrisan = KontrolerGUI.getInstanca().obrisiProizvod(odabraniProizvod);
-        if(obrisan){
+        if (obrisan) {
             JOptionPane.showMessageDialog(this, "Sistem je obrisao proizvod.");
             obrisiPodatkeSaForme();
             this.setVisible(false);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Sistem nije uspeo da obrise proizvod.");
         }
-        
-            
+
+
     }//GEN-LAST:event_jbtnObrisiActionPerformed
+
+    private void jbtnIzmeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIzmeniActionPerformed
+        String naziv = jtxtNazivProizvoda.getText();
+        String opis = jtxtOpis.getText();
+        double cena = Double.parseDouble(jtxtCena.getText());
+        MernaJedinica mernaJedinica = (MernaJedinica) jcmbMernaJedinica.getSelectedItem();
+
+        Proizvod proizvod = new Proizvod(-1, naziv, opis, cena, mernaJedinica);
+
+        boolean izmenjen = KontrolerGUI.getInstanca().izmeniProizvod(proizvod);
+        if(izmenjen){
+            JOptionPane.showMessageDialog(this, "Sistem je uspeo da izmeni proizvod.");
+        }else{
+            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da izmeni proizvod.");
+        }
+        
+    }//GEN-LAST:event_jbtnIzmeniActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -355,8 +374,14 @@ public class FProizvod extends javax.swing.JDialog {
     }
 
     private void pripremiZaIzmenu() {
-        //TODO: Implementirati metodu za izmenu proizvoda
-        return;
+        popuniPodatkeProizvoda();
+        omoguciPopunjavanjePodataka(true);
+
+        omoguciBtnOmoguciIzmenu(false);
+        omoguciBtnObrisi(false);
+        omoguciBtnSacuvaj(false);
+
+        omoguciBtnIzmeni(true);
     }
 
     private void pripremiZaBrisanje() {
@@ -367,8 +392,6 @@ public class FProizvod extends javax.swing.JDialog {
         omoguciBtnSacuvaj(false);
 
         omoguciBtnObrisi(true);
-
-        return;
     }
 
     private void pripremiZaPrikaz() {
@@ -385,19 +408,20 @@ public class FProizvod extends javax.swing.JDialog {
     }
 
     private void omoguciBtnSacuvaj(boolean opcija) {
-        jbtnSacuvaj.setEnabled(opcija);
+        jbtnSacuvaj.setVisible(opcija);
     }
 
     private void omoguciBtnIzmeni(boolean opcija) {
-        jbtnIzmeni.setEnabled(opcija);
+        jbtnIzmeni.setVisible(opcija);
     }
 
     private void omoguciBtnObrisi(boolean opcija) {
-        jbtnObrisi.setEnabled(opcija);
+        jbtnObrisi.setVisible(opcija);
     }
 
+    //TODO: setVisible() umesto setEnabled()
     private void omoguciBtnOmoguciIzmenu(boolean opcija) {
-        jbtnOmoguciIzmenu.setEnabled(false);
+        jbtnOmoguciIzmenu.setVisible(opcija);
     }
 
     private void popuniPodatkeProizvoda() {
@@ -410,14 +434,15 @@ public class FProizvod extends javax.swing.JDialog {
     }
 
     private void omoguciPopunjavanjePodataka(boolean opcija) {
-        jtxtProizvodID.setEditable(opcija);
+        //ProizvodID nije promenljiv jer je Autoincrement
+        jtxtProizvodID.setEditable(false);
         jtxtNazivProizvoda.setEditable(opcija);
         jtxtCena.setEditable(opcija);
         jcmbMernaJedinica.setEnabled(opcija);
         jtxtOpis.setEditable(opcija);
     }
 
-    private void obrisiPodatkeSaForme(){
+    private void obrisiPodatkeSaForme() {
         jtxtCena.setText("");
         jtxtOpis.setText("");
         jtxtNazivProizvoda.setText("");
