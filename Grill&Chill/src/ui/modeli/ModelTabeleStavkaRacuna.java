@@ -5,24 +5,26 @@
  */
 package ui.modeli;
 
+import domen.Proizvod;
 import domen.Racun;
 import domen.StavkaRacuna;
 import javax.swing.table.AbstractTableModel;
-
 
 /**
  *
  * @author urosv
  */
-public class ModelTabeleStavkaRacuna extends AbstractTableModel{
-    
+public class ModelTabeleStavkaRacuna extends AbstractTableModel {
+
     Racun racun;
     String[] koloneTabele = {"Rb. stavke", "Naziv proizvoda", "Iznos", "Kolicina", "Ukupan iznos"};
 
     public ModelTabeleStavkaRacuna(Racun racun) {
         this.racun = racun;
     }
-    
+
+    public ModelTabeleStavkaRacuna() {
+    }
 
     @Override
     public int getRowCount() {
@@ -37,8 +39,8 @@ public class ModelTabeleStavkaRacuna extends AbstractTableModel{
     @Override
     public Object getValueAt(int rowNum, int colNum) {
         StavkaRacuna stavkaRacuna = racun.getStavke().get(rowNum);
-        
-        switch(colNum){
+
+        switch (colNum) {
             case 0:
                 return stavkaRacuna.getStavkaID();
             case 1:
@@ -58,7 +60,39 @@ public class ModelTabeleStavkaRacuna extends AbstractTableModel{
     public String getColumnName(int colNum) {
         return koloneTabele[colNum];
     }
-    
-    
-    
+
+    public void dodajStavku(Proizvod proizvod, int kolicina) {
+
+        StavkaRacuna stavkaRacuna = new StavkaRacuna();
+        stavkaRacuna.setKolicina(kolicina);
+        stavkaRacuna.setProizvod(proizvod);
+        stavkaRacuna.setStavkaID(racun.getStavke().size() + 1);
+        stavkaRacuna.setUkupanIznos(kolicina * proizvod.getCena());
+
+        racun.getStavke().add(stavkaRacuna);
+        racun.setUkupanIznos(racun.getUkupanIznos() + stavkaRacuna.getUkupanIznos());
+
+        fireTableDataChanged();
+
+    }
+
+    public Racun getRacun() {
+        return this.racun;
+    }
+
+    public void obrisiStavku(int red) {
+        double iznosObrisaneStavke = racun.getStavke().get(red).getUkupanIznos();
+        racun.getStavke().remove(red);
+        racun.setUkupanIznos(racun.getUkupanIznos() - iznosObrisaneStavke);
+        srediRedneBrojeve();
+        fireTableDataChanged();
+    }
+
+    private void srediRedneBrojeve() {
+        int rb = 1;
+        for (int i = 0; i < racun.getStavke().size(); i++) {
+            racun.getStavke().get(i).setStavkaID(rb++);
+        }
+    }
+
 }

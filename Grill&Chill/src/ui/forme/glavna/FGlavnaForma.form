@@ -52,11 +52,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Izmeni"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiIzmeniRacunActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmiStoranirajRacun">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Storniraj"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiStoranirajRacunActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
