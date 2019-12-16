@@ -1,2 +1,5 @@
+U FORMI FPROIZVOD KADA SE KLIKNE NA DUGME SACUVAJ PROIZVOD TREBA DA SE UZME PROIZVODID OD ODABRANOG PROIZVODA KOJI JE ATRIBUT KLASE
+A NE DA STOJI -1 U KONSTRUKTORU PROIZVODA METODE SACUVAJPROIZVOD
+
 Kada se klikne na dugme Sacuvaj proizvod treba da se vrati na formu proizvodID i da se onemoguci dugme Sacuvaj proizvod,
 a da se omoguci dugme Omoguci izmenu
