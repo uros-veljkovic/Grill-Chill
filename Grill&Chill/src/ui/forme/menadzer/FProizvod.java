@@ -259,7 +259,7 @@ public class FProizvod extends javax.swing.JDialog {
         String opis = jtxtOpis.getText();
         double cena = Double.parseDouble(jtxtCena.getText());
         MernaJedinica mernaJedinica = (MernaJedinica) jcmbMernaJedinica.getSelectedItem();
-
+        //Umeso -1 staviti odabraniProizvod.getProizvodID();
         Proizvod noviProizvod = new Proizvod(-1, naziv, opis, cena, mernaJedinica);
 
         boolean kreiran;
