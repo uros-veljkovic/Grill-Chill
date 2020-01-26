@@ -28,6 +28,9 @@ public class Racun {
     
     public Racun() {
         stavke = new ArrayList<StavkaRacuna>();
+        obradjen = false;
+        storniran = false;
+        ukupanIznos = 0;
     }
     public Racun(int racunID, Zaposleni kreiraoZaposleni, Date datumIzrade, double ukupanIznos, boolean obradjen, boolean storniran, List<StavkaRacuna> stavke) {
         this.racunID = racunID;
@@ -110,8 +113,5 @@ public class Racun {
         }
         return true;
     }
-    
-    
-    
     
 }

@@ -180,6 +180,11 @@ public class FZaposleni extends javax.swing.JDialog {
         jcmbZaposleni.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jbtnObrisiZaposlenog.setText("OBRISI ZAPOSLENOG");
+        jbtnObrisiZaposlenog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnObrisiZaposlenogActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -244,18 +249,36 @@ public class FZaposleni extends javax.swing.JDialog {
         String username = jtxtKorisnickoIme.getText();
         String password = jtxtLozinka.getText();
         Mesto mesto = (Mesto) jcmbMesto.getSelectedItem();
-        
+
         Zaposleni noviZaposleni = new Zaposleni(zaposleniID, ime + " " + prezime, username, password, false, mesto);
         try {
             Zaposleni provera = KontrolerGUI.getInstanca().kreirajNovogZaposlenog(noviZaposleni);
-            if(provera == null)
+            if (provera == null) {
                 JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira novog zaposlenog");
-            else
+            } else {
                 JOptionPane.showMessageDialog(this, "Sistem je kreirao novog zaposlenog");
+            }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira novog zaposlenog");
         }
     }//GEN-LAST:event_jbtnKreirajZaposlenogActionPerformed
+
+    private void jbtnObrisiZaposlenogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnObrisiZaposlenogActionPerformed
+        Zaposleni zaposleni = (Zaposleni) jcmbZaposleni.getSelectedItem();
+        try {
+            boolean uspesno = KontrolerGUI.getInstanca().obrisiZaposlenog(zaposleni);
+            if (uspesno) {
+                JOptionPane.showMessageDialog(this, "Sistem je obrisao zaposlenog");
+                osveziComboZaposleni();
+            } else {
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da obrise zaposlenog");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da obrise zaposlenog");
+            ex.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_jbtnObrisiZaposlenogActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -290,7 +313,7 @@ public class FZaposleni extends javax.swing.JDialog {
 
     private void postaviOmogucenostElemenataForme(ModeForm mode) {
         this.mode = mode;
-        
+
         switch (mode) {
             case FORM_OBRISI:
                 postaviZaBrisanje();
@@ -317,7 +340,7 @@ public class FZaposleni extends javax.swing.JDialog {
         }
 
     }
-    
+
     private void popuniComboMesto() {
         jcmbMesto.removeAllItems();
 
@@ -348,6 +371,8 @@ public class FZaposleni extends javax.swing.JDialog {
         jbtnObrisiZaposlenog.setEnabled(false);
     }
 
-    
+    private void osveziComboZaposleni() {
+        popuniComboZaposleni();
+    }
 
 }

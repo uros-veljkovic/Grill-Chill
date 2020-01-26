@@ -76,23 +76,16 @@ public class ServisProizvodImpl implements ServisProizvod {
 
     @Override
     public boolean obrisiProizvod(Proizvod proizvod) {
-        boolean obrisan = skladisteProizvoda.obrisiProizvod(proizvod);
-        if (obrisan) {
-            try {
-                FabrikaKonekcija.getInstance().commit();
-                return obrisan;
-            } catch (SQLException ex) {
-                Logger.getLogger(ServisProizvodImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            try {
-                FabrikaKonekcija.getInstance().rollback();
-                return obrisan;
-            } catch (SQLException ex) {
-                Logger.getLogger(ServisProizvodImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        boolean uspesno = false;
+        try {
+            uspesno = skladisteProizvoda.zapamtiProizvod(proizvod);
+            FabrikaKonekcija.getInstance().commit();
+        } catch (SQLException ex) {
+            FabrikaKonekcija.getInstance().rollback();
+            Logger.getLogger(ServisProizvodImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            return uspesno;
         }
-        return obrisan;
     }
 
     @Override
@@ -110,4 +103,5 @@ public class ServisProizvodImpl implements ServisProizvod {
         }
         return null;
     }
+
 }

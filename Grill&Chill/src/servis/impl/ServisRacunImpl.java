@@ -5,8 +5,13 @@
  */
 package servis.impl;
 
+import baza.konekcija.FabrikaKonekcija;
 import domen.Racun;
+import domen.Zaposleni;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import servis.ServisRacun;
 import skladiste.SkladisteRacun;
 import skladiste.impl.SkladisteRacunImpl;
@@ -24,8 +29,19 @@ public class ServisRacunImpl implements ServisRacun {
     }
 
     @Override
-    public Racun kreirajNoviRacun(Racun racun) {
-        return skladisteRacuna.kreirajNoviRacun(racun);
+    public Racun kreirajNoviRacun(Racun racun){
+        try {
+            racun = skladisteRacuna.kreirajNoviRacun(racun);
+            FabrikaKonekcija.getInstance().getKonekcija().commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            try {
+                FabrikaKonekcija.getInstance().getKonekcija().rollback();
+            } catch (SQLException ex1) {
+                ex.printStackTrace();
+            }
+        }
+        return racun;
     }
 
     @Override
@@ -39,8 +55,8 @@ public class ServisRacunImpl implements ServisRacun {
     }
 
     @Override
-    public Racun pretraziRacune(String kriterijum, List<Racun> racuni) {
-        return skladisteRacuna.pretraziRacune(kriterijum, racuni);
+    public List<Racun> pretraziRacune(Zaposleni zaposleni) throws SQLException{
+        return skladisteRacuna.pretraziRacune(zaposleni);
     }
 
     @Override

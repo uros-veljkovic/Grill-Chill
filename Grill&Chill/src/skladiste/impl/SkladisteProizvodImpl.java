@@ -146,4 +146,5 @@ public class SkladisteProizvodImpl implements SkladisteProizvod {
         return listaProizvoda;
     }
 
+
 }

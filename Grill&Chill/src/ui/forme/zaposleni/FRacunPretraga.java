@@ -5,9 +5,18 @@
  */
 package ui.forme.zaposleni;
 
+import domen.Racun;
+import domen.Zaposleni;
 import hint.HintTextFieldUI;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import kontroler.KontrolerGUI;
 import ui.forme.mode.ModeForm;
-import ui.modeli.ModelTabeleRacun;
+import ui.modeli.ModelTabeleRacunPretraga;
 
 /**
  *
@@ -42,52 +51,33 @@ public class FRacunPretraga extends javax.swing.JDialog {
         jTextField1 = new javax.swing.JTextField();
         jbgPretragaPo = new javax.swing.ButtonGroup();
         jpnlPretragaRacuna = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
-        jtxtVrednostZaPretragu = new javax.swing.JTextField();
+        jtxtKreiraoZaposleni = new javax.swing.JTextField();
         jlblPomocZaPretragu = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jbtnPretrazi = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblRacun = new javax.swing.JTable();
+        jbtnPrikazi = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("Pretrazi po:");
-
-        jbgPretragaPo.add(jRadioButton1);
-        jRadioButton1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jRadioButton1.setSelected(true);
-        jRadioButton1.setText("Datumu");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
-            }
-        });
-
-        jbgPretragaPo.add(jRadioButton2);
-        jRadioButton2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jRadioButton2.setText("Zaposlenom");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
-            }
-        });
-
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel2.setText("Vrednost za pretragu:");
+        jLabel2.setText("Zaposleni ID: ");
 
-        jtxtVrednostZaPretragu.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jtxtKreiraoZaposleni.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
 
         jlblPomocZaPretragu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jButton1.setText("PRETRAZI");
+        jbtnPretrazi.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbtnPretrazi.setText("PRETRAZI");
+        jbtnPretrazi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnPretraziActionPerformed(evt);
+            }
+        });
 
         jtblRacun.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -102,6 +92,9 @@ public class FRacunPretraga extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(jtblRacun);
 
+        jbtnPrikazi.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jbtnPrikazi.setText("PRIKAZI");
+
         javax.swing.GroupLayout jpnlPretragaRacunaLayout = new javax.swing.GroupLayout(jpnlPretragaRacuna);
         jpnlPretragaRacuna.setLayout(jpnlPretragaRacunaLayout);
         jpnlPretragaRacunaLayout.setHorizontalGroup(
@@ -109,50 +102,43 @@ public class FRacunPretraga extends javax.swing.JDialog {
             .addGroup(jpnlPretragaRacunaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jpnlPretragaRacunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlPretragaRacunaLayout.createSequentialGroup()
-                        .addGap(0, 477, Short.MAX_VALUE)
-                        .addComponent(jlblPomocZaPretragu, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(164, 164, 164))
                     .addGroup(jpnlPretragaRacunaLayout.createSequentialGroup()
                         .addGroup(jpnlPretragaRacunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addGroup(jpnlPretragaRacunaLayout.createSequentialGroup()
-                                .addGroup(jpnlPretragaRacunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(26, 26, 26)
-                                .addGroup(jpnlPretragaRacunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jpnlPretragaRacunaLayout.createSequentialGroup()
-                                        .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(jtxtVrednostZaPretragu))))
-                        .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlPretragaRacunaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(303, 303, 303))
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jtxtKreiraoZaposleni, javax.swing.GroupLayout.PREFERRED_SIZE, 684, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlPretragaRacunaLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jpnlPretragaRacunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlPretragaRacunaLayout.createSequentialGroup()
+                                .addComponent(jlblPomocZaPretragu, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(164, 164, 164))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlPretragaRacunaLayout.createSequentialGroup()
+                                .addComponent(jbtnPretrazi, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(306, 306, 306))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlPretragaRacunaLayout.createSequentialGroup()
+                                .addComponent(jbtnPrikazi, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(304, 304, 304))))))
         );
         jpnlPretragaRacunaLayout.setVerticalGroup(
             jpnlPretragaRacunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpnlPretragaRacunaLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jpnlPretragaRacunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addComponent(jlblPomocZaPretragu)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jpnlPretragaRacunaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jtxtVrednostZaPretragu, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtxtKreiraoZaposleni, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addComponent(jbtnPretrazi)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(jbtnPrikazi)
+                .addGap(20, 20, 20))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -169,42 +155,60 @@ public class FRacunPretraga extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jpnlPretragaRacuna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        jtxtVrednostZaPretragu.setUI(new HintTextFieldUI("Unesite datum u sledecem obliku: [dd.MM.yyyy.]", true));
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    private void jbtnPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPretraziActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-        jtxtVrednostZaPretragu.setUI(new HintTextFieldUI("Unesite ivrednost npr: Nikola Nikolic", true));
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+        String zaposleniID = jtxtKreiraoZaposleni.getText();
+
+        if (!zaposleniID.isEmpty()) {
+            Zaposleni zaposleni = new Zaposleni(Integer.parseInt(zaposleniID), null, null, null, false, null);
+            ArrayList<Racun> lista = KontrolerGUI.getInstanca().pretraziRacune(zaposleni);
+
+            if (!lista.isEmpty()) {
+                ModelTabeleRacunPretraga mt = (ModelTabeleRacunPretraga) jtblRacun.getModel();
+                mt.setListaRacuna(lista);
+                osveziTabelu();
+
+                JOptionPane.showMessageDialog(this, "Sistem je pronasao racune po zadatoj vrednosti.");
+            } else {
+                osveziTabelu();
+                JOptionPane.showMessageDialog(this, "Sistem nije uspeo da pronadje racune po zadatoj vrednosti.");
+            }
+        }
+
+    }//GEN-LAST:event_jbtnPretraziActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.ButtonGroup jbgPretragaPo;
+    private javax.swing.JButton jbtnPretrazi;
+    private javax.swing.JButton jbtnPrikazi;
     private javax.swing.JLabel jlblPomocZaPretragu;
     private javax.swing.JPanel jpnlPretragaRacuna;
     private javax.swing.JTable jtblRacun;
-    private javax.swing.JTextField jtxtVrednostZaPretragu;
+    private javax.swing.JTextField jtxtKreiraoZaposleni;
     // End of variables declaration//GEN-END:variables
 
     private void srediTabelu() {
-        ModelTabeleRacun mtr = new ModelTabeleRacun();
+        ModelTabeleRacunPretraga mtr = new ModelTabeleRacunPretraga();
         jtblRacun.setModel(mtr);
     }
 
     private void postaviHint() {
-        jtxtVrednostZaPretragu.setUI(new HintTextFieldUI("Unesite datum u sledecem obliku: [dd.MM.yyyy.]", true));
+        jtxtKreiraoZaposleni.setUI(new HintTextFieldUI("Unesite datum u sledecem obliku: [dd.MM.yyyy.]", true));
     }
+
+    private void osveziTabelu() {
+        ModelTabeleRacunPretraga mt = (ModelTabeleRacunPretraga) jtblRacun.getModel();
+        mt.fireTableDataChanged();
+    }
+
 }

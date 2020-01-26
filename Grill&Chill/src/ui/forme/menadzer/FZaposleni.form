@@ -308,6 +308,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="OBRISI ZAPOSLENOG"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnObrisiZaposlenogActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -8,15 +8,20 @@ package ui.forme.zaposleni;
 import domen.MernaJedinica;
 import domen.Proizvod;
 import domen.Racun;
+import domen.StavkaRacuna;
 import domen.Zaposleni;
 import hint.HintTextFieldUI;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import kontroler.KontrolerGUI;
 import ui.forme.mode.ModeForm;
 import ui.modeli.ModelTabeleProizvod;
-import ui.modeli.ModelTabeleStavkaRacuna;
+import ui.modeli.ModelTabeleRacun;
 
 /**
  *
@@ -399,7 +404,7 @@ public class FRacun extends javax.swing.JDialog {
             Proizvod proizvod = mtp.vratiOdabraniProizvod(red);
             int kolicina = Integer.valueOf(jtxtKolicina.getText());
 
-            ModelTabeleStavkaRacuna mtsr = (ModelTabeleStavkaRacuna) jtblStavkeRacuna.getModel();
+            ModelTabeleRacun mtsr = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
             mtsr.dodajStavku(proizvod, kolicina);
             ukupanIznos = getUkupanIznos();
 
@@ -411,7 +416,7 @@ public class FRacun extends javax.swing.JDialog {
     private void jbtnObrisiStavkuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnObrisiStavkuActionPerformed
         int red = jtblStavkeRacuna.getSelectedRow();
         if (red >= 0) {
-            ModelTabeleStavkaRacuna modelStavka = (ModelTabeleStavkaRacuna) jtblStavkeRacuna.getModel();
+            ModelTabeleRacun modelStavka = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
             modelStavka.obrisiStavku(red);
 
             ukupanIznos = getUkupanIznos();
@@ -422,6 +427,32 @@ public class FRacun extends javax.swing.JDialog {
     private void jbtnSacuvajRacunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSacuvajRacunActionPerformed
         // TODO: Kada se klikne u ovo dugme, postavlja se zaposleni koji je kreirao racun kao i datum racuna u sam racun
         //pa se dalje sam racun prosledjuje do kontrolera...
+        ModelTabeleRacun mtp = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
+        Racun racun = mtp.getRacun();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy.");
+        if (jtxtDatumKreiranja.getText().isEmpty()) {
+            jtxtDatumKreiranja.setText(sdf.format(new Date()));
+        }
+ 
+        racun.setKreiraoZaposleni(ulogovaniZaposleni);
+        try {
+            racun.setDatumIzrade(sdf.parse(jtxtDatumKreiranja.getText().trim()));
+        } catch (ParseException ex) {
+            Logger.getLogger(FRacun.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        racun.setRacunID(-1);
+
+        racun = KontrolerGUI.getInstanca().sacuvajRacun(racun);
+        
+        if (racun.getRacunID() == -1) {
+            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da sacuva racun");
+            omoguciBtnSacuvajRacun(false);
+            omoguciBtnObrisiStavku(false);
+        } else {
+            jlblRacunID.setText(jlblRacunID.getText() + " " + racun.getRacunID());
+            JOptionPane.showMessageDialog(this, "Sistem je uspeo da kreira racun !");
+        }
     }//GEN-LAST:event_jbtnSacuvajRacunActionPerformed
 
 
@@ -499,7 +530,7 @@ public class FRacun extends javax.swing.JDialog {
     }
 
     private void postaviTabeluStavkaRacuna() {
-        ModelTabeleStavkaRacuna mt = new ModelTabeleStavkaRacuna(new Racun());
+        ModelTabeleRacun mt = new ModelTabeleRacun(new Racun());
         jtblStavkeRacuna.setModel(mt);
     }
 
@@ -512,7 +543,7 @@ public class FRacun extends javax.swing.JDialog {
     }
 
     private double getUkupanIznos() {
-        ModelTabeleStavkaRacuna mtsr = (ModelTabeleStavkaRacuna) jtblStavkeRacuna.getModel();
+        ModelTabeleRacun mtsr = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
         Racun racun = mtsr.getRacun();
         return racun.getUkupanIznos();
     }

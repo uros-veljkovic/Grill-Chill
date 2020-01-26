@@ -10,6 +10,8 @@ import domen.Zaposleni;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import servis.ServisZaposleni;
 import skladiste.SkladisteZaposleni;
 import skladiste.impl.SkladisteZaposleniImpl;
@@ -41,6 +43,7 @@ public class ServisZaposleniImpl implements ServisZaposleni {
             z = skladisteZaposlenih.kreirajZaposlenog(zaposleni);
             FabrikaKonekcija.getInstance().getKonekcija().commit();
         } catch (SQLException ex) {
+            FabrikaKonekcija.getInstance().getKonekcija().rollback();
             throw new SQLException(ex.getMessage());
         }
         return z;
@@ -53,8 +56,17 @@ public class ServisZaposleniImpl implements ServisZaposleni {
     }
 
     @Override
-    public void obrisiZaposlenog(Zaposleni zaposleni) {
-        skladisteZaposlenih.obrisiZaposlenog(zaposleni);;
+    public boolean obrisiZaposlenog(Zaposleni zaposleni) throws SQLException {
+        boolean uspesno = false;
+        try {
+            uspesno = skladisteZaposlenih.obrisiZaposlenog(zaposleni);
+            FabrikaKonekcija.getInstance().getKonekcija().commit();
+        } catch (SQLException ex) {
+            FabrikaKonekcija.getInstance().getKonekcija().rollback();
+            throw new SQLException(ex.getMessage());
+        }finally{
+            return uspesno;
+        }
     }
 
     @Override

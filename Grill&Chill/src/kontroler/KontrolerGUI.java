@@ -9,10 +9,13 @@ import baza.konekcija.FabrikaKonekcija;
 import domen.MernaJedinica;
 import domen.Mesto;
 import domen.Proizvod;
+import domen.Racun;
 import domen.Zaposleni;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import servis.ServisMesto;
 import servis.ServisProizvod;
 import servis.ServisRacun;
@@ -52,6 +55,10 @@ public class KontrolerGUI {
         ulogovaniZaposleni = servisZaposleni.prijaviZaposlenog(username, password);
         return ulogovaniZaposleni;
     }
+    
+    public boolean obrisiZaposlenog(Zaposleni zaposleni) throws SQLException{
+        return servisZaposleni.obrisiZaposlenog(zaposleni);
+    }
 
     public ArrayList<Proizvod> pretraziProizvode(String nazivProizvoda) throws SQLException{
         return (ArrayList<Proizvod>) servisProizvod.pretraziProizvode(nazivProizvoda);
@@ -87,6 +94,21 @@ public class KontrolerGUI {
 
     public ArrayList<Proizvod> vratiSveProizvode() {
         return servisProizvod.vratiProizvode();
+    }
+
+    public Racun sacuvajRacun(Racun racun) {
+        return servisRacun.kreirajNoviRacun(racun);
+    }
+
+    public ArrayList<Racun> pretraziRacune(Zaposleni zaposleni) {
+        ArrayList<Racun> listaRacuna = new ArrayList<>();
+        try {
+            listaRacuna = (ArrayList<Racun>)(servisRacun.pretraziRacune(zaposleni));
+        } catch (SQLException ex) {
+            Logger.getLogger(KontrolerGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            return listaRacuna;
+        }
     }
 
 }

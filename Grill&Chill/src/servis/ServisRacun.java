@@ -6,6 +6,8 @@
 package servis;
 
 import domen.Racun;
+import domen.Zaposleni;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -20,7 +22,7 @@ public interface ServisRacun {
 
     Racun obradiRacun(Racun racun);
 
-    Racun pretraziRacune(String kriterijum, List<Racun> racuni);
+    List<Racun> pretraziRacune(Zaposleni zaposleni) throws SQLException;
 
     Racun stornirajRacun(Racun racun);
 

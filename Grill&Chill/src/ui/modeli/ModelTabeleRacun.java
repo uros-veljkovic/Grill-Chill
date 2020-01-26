@@ -5,68 +5,116 @@
  */
 package ui.modeli;
 
+import domen.Proizvod;
 import domen.Racun;
-import java.util.ArrayList;
-import java.util.List;
+import domen.StavkaRacuna;
 import javax.swing.table.AbstractTableModel;
 
 /**
  *
  * @author urosv
  */
-public class ModelTabeleRacun extends AbstractTableModel{
+public class ModelTabeleRacun extends AbstractTableModel {
 
-    List<Racun> listaRacuna;
-    String[] kolone = {"Racun ID", "Datum izrade", "Ukupan iznos", "Kreirao"};
+    Racun racun;
+    String[] koloneTabele = {"Rb. stavke", "Naziv proizvoda", "Iznos", "Kolicina", "Ukupan iznos"};
+
+    public ModelTabeleRacun(Racun racun) {
+        this.racun = racun;
+    }
 
     public ModelTabeleRacun() {
-        listaRacuna = new ArrayList<>();
     }
 
-    public ModelTabeleRacun(List<Racun> listaRacuna) {
-        this.listaRacuna = listaRacuna;
-    }
-    
     @Override
     public int getRowCount() {
-        return listaRacuna.size();
+        return racun.getStavke().size();
     }
 
     @Override
     public int getColumnCount() {
-        return kolone.length;
+        return koloneTabele.length;
     }
 
     @Override
     public Object getValueAt(int rowNum, int colNum) {
-        Racun r = listaRacuna.get(rowNum);
-        
-        switch(colNum){
+        StavkaRacuna stavkaRacuna = racun.getStavke().get(rowNum);
+
+        switch (colNum) {
             case 0:
-                return r.getRacunID();
+                return stavkaRacuna.getStavkaID();
             case 1:
-                return r.getDatumIzrade();
+                return stavkaRacuna.getProizvod().getNaziv();
             case 2:
-                return r.getUkupanIznos();
+                return stavkaRacuna.getProizvod().getCena();
             case 3:
-                return r.getKreiraoZaposleni();
+                return stavkaRacuna.getKolicina();
+            case 4:
+                return stavkaRacuna.getKolicina() * stavkaRacuna.getProizvod().getCena();
             default:
-                return null;
+                return -1;
         }
     }
 
     @Override
     public String getColumnName(int colNum) {
-        return kolone[colNum];
+        return koloneTabele[colNum];
     }
 
-    public List<Racun> getListaRacuna() {
-        return listaRacuna;
+    public void dodajStavku(Proizvod proizvod, int kolicina) {
+
+        if (postojiUListi(proizvod)) {
+            povecajKolicinu(proizvod, kolicina);
+        } else {
+
+            StavkaRacuna stavkaRacuna = new StavkaRacuna();
+            stavkaRacuna.setKolicina(kolicina);
+            stavkaRacuna.setProizvod(proizvod);
+            stavkaRacuna.setStavkaID(racun.getStavke().size() + 1);
+            stavkaRacuna.setUkupanIznos(kolicina * proizvod.getCena());
+
+            racun.getStavke().add(stavkaRacuna);
+        }
+        racun.setUkupanIznos(racun.getUkupanIznos() + proizvod.getCena()*kolicina);
+
+        fireTableDataChanged();
+
     }
 
-    public void setListaRacuna(List<Racun> listaRacuna) {
-        this.listaRacuna = listaRacuna;
+    public Racun getRacun() {
+        return this.racun;
     }
-    
-    
+
+    public void obrisiStavku(int red) {
+        double iznosObrisaneStavke = racun.getStavke().get(red).getUkupanIznos();
+        racun.getStavke().remove(red);
+        racun.setUkupanIznos(racun.getUkupanIznos() - iznosObrisaneStavke);
+        srediRedneBrojeve();
+        fireTableDataChanged();
+    }
+
+    private void srediRedneBrojeve() {
+        int rb = 1;
+        for (int i = 0; i < racun.getStavke().size(); i++) {
+            racun.getStavke().get(i).setStavkaID(rb++);
+        }
+    }
+
+    private boolean postojiUListi(Proizvod proizvod) {
+        for (StavkaRacuna stavka : racun.getStavke()) {
+            if (stavka.getProizvod().equals(proizvod)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void povecajKolicinu(Proizvod proizvod, int kolicina) {
+        for (StavkaRacuna stavka : racun.getStavke()) {
+            if (stavka.getProizvod().equals(proizvod)) {
+                stavka.setKolicina(stavka.getKolicina() + kolicina);
+            }
+        }
+    }
+
 }

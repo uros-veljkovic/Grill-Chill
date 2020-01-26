@@ -295,8 +295,9 @@ public class FProizvod extends javax.swing.JDialog {
         String opis = jtxtOpis.getText();
         double cena = Double.parseDouble(jtxtCena.getText());
         MernaJedinica mernaJedinica = (MernaJedinica) jcmbMernaJedinica.getSelectedItem();
+        int id = Integer.parseInt(jtxtProizvodID.getText());
 
-        Proizvod proizvod = new Proizvod(-1, naziv, opis, cena, mernaJedinica);
+        Proizvod proizvod = new Proizvod(id, naziv, opis, cena, mernaJedinica);
 
         boolean izmenjen = KontrolerGUI.getInstanca().izmeniProizvod(proizvod);
         if(izmenjen){

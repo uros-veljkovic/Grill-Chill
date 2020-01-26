@@ -22,7 +22,7 @@ public interface ServisZaposleni {
 
     Zaposleni zapamtiZaposlenog(Zaposleni zaposleni);
 
-    void obrisiZaposlenog(Zaposleni zaposleni);
+    boolean obrisiZaposlenog(Zaposleni zaposleni) throws SQLException;
 
     Zaposleni pretraziZaposlene(String kriterijum, List<Zaposleni> zaposleni);
 

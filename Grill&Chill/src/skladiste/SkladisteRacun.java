@@ -6,6 +6,8 @@
 package skladiste;
 
 import domen.Racun;
+import domen.Zaposleni;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -14,13 +16,13 @@ import java.util.List;
  */
 public interface SkladisteRacun {
 
-    Racun kreirajNoviRacun(Racun racun);
+    Racun kreirajNoviRacun(Racun racun) throws SQLException;
 
     Racun zapamtiRacun(Racun racun);
 
     Racun obradiRacun(Racun racun);
 
-    Racun pretraziRacune(String kriterijum, List<Racun> racuni);
+    List<Racun> pretraziRacune(Zaposleni zaposleni) throws SQLException;
 
     Racun stornirajRacun(Racun racun);
 

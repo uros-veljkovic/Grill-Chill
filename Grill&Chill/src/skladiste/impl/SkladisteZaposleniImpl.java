@@ -84,8 +84,18 @@ public class SkladisteZaposleniImpl implements SkladisteZaposleni {
     }
 
     @Override
-    public void obrisiZaposlenog(Zaposleni zaposleni) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean obrisiZaposlenog(Zaposleni zaposleni) throws SQLException{
+        String upit = "DELETE FROM zaposleni WHERE Username='" + zaposleni.getUsername() + "'";
+        int uspesno = 0;
+        try {
+            Connection konekcija = FabrikaKonekcija.getInstance().getKonekcija();
+            Statement s = konekcija.createStatement();
+            uspesno = s.executeUpdate(upit);
+        } catch (SQLException ex) {
+            throw new SQLException(ex.getMessage());
+        }
+        
+        return uspesno == 1;
     }
 
     @Override
