@@ -5,6 +5,7 @@
  */
 package domen;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.Objects;
  *
  * @author urosv
  */
-public class Racun {
+public class Racun implements OpstiDomenskiObjekat{
     
     private int racunID;
     private Zaposleni kreiraoZaposleni;
@@ -112,6 +113,52 @@ public class Racun {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String vratiNazivTabele() {
+        return "racun";
+    }
+
+    @Override
+    public String vratiAtributeZaInsert() {
+        return "(UkupanIznos, Obradjen, Storniran, KreiraoZaposleni, DatumIzrade)";
+    }
+
+    @Override
+    public String vratiVrednostiZaInsert() {
+        return "("
+                + this.getUkupanIznos() + ","
+                + this.isObradjen() + ","
+                + this.isStorniran() + ","
+                + this.getKreiraoZaposleni().getZaposleniID() + ","
+                + this.getDatumIzrade()
+                + ")";
+    }
+
+    @Override
+    public String vratiUslovZaNadjiSlog() {
+        return "RacunID";
+    }
+
+    @Override
+    public String vratiID() {
+        return String.valueOf(this.racunID);
+    }
+
+    @Override
+    public String vratiSELECTjointUpita() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String vratiFROMjointUpita() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String vratiWHEREjointUpita() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

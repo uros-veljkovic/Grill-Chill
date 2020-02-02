@@ -252,6 +252,9 @@ public class FProizvod extends javax.swing.JDialog {
     private void jbtnOmoguciIzmenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOmoguciIzmenuActionPerformed
         omoguciPopunjavanjePodataka(true);
         omoguciBtnIzmeni(true);
+        omoguciBtnOmoguciIzmenu(false);
+        this.pack();
+        this.setLocationRelativeTo(null);
     }//GEN-LAST:event_jbtnOmoguciIzmenuActionPerformed
 
     private void jbtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSacuvajActionPerformed
@@ -388,6 +391,12 @@ public class FProizvod extends javax.swing.JDialog {
     private void pripremiZaBrisanje() {
         popuniPodatkeProizvoda();
 
+        omoguciIzmenuProizvodID(false);
+        omoguciIzmenuNaziv(false);
+        omoguciIzmenuOpis(false);
+        omoguciIzmenuCena(false);
+        omoguciIzmenuMernaJedinica(false);
+        
         omoguciBtnIzmeni(false);
         omoguciBtnOmoguciIzmenu(false);
         omoguciBtnSacuvaj(false);
@@ -448,5 +457,25 @@ public class FProizvod extends javax.swing.JDialog {
         jtxtOpis.setText("");
         jtxtNazivProizvoda.setText("");
         jtxtProizvodID.setText("");
+    }
+
+    private void omoguciIzmenuProizvodID(boolean b) {
+        jtxtProizvodID.setEditable(false);
+    }
+
+    private void omoguciIzmenuNaziv(boolean b) {
+        jtxtNazivProizvoda.setEditable(false);
+    }
+
+    private void omoguciIzmenuOpis(boolean b) {
+        jtxtOpis.setEditable(false);
+    }
+
+    private void omoguciIzmenuCena(boolean b) {
+        jtxtCena.setEditable(false);
+    }
+
+    private void omoguciIzmenuMernaJedinica(boolean b) {
+        jcmbMernaJedinica.setEditable(false);
     }
 }

@@ -58,7 +58,7 @@ public class SkladisteZaposleniImpl implements SkladisteZaposleni {
     //Zasto vracamo zaposlenog ako smo ga tek kreirali u bazi ?
     @Override
     public Zaposleni kreirajZaposlenog(Zaposleni zaposleni) throws SQLException{
-        String upit = "INSERT INTO zaposleni (ImePrezime, Username, Password, Menadzer, MestoID)VALUES (?,?,?,?,?)";
+        String upit = "INSERT INTO zaposleni (ImePrezime, Username, Password, Menadzer, MestoID) VALUES (?,?,?,?,?)";
 
         try {
 

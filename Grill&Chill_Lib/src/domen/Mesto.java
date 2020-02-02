@@ -5,11 +5,13 @@
  */
 package domen;
 
+import java.io.Serializable;
+
 /**
  *
  * @author urosv
  */
-public class Mesto {
+public class Mesto implements OpstiDomenskiObjekat{
     
     private int postanskiBroj;
     private String grad;
@@ -64,6 +66,47 @@ public class Mesto {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String vratiNazivTabele() {
+        return "mesto";
+    }
+    
+    //Nepotrebno, jer nemamo sistemsku operaciju za kreiranje novog mesta
+    @Override
+    public String vratiAtributeZaInsert() {
+        return "";
+    }
+    //Nepotrebno, jer nemamo sistemsku operaciju za kreiranje novog mesta
+    @Override
+    public String vratiVrednostiZaInsert() {
+        return "";
+    }
+
+    @Override
+    public String vratiUslovZaNadjiSlog() {
+        return "";
+    }
+
+    @Override
+    public String vratiID() {
+        return String.valueOf(this.getPostanskiBroj());
+    }
+
+    @Override
+    public String vratiSELECTjointUpita() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String vratiFROMjointUpita() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String vratiWHEREjointUpita() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

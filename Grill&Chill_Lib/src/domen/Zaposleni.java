@@ -5,13 +5,14 @@
  */
 package domen;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author urosv
  */
-public class Zaposleni {
+public class Zaposleni implements OpstiDomenskiObjekat{
     
     private int zaposleniID;
     private String imePrezime;
@@ -95,10 +96,54 @@ public class Zaposleni {
         }
         return true;
     }
+
+    @Override
+    public String vratiNazivTabele() {
+        return "zaposleni";
+    }
+
+    @Override
+    public String vratiAtributeZaInsert() {
+        return "(ImePrezime, Username, Password, Menadzer, MestoID)";
+    }
+
+    @Override
+    public String vratiVrednostiZaInsert() {
+        return "("
+                + "'" + this.getImePrezime() + "',"
+                + "'" + this.getUsername()+ "',"
+                + "'" + this.getPassword()+ "',"
+                + "'" + this.isMenadzer()+ "',"
+                + "'" + this.getMestoBoravista().getPostanskiBroj() +
+                ")";
+    }
+
+    @Override
+    public String vratiUslovZaNadjiSlog() {
+        return "";
+    }
+
+    @Override
+    public String vratiID() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String vratiSELECTjointUpita() {
+        return "z.*, m.PostanskiBroj, m.Grad, m.Drzava";
+    }
+
+    @Override
+    public String vratiFROMjointUpita() {
+        return "zaposleni z JOIN mesto m ON (z.MestoID = m.PostanskiBroj)";
+    }
+
+    @Override
+    public String vratiWHEREjointUpita() {
+        return "z.Username = '" + this.username + 
+                "' AND z.Password = '" + this.password+ "'";
+    }
     
 
-    
-    
-    
     
 }

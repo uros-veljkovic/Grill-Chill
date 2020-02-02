@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domen;
+package konstante;
 
 /**
  *
  * @author urosv
  */
-public enum MernaJedinica {
+public interface Status {
     
-    kg, kom, l
+    static final int USPESNO = 1;
+    static final int NEUSPESNO = 0;
     
 }

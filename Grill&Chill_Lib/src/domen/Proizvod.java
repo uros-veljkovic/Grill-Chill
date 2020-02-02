@@ -5,13 +5,14 @@
  */
 package domen;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author urosv
  */
-public class Proizvod {
+public class Proizvod implements OpstiDomenskiObjekat{
 
     private int proizvodID;
     private String naziv;
@@ -91,6 +92,51 @@ public class Proizvod {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String vratiNazivTabele() {
+        return "proizvod";
+    }
+
+    @Override
+    public String vratiAtributeZaInsert() {
+        return "(Naziv, Opis, Cena, MernaJedinica)";
+    }
+
+    @Override
+    public String vratiVrednostiZaInsert() {
+        return "(" 
+                + "'" + this.naziv+ "',"
+                + "'" + this.opis + "',"
+                + "'" + this.cena + "',"
+                + "'" + this.mernaJedinica.toString() + "'" +
+                ")";
+    }
+
+    @Override
+    public String vratiUslovZaNadjiSlog() {
+        return "ProizvodID";
+    }
+
+    @Override
+    public String vratiID() {
+        return String.valueOf(this.proizvodID);
+    }
+
+    @Override
+    public String vratiSELECTjointUpita() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String vratiFROMjointUpita() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String vratiWHEREjointUpita() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
