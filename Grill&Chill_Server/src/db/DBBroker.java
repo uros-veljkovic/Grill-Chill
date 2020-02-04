@@ -126,21 +126,23 @@ public class DBBroker {
 
     }
 
-    public OpstiDomenskiObjekat obrisi(OpstiDomenskiObjekat odo) {
+    public OpstiDomenskiObjekat obrisi(OpstiDomenskiObjekat odo) throws Exception {
         String upit = odo.vratiParametreDelete() + " " + odo.vratiVrednostiDelete();
 
         Statement statement = null;
         try {
             statement = connection.createStatement();
-           
-            if (1 == statement.executeUpdate(upit));
-            return odo;
             
+            if (1 == statement.executeUpdate(upit)) 
+                return odo;
+            else
+                throw new Exception("Sistem nije uspeo da obrise proizvod...");
         } catch (SQLException ex) {
-            Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return null;
     }
+
     //Bukvalno kopirana metoda pronadjiSve(), sta raditi ????
     public ArrayList<OpstiDomenskiObjekat> pronadjiNeke(OpstiDomenskiObjekat odo) throws Exception {
         try {
@@ -157,12 +159,13 @@ public class DBBroker {
 
     public OpstiDomenskiObjekat izmeni(OpstiDomenskiObjekat odo) {
         String upit = odo.dajUpdate() + " " + odo.dajSet() + " " + odo.dajUslovZaUpdate();
-        
+
         try {
             Statement statement = connection.createStatement();
             int dobro = statement.executeUpdate(upit);
-            if(dobro == 1)
+            if (dobro == 1) {
                 return odo;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
         }

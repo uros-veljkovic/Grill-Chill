@@ -62,7 +62,7 @@ public class NitKlijenta extends Thread {
                         Zaposleni zaposleni = (Zaposleni) zahtev.getParametar();
                         zaposleni = Kontroler.getInstance().prijaviZaposlenog(zaposleni);
                         odgovor.setStatus(Status.USPESNO);
-                        odgovor.setOdgovor(zaposleni);
+                        odgovor.setObject(zaposleni);
                     } catch (Exception ex) {
                         odgovor.setStatus(Status.NEUSPESNO);
                         odgovor.setPoruka(ex.getMessage());
@@ -72,7 +72,7 @@ public class NitKlijenta extends Thread {
                     try {
                         ArrayList<Zaposleni> listaZaposlenih = Kontroler.getInstance().dajSveZaposlene((Zaposleni) zahtev.getParametar());
                         odgovor.setStatus(Status.USPESNO);
-                        odgovor.setOdgovor(listaZaposlenih);
+                        odgovor.setObject(listaZaposlenih);
                     } catch (Exception ex) {
                         odgovor.setStatus(Status.NEUSPESNO);
                         odgovor.setPoruka(ex.getMessage());
@@ -82,7 +82,7 @@ public class NitKlijenta extends Thread {
                     try {
                         ArrayList<Mesto> listaMesta = Kontroler.getInstance().dajSvaMesta((Mesto) zahtev.getParametar());
                         odgovor.setStatus(Status.USPESNO);
-                        odgovor.setOdgovor(listaMesta);
+                        odgovor.setObject(listaMesta);
                     } catch (Exception ex) {
                         odgovor.setStatus(Status.NEUSPESNO);
                         odgovor.setPoruka(ex.getMessage());
@@ -93,7 +93,7 @@ public class NitKlijenta extends Thread {
                         Zaposleni zaposleni = (Zaposleni) zahtev.getParametar();
                         zaposleni = Kontroler.getInstance().kreirajZaposlenog(zaposleni);
                         odgovor.setStatus(Status.USPESNO);
-                        odgovor.setOdgovor(zaposleni);
+                        odgovor.setObject(zaposleni);
                     } catch (Exception ex) {
                         odgovor.setStatus(Status.NEUSPESNO);
                         odgovor.setPoruka(ex.getMessage());
@@ -104,7 +104,7 @@ public class NitKlijenta extends Thread {
                         Zaposleni zaposleni = (Zaposleni) zahtev.getParametar();
                         zaposleni = Kontroler.getInstance().obrisiZaposlenog(zaposleni);
                         odgovor.setStatus(Status.USPESNO);
-                        odgovor.setOdgovor(zaposleni);
+                        odgovor.setObject(zaposleni);
                     } catch (Exception ex) {
                         odgovor.setStatus(Status.NEUSPESNO);
                         odgovor.setPoruka(ex.getMessage());
@@ -114,7 +114,7 @@ public class NitKlijenta extends Thread {
                     try {
                         ArrayList<Proizvod> listaProizvoda = Kontroler.getInstance().pretraziProizvode((Proizvod) zahtev.getParametar());
                         odgovor.setStatus(Status.USPESNO);
-                        odgovor.setOdgovor(listaProizvoda);
+                        odgovor.setObject(listaProizvoda);
                     } catch (Exception ex) {
                         odgovor.setStatus(Status.NEUSPESNO);
                         odgovor.setPoruka(ex.getMessage());
@@ -126,7 +126,7 @@ public class NitKlijenta extends Thread {
                         proizvod = Kontroler.getInstance().izmeniProizvod(proizvod);
                         if (proizvod != null) {
                             odgovor.setStatus(Status.USPESNO);
-                            odgovor.setOdgovor(proizvod);
+                            odgovor.setObject(proizvod);
                         } else {
                             odgovor.setStatus(Status.NEUSPESNO);
                             odgovor.setPoruka("Proizvod nije uspesno izmenjen");
@@ -136,6 +136,41 @@ public class NitKlijenta extends Thread {
                         odgovor.setPoruka(ex.getMessage());
                     }
                     break;
+                case Operacija.KREIRAJ_PROIZVOD:
+                    try {
+                        Proizvod proizvod = (Proizvod) zahtev.getParametar();
+                        proizvod = Kontroler.getInstance().kreirajProizvod(proizvod);
+                        odgovor.setStatus(Status.USPESNO);
+                        odgovor.setObject(proizvod);
+                    } catch (Exception ex) {
+                        odgovor.setStatus(Status.NEUSPESNO);
+                        odgovor.setObject("Sistem nije uspeo da kreira proizvod");
+                    }
+                    break;
+                case Operacija.OBRISI_PROIZVOD:
+                    try {
+                        Proizvod proizvod = (Proizvod) zahtev.getParametar();
+                        proizvod = Kontroler.getInstance().obrisiProizvod(proizvod);
+                        odgovor.setStatus(Status.USPESNO);
+                        odgovor.setObject(proizvod);
+                    } catch (Exception ex) {
+                        odgovor.setStatus(Status.NEUSPESNO);
+                        odgovor.setPoruka(ex.getMessage());
+                    }
+                    break;
+                case Operacija.DAJ_SVE_PROIZVODE:
+                    try {
+                        Proizvod proizvod = (Proizvod) zahtev.getParametar();
+                        ArrayList<Proizvod> listaProizvoda = Kontroler.getInstance().dajSveProizvode(proizvod);
+                        odgovor.setStatus(Status.USPESNO);
+                        odgovor.setObject(listaProizvoda);
+                    } catch (Exception ex) {
+                        odgovor.setStatus(Status.NEUSPESNO);
+                        odgovor.setPoruka(ex.getMessage());
+                    }
+
+                    break;
+
             }
             posaljiOdgovor(odgovor);
 

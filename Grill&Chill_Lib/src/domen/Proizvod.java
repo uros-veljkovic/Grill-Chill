@@ -104,7 +104,7 @@ public class Proizvod implements OpstiDomenskiObjekat {
 
     @Override
     public String vratiAtributeZaInsert() {
-        return "(Naziv, Opis, Cena, MernaJedinica)";
+        return "INSERT INTO proizvod (Naziv, Opis, Cena, MernaJedinica)";
     }
 
     @Override
@@ -112,7 +112,7 @@ public class Proizvod implements OpstiDomenskiObjekat {
         return "("
                 + "'" + this.naziv + "',"
                 + "'" + this.opis + "',"
-                + "'" + this.cena + "',"
+                + "" + this.cena + ","
                 + "'" + this.mernaJedinica.toString() + "'"
                 + ")";
     }
@@ -129,7 +129,7 @@ public class Proizvod implements OpstiDomenskiObjekat {
 
     @Override
     public void postaviObjektaID(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        proizvodID = id;
     }
 
     @Override
@@ -154,6 +154,8 @@ public class Proizvod implements OpstiDomenskiObjekat {
 
     @Override
     public String dajWhereSvi() {
+        if(naziv == null)
+            return "";
         return "WHERE Naziv = '" + naziv + "'";
     }
 
@@ -189,12 +191,12 @@ public class Proizvod implements OpstiDomenskiObjekat {
 
     @Override
     public String vratiParametreDelete() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "DELETE FROM proizvod";
     }
 
     @Override
     public String vratiVrednostiDelete() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "WHERE ProizvodID = " + proizvodID;
     }
 
     @Override

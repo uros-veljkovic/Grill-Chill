@@ -30,6 +30,7 @@ public class FGlavnaForma extends javax.swing.JFrame {
         initComponents();
         this.pack();
         this.setLocationRelativeTo(null);
+        this.setExtendedState(MAXIMIZED_BOTH);
         //TODO: Proslediti iz FPrijava zaposlenog kako bismo znali mod glavne forme
         postaviUlogovanogZaposlenog();
         postaviPristupMenijima();

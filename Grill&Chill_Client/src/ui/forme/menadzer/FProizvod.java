@@ -260,38 +260,41 @@ public class FProizvod extends javax.swing.JDialog {
     }//GEN-LAST:event_jbtnOmoguciIzmenuActionPerformed
 
     private void jbtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSacuvajActionPerformed
-//        String naziv = jtxtNazivProizvoda.getText();
-//        String opis = jtxtOpis.getText();
-//        double cena = Double.parseDouble(jtxtCena.getText());
-//        MernaJedinica mernaJedinica = (MernaJedinica) jcmbMernaJedinica.getSelectedItem();
-//        //Umeso -1 staviti odabraniProizvod.getProizvodID();
-//        Proizvod noviProizvod = new Proizvod(-1, naziv, opis, cena, mernaJedinica);
-//
-//        boolean kreiran;
-//        try {
-//            kreiran = KontrolerGUI.getInstanca().kreirajNoviProizvod(noviProizvod);
-//            if (kreiran) {
-//                JOptionPane.showMessageDialog(this, "Sistem je kreirao proizvod.");
-//            }
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira proizvod.");
-//        }
+        String naziv = jtxtNazivProizvoda.getText();
+        String opis = jtxtOpis.getText();
+        double cena = Double.parseDouble(jtxtCena.getText());
+        MernaJedinica mernaJedinica = (MernaJedinica) jcmbMernaJedinica.getSelectedItem();
+        //Umeso -1 staviti odabraniProizvod.getProizvodID();
+        Proizvod proizvod = new Proizvod(-1, naziv, opis, cena, mernaJedinica);
+
+        try {
+            proizvod = KontrolerGUI.getInstanca().kreirajNoviProizvod(proizvod);
+            if (proizvod.getProizvodID() > 0) {
+                JOptionPane.showMessageDialog(this, "Sistem je kreirao proizvod.");
+                jtxtProizvodID.setText(proizvod.getProizvodID()+"");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira proizvod.");
+        } catch (Exception ex) {
+            Logger.getLogger(FProizvod.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
 
     //TODO: Implementirati da se nakon brisnja 
     private void jbtnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnObrisiActionPerformed
-//        boolean obrisan;
-//
-//        obrisan = KontrolerGUI.getInstanca().obrisiProizvod(odabraniProizvod);
-//        if (obrisan) {
-//            JOptionPane.showMessageDialog(this, "Sistem je obrisao proizvod.");
-//            obrisiPodatkeSaForme();
-//            this.setVisible(false);
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da obrise proizvod.");
-//        }
-//
+        boolean obrisan;
+
+        obrisan = KontrolerGUI.getInstanca().obrisiProizvod(odabraniProizvod);
+        if (obrisan) {
+            JOptionPane.showMessageDialog(this, "Sistem je obrisao proizvod.");
+            obrisiPodatkeSaForme();
+            this.setVisible(false);
+            odabraniProizvod = null;
+        } else {
+            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da obrise proizvod.");
+        }
+
 
     }//GEN-LAST:event_jbtnObrisiActionPerformed
 

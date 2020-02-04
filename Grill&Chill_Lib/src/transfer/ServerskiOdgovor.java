@@ -15,15 +15,15 @@ public class ServerskiOdgovor implements Serializable {
     
     private int status;
     private String poruka;
-    private Object odgovor;
+    private Object object;
 
     public ServerskiOdgovor() {
     }
 
-    public ServerskiOdgovor(int status, String poruka, Object odgovor) {
+    public ServerskiOdgovor(int status, String poruka, Object object) {
         this.status = status;
         this.poruka = poruka;
-        this.odgovor = odgovor;
+        this.object = object;
     }
     
     public int getStatus() {
@@ -42,12 +42,12 @@ public class ServerskiOdgovor implements Serializable {
         this.poruka = poruka;
     }
 
-    public Object getOdgovor() {
-        return odgovor;
+    public Object getObject() {
+        return object;
     }
 
-    public void setOdgovor(Object odgovor) {
-        this.odgovor = odgovor;
+    public void setObject(Object object) {
+        this.object = object;
     }
     
     

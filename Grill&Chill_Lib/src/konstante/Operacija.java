@@ -18,5 +18,8 @@ public interface Operacija {
     static final int DAJ_SVA_MESTA = 5;
     static final int PRETRAZI_PROIZVODE = 6;
     static final int IZMENI_PROIZVOD = 7;
+    static final int KREIRAJ_PROIZVOD = 8;
+    static final int OBRISI_PROIZVOD = 9;
+    static final int DAJ_SVE_PROIZVODE = 10;
 
 }

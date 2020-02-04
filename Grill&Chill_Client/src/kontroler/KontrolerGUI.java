@@ -50,7 +50,7 @@ public class KontrolerGUI {
             throw new Exception(odgovor.getPoruka());
         }
 
-        zaposleni = (Zaposleni) odgovor.getOdgovor();
+        zaposleni = (Zaposleni) odgovor.getObject();
         ulogovaniZaposleni = zaposleni;
 
         return zaposleni;
@@ -62,7 +62,7 @@ public class KontrolerGUI {
         Komunikator.getInstance().posaljiZahtev(zahtev);
 
         ServerskiOdgovor odgovor = Komunikator.getInstance().primiOdgovor();
-        zaposleni = (Zaposleni) odgovor.getOdgovor();
+        zaposleni = (Zaposleni) odgovor.getObject();
         if (zaposleni == null) {
             throw new Exception(odgovor.getPoruka());
         }
@@ -94,7 +94,7 @@ public class KontrolerGUI {
             throw new Exception(odgovor.getPoruka());
         }
 
-        listaZaposlenih = (ArrayList<Zaposleni>) odgovor.getOdgovor();
+        listaZaposlenih = (ArrayList<Zaposleni>) odgovor.getObject();
 
         return listaZaposlenih;
     }
@@ -111,7 +111,7 @@ public class KontrolerGUI {
             throw new Exception(odgovor.getPoruka());
         }
 
-        listaMesta = (ArrayList<Mesto>) odgovor.getOdgovor();
+        listaMesta = (ArrayList<Mesto>) odgovor.getObject();
 
         return listaMesta;
     }
@@ -127,7 +127,7 @@ public class KontrolerGUI {
             throw new Exception(odgovor.getPoruka());
         }
 
-        return (Zaposleni) odgovor.getOdgovor();
+        return (Zaposleni) odgovor.getObject();
 
     }
 //
@@ -189,7 +189,7 @@ public class KontrolerGUI {
             throw new Exception(odgovor.getPoruka());
         }
         
-        return (ArrayList<Proizvod>) odgovor.getOdgovor();
+        return (ArrayList<Proizvod>) odgovor.getObject();
 
     }
 
@@ -202,6 +202,40 @@ public class KontrolerGUI {
             return true;
         else
             throw new Exception(odgovor.getPoruka());
+    }
+
+    public Proizvod kreirajNoviProizvod(Proizvod proizvod) throws Exception {
+        KlijentskiZahtev zahtev = new KlijentskiZahtev(Operacija.KREIRAJ_PROIZVOD, proizvod);
+        Komunikator.getInstance().posaljiZahtev(zahtev);
+        
+        ServerskiOdgovor odgovor = Komunikator.getInstance().primiOdgovor();
+        if(odgovor.getStatus() == Status.USPESNO)
+            return (Proizvod) odgovor.getObject();
+        else
+            throw new Exception(odgovor.getPoruka());
+    }
+
+    public boolean obrisiProizvod(Proizvod odabraniProizvod) {
+        KlijentskiZahtev zahtev = new KlijentskiZahtev(Operacija.OBRISI_PROIZVOD, odabraniProizvod);
+        Komunikator.getInstance().posaljiZahtev(zahtev);
+        
+        ServerskiOdgovor odgovor = Komunikator.getInstance().primiOdgovor();
+        if(odgovor.getStatus() == Status.USPESNO)
+            return true;
+        return false;
+    }
+
+    public ArrayList<Proizvod> vratiSveProizvode() throws Exception {
+        KlijentskiZahtev zahtev = new KlijentskiZahtev(Operacija.DAJ_SVE_PROIZVODE, new Proizvod());
+        Komunikator.getInstance().posaljiZahtev(zahtev);
+        
+        ServerskiOdgovor odgovor = Komunikator.getInstance().primiOdgovor();
+        if(odgovor.getStatus() == Status.NEUSPESNO)
+            throw new Exception(odgovor.getPoruka());
+        else
+            return (ArrayList<Proizvod>) odgovor.getObject();
+            
+        
     }
 
 }

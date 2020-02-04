@@ -14,11 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import niti.NitKlijenta;
 import so.SOIzmeniProizvod;
+import so.SOKreirajProizvod;
 import so.SOKreirajZaposlenog;
+import so.SOObrisiProizvod;
 import so.SOObrisiZaposlenog;
 import so.SOPretraziProizvode;
 import so.SOPrijaviZaposlenog;
 import so.SOVratiSvaMesta;
+import so.SOVratiSveProizvode;
 import so.SOVratiSveZaposlene;
 
 /**
@@ -110,5 +113,23 @@ public class Kontroler {
         SOIzmeniProizvod so = new SOIzmeniProizvod(proizvod);
         so.izvrsenjeSO();
         return (Proizvod) so.getOpstiDomenskiObjekat();
+    }
+
+    public Proizvod kreirajProizvod(Proizvod proizvod) throws Exception {
+        SOKreirajProizvod so = new SOKreirajProizvod(proizvod);
+        so.izvrsenjeSO();
+        return (Proizvod) so.getOpstiDomenskiObjekat();
+    }
+
+    public Proizvod obrisiProizvod(Proizvod proizvod) throws Exception {
+        SOObrisiProizvod so = new SOObrisiProizvod(proizvod);
+        so.izvrsenjeSO();
+        return (Proizvod) so.getOpstiDomenskiObjekat();
+    }
+
+    public ArrayList<Proizvod> dajSveProizvode(Proizvod proizvod) throws Exception {
+        SOVratiSveProizvode so = new SOVratiSveProizvode(proizvod);
+        so.izvrsenjeSO();
+        return so.getListaProizvoda();
     }
 }
