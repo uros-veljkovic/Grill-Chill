@@ -32,10 +32,10 @@ public class FZaposleni extends javax.swing.JDialog {
     public FZaposleni(java.awt.Frame parent, boolean modal, ModeForm mode) {
         super(parent, modal);
         initComponents();
-        postaviUlogovanogZaposlenog();
-        postaviLabeluZaposleni();
-        popuniComboZaposleni();
-        popuniComboMesto();
+        postaviUlogovanogZaposlenog(); //dobro
+        postaviLabeluZaposleni(); //
+        popuniComboZaposleni(); //
+        popuniComboMesto(); //
         postaviOmogucenostElemenataForme(mode);
         this.pack();
         this.setLocationRelativeTo(null);
@@ -256,10 +256,13 @@ public class FZaposleni extends javax.swing.JDialog {
             if (provera == null) {
                 JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira novog zaposlenog");
             } else {
+                jtxtZaposleniID.setText(String.valueOf(provera.getZaposleniID()));
                 JOptionPane.showMessageDialog(this, "Sistem je kreirao novog zaposlenog");
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira novog zaposlenog");
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira novog zaposlenog /n" + ex.getMessage());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }//GEN-LAST:event_jbtnKreirajZaposlenogActionPerformed
 
@@ -273,11 +276,11 @@ public class FZaposleni extends javax.swing.JDialog {
             } else {
                 JOptionPane.showMessageDialog(this, "Sistem ne moze da obrise zaposlenog");
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da obrise zaposlenog");
             ex.printStackTrace();
         }
-        
+//        
     }//GEN-LAST:event_jbtnObrisiZaposlenogActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -328,7 +331,7 @@ public class FZaposleni extends javax.swing.JDialog {
 
     private void popuniComboZaposleni() {
         jcmbZaposleni.removeAllItems();
-
+//
         ArrayList<Zaposleni> listaZaposlenih = null;
         try {
             listaZaposlenih = KontrolerGUI.getInstanca().vratiSveZaposlene();
@@ -337,6 +340,8 @@ public class FZaposleni extends javax.swing.JDialog {
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Sistem nije uspeo da ucita zaposlene iz baze.");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
 
     }
@@ -346,12 +351,14 @@ public class FZaposleni extends javax.swing.JDialog {
 
         ArrayList<Mesto> listaMesta = null;
         try {
-            listaMesta = (ArrayList<Mesto>) KontrolerGUI.getInstanca().vratiSvaMesta();
+            listaMesta = KontrolerGUI.getInstanca().vratiSvaMesta();
             for (Mesto mesto : listaMesta) {
                 jcmbMesto.addItem(mesto);
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Sistem nije uspeo da ucita mesta iz baze.");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }
 

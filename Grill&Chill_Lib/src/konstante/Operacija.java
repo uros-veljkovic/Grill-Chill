@@ -10,7 +10,13 @@ package konstante;
  * @author urosv
  */
 public interface Operacija {
-    
+
     static final int PRIJAVI_ZAPOSLENOG = 1;
-    
+    static final int KREIRAJ_ZAPOSLENOG = 2;
+    static final int OBRISI_ZAPOSLENOG = 3;
+    static final int DAJ_SVE_ZAPOSLENE = 4;
+    static final int DAJ_SVA_MESTA = 5;
+    static final int PRETRAZI_PROIZVODE = 6;
+    static final int IZMENI_PROIZVOD = 7;
+
 }

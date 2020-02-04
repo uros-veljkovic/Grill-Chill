@@ -157,7 +157,13 @@ public class FProizvodPretraga extends javax.swing.JDialog {
         
         try {
             listaProizvoda = KontrolerGUI.getInstanca().pretraziProizvode(nazivProizvoda);
+            ModelTabeleProizvod mtp = (ModelTabeleProizvod) jtblPronadjeniProizvodi.getModel();
+            mtp.postaviProizvode(listaProizvoda);
+            
+            JOptionPane.showMessageDialog(this, "Sistem je uspeo da pronadje proizvode po zadatom kriterijumu.");
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
         ModelTabeleProizvod mtp = (ModelTabeleProizvod) jtblPronadjeniProizvodi.getModel();

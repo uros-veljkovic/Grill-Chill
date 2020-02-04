@@ -191,7 +191,7 @@ public class FGlavnaForma extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiObrisiProizvodActionPerformed
 
     private void jmiKreirajZaposlenogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiKreirajZaposlenogActionPerformed
-        //TODO: Implementirati mogucnost da se salje enumeracija koja odredjuje sta ce na novoj formi biti omoguceno a sta ne
+
         FZaposleni zaposleniForma = new FZaposleni(this, true, ModeForm.FORM_KREIRAJ);
         zaposleniForma.setVisible(true);
     }//GEN-LAST:event_jmiKreirajZaposlenogActionPerformed

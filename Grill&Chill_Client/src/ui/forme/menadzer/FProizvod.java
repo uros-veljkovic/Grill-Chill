@@ -8,6 +8,8 @@ package ui.forme.menadzer;
 import domen.MernaJedinica;
 import domen.Proizvod;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import kontroler.KontrolerGUI;
 import ui.forme.mode.ModeForm;
@@ -258,38 +260,38 @@ public class FProizvod extends javax.swing.JDialog {
     }//GEN-LAST:event_jbtnOmoguciIzmenuActionPerformed
 
     private void jbtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSacuvajActionPerformed
-        String naziv = jtxtNazivProizvoda.getText();
-        String opis = jtxtOpis.getText();
-        double cena = Double.parseDouble(jtxtCena.getText());
-        MernaJedinica mernaJedinica = (MernaJedinica) jcmbMernaJedinica.getSelectedItem();
-        //Umeso -1 staviti odabraniProizvod.getProizvodID();
-        Proizvod noviProizvod = new Proizvod(-1, naziv, opis, cena, mernaJedinica);
-
-        boolean kreiran;
-        try {
-            kreiran = KontrolerGUI.getInstanca().kreirajNoviProizvod(noviProizvod);
-            if (kreiran) {
-                JOptionPane.showMessageDialog(this, "Sistem je kreirao proizvod.");
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira proizvod.");
-        }
+//        String naziv = jtxtNazivProizvoda.getText();
+//        String opis = jtxtOpis.getText();
+//        double cena = Double.parseDouble(jtxtCena.getText());
+//        MernaJedinica mernaJedinica = (MernaJedinica) jcmbMernaJedinica.getSelectedItem();
+//        //Umeso -1 staviti odabraniProizvod.getProizvodID();
+//        Proizvod noviProizvod = new Proizvod(-1, naziv, opis, cena, mernaJedinica);
+//
+//        boolean kreiran;
+//        try {
+//            kreiran = KontrolerGUI.getInstanca().kreirajNoviProizvod(noviProizvod);
+//            if (kreiran) {
+//                JOptionPane.showMessageDialog(this, "Sistem je kreirao proizvod.");
+//            }
+//        } catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira proizvod.");
+//        }
 
     }//GEN-LAST:event_jbtnSacuvajActionPerformed
 
     //TODO: Implementirati da se nakon brisnja 
     private void jbtnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnObrisiActionPerformed
-        boolean obrisan;
-
-        obrisan = KontrolerGUI.getInstanca().obrisiProizvod(odabraniProizvod);
-        if (obrisan) {
-            JOptionPane.showMessageDialog(this, "Sistem je obrisao proizvod.");
-            obrisiPodatkeSaForme();
-            this.setVisible(false);
-        } else {
-            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da obrise proizvod.");
-        }
-
+//        boolean obrisan;
+//
+//        obrisan = KontrolerGUI.getInstanca().obrisiProizvod(odabraniProizvod);
+//        if (obrisan) {
+//            JOptionPane.showMessageDialog(this, "Sistem je obrisao proizvod.");
+//            obrisiPodatkeSaForme();
+//            this.setVisible(false);
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da obrise proizvod.");
+//        }
+//
 
     }//GEN-LAST:event_jbtnObrisiActionPerformed
 
@@ -302,13 +304,19 @@ public class FProizvod extends javax.swing.JDialog {
 
         Proizvod proizvod = new Proizvod(id, naziv, opis, cena, mernaJedinica);
 
-        boolean izmenjen = KontrolerGUI.getInstanca().izmeniProizvod(proizvod);
-        if(izmenjen){
-            JOptionPane.showMessageDialog(this, "Sistem je uspeo da izmeni proizvod.");
-        }else{
-            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da izmeni proizvod.");
+        boolean izmenjen;
+        try {
+            izmenjen = KontrolerGUI.getInstanca().izmeniProizvod(proizvod);
+            if (izmenjen) {
+                JOptionPane.showMessageDialog(this, "Sistem je uspeo da izmeni proizvod.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Sistem nije uspeo da izmeni proizvod.");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
-        
+
+
     }//GEN-LAST:event_jbtnIzmeniActionPerformed
 
 
@@ -396,7 +404,7 @@ public class FProizvod extends javax.swing.JDialog {
         omoguciIzmenuOpis(false);
         omoguciIzmenuCena(false);
         omoguciIzmenuMernaJedinica(false);
-        
+
         omoguciBtnIzmeni(false);
         omoguciBtnOmoguciIzmenu(false);
         omoguciBtnSacuvaj(false);

@@ -5,7 +5,6 @@
  */
 package skladiste.impl;
 
-import baza.konekcija.FabrikaKonekcija;
 import domen.Mesto;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -25,22 +24,22 @@ public class SkladisteMestoImpl implements SkladisteMesto {
     public List<Mesto> vratiMesta() throws SQLException {
         
         ArrayList<Mesto> listaMesta = new ArrayList<Mesto>();
-        String upit = "SELECT * FROM mesto";
-
-        try {
-            Connection konekcija = FabrikaKonekcija.getInstance().getKonekcija();
-            Statement s = konekcija.createStatement();
-            ResultSet rs = s.executeQuery(upit);
-            
-            while(rs.next()){
-                Mesto m = new  Mesto(rs.getInt("PostanskiBroj"),
-                                    rs.getString("Grad"),
-                                    rs.getString("Drzava"));
-                listaMesta.add(m);
-            }
-        } catch (SQLException ex) {
-            throw new SQLException(ex.getMessage());
-        }
+//        String upit = "SELECT * FROM mesto";
+//
+//        try {
+//            Connection konekcija = FabrikaKonekcija.getInstance().getKonekcija();
+//            Statement s = konekcija.createStatement();
+//            ResultSet rs = s.executeQuery(upit);
+//            
+//            while(rs.next()){
+//                Mesto m = new  Mesto(rs.getInt("PostanskiBroj"),
+//                                    rs.getString("Grad"),
+//                                    rs.getString("Drzava"));
+//                listaMesta.add(m);
+//            }
+//        } catch (SQLException ex) {
+//            throw new SQLException(ex.getMessage());
+//        }
 
         return listaMesta;
     }

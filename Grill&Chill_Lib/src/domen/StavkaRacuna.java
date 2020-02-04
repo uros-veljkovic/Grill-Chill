@@ -6,6 +6,8 @@
 package domen;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -125,19 +127,79 @@ public class StavkaRacuna implements OpstiDomenskiObjekat{
     public String vratiID() {
         return String.valueOf(this.getStavkaID());
     }
+    @Override
+    public void postaviObjektaID(int id) {
+        this.racunID = id;
+    }
 
     @Override
-    public String vratiSELECTjointUpita() {
+    public OpstiDomenskiObjekat ucitajJedan(ResultSet rs) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+    @Override
+    public String dajSelectJedan() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String vratiFROMjointUpita() {
+    public String dajFromJedan() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String vratiWHEREjointUpita() {
+    public String dajWhereJedan() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String dajWhereSvi() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String dajSelectSvi() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String dajFromSvi() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<OpstiDomenskiObjekat>  ucitajSve(ResultSet rs) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean jesteAutoIncrement() {
+        return false;
+    }
+
+    @Override
+    public String vratiParametreDelete() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String vratiVrednostiDelete() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String dajUpdate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String dajSet() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String dajUslovZaUpdate() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

@@ -3,19 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servis;
-
-import domen.Mesto;
-import java.sql.SQLException;
-import java.util.List;
-import skladiste.SkladisteMesto;
+package db.konstante;
 
 /**
  *
  * @author urosv
  */
-public interface ServisMesto {
-    
-    List<Mesto> vratiMesta() throws SQLException;
+public interface Konstante {
+
+    static final String DRIVER = "driver";
+    static final String URL = "url";
+    static final String USER = "user";
+    static final String PASS = "pass";
     
 }

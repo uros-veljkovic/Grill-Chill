@@ -46,7 +46,7 @@ public class SettingsLoader {
     }
     
     public String getValue(String key){
-        return properties.getProperty(key, "n/a");
+        return properties.getProperty(key);
     }
     
 }

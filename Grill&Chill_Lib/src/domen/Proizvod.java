@@ -6,13 +6,16 @@
 package domen;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
  *
  * @author urosv
  */
-public class Proizvod implements OpstiDomenskiObjekat{
+public class Proizvod implements OpstiDomenskiObjekat {
 
     private int proizvodID;
     private String naziv;
@@ -106,12 +109,12 @@ public class Proizvod implements OpstiDomenskiObjekat{
 
     @Override
     public String vratiVrednostiZaInsert() {
-        return "(" 
-                + "'" + this.naziv+ "',"
+        return "("
+                + "'" + this.naziv + "',"
                 + "'" + this.opis + "',"
                 + "'" + this.cena + "',"
-                + "'" + this.mernaJedinica.toString() + "'" +
-                ")";
+                + "'" + this.mernaJedinica.toString() + "'"
+                + ")";
     }
 
     @Override
@@ -125,18 +128,91 @@ public class Proizvod implements OpstiDomenskiObjekat{
     }
 
     @Override
-    public String vratiSELECTjointUpita() {
+    public void postaviObjektaID(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String vratiFROMjointUpita() {
+    public OpstiDomenskiObjekat ucitajJedan(ResultSet rs) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String vratiWHEREjointUpita() {
+    public String dajSelectJedan() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String dajFromJedan() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String dajWhereJedan() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String dajWhereSvi() {
+        return "WHERE Naziv = '" + naziv + "'";
+    }
+
+    @Override
+    public String dajSelectSvi() {
+        return "SELECT *";
+    }
+
+    @Override
+    public String dajFromSvi() {
+        return "FROM proizvod";
+    }
+
+    @Override
+    public List<OpstiDomenskiObjekat> ucitajSve(ResultSet rs) throws Exception {
+        ArrayList<OpstiDomenskiObjekat> listaOdo = new ArrayList<>();
+
+        while (rs.next()) {
+
+            listaOdo.add(new Proizvod(rs.getInt("ProizvodID"),
+                    rs.getString("Naziv"),
+                    rs.getString("Opis"),
+                    rs.getDouble("Cena"),
+                    MernaJedinica.valueOf(rs.getString("MernaJedinica"))));
+        }
+        return listaOdo;
+    }
+
+    @Override
+    public boolean jesteAutoIncrement() {
+        return true;
+    }
+
+    @Override
+    public String vratiParametreDelete() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String vratiVrednostiDelete() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String dajUpdate() {
+        return "UPDATE proizvod";
+    }
+
+    @Override
+    public String dajSet() {
+        return "SET Naziv = '" + naziv
+                + "', Cena = " + cena
+                + ", Opis = '" + opis
+                + "', MernaJedinica = '" + mernaJedinica + "'";
+    }
+
+    @Override
+    public String dajUslovZaUpdate() {
+        return "WHERE ProizvodID = " + proizvodID;
     }
 
 }

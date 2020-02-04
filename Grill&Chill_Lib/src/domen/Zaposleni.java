@@ -6,14 +6,17 @@
 package domen;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
  *
  * @author urosv
  */
-public class Zaposleni implements OpstiDomenskiObjekat{
-    
+public class Zaposleni implements OpstiDomenskiObjekat {
+
     private int zaposleniID;
     private String imePrezime;
     private String username;
@@ -23,6 +26,7 @@ public class Zaposleni implements OpstiDomenskiObjekat{
 
     public Zaposleni() {
     }
+
     public Zaposleni(int zaposleniID, String imePrezime, String username, String password, boolean menadzer, Mesto mestoBoravista) {
         this.zaposleniID = zaposleniID;
         this.imePrezime = imePrezime;
@@ -32,10 +36,10 @@ public class Zaposleni implements OpstiDomenskiObjekat{
         this.mestoBoravista = mestoBoravista;
     }
 
-    
     public int getZaposleniID() {
         return zaposleniID;
     }
+
     public void setZaposleniID(int zaposleniID) {
         this.zaposleniID = zaposleniID;
     }
@@ -43,6 +47,7 @@ public class Zaposleni implements OpstiDomenskiObjekat{
     public String getImePrezime() {
         return imePrezime;
     }
+
     public void setImePrezime(String imePrezime) {
         this.imePrezime = imePrezime;
     }
@@ -50,6 +55,7 @@ public class Zaposleni implements OpstiDomenskiObjekat{
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -57,6 +63,7 @@ public class Zaposleni implements OpstiDomenskiObjekat{
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -64,6 +71,7 @@ public class Zaposleni implements OpstiDomenskiObjekat{
     public boolean isMenadzer() {
         return menadzer;
     }
+
     public void setMenadzer(boolean menadzer) {
         this.menadzer = menadzer;
     }
@@ -71,14 +79,16 @@ public class Zaposleni implements OpstiDomenskiObjekat{
     public Mesto getMestoBoravista() {
         return mestoBoravista;
     }
+
     public void setMestoBoravista(Mesto mestoBoravista) {
         this.mestoBoravista = mestoBoravista;
     }
-    
+
     @Override
     public String toString() {
         return imePrezime;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -104,18 +114,18 @@ public class Zaposleni implements OpstiDomenskiObjekat{
 
     @Override
     public String vratiAtributeZaInsert() {
-        return "(ImePrezime, Username, Password, Menadzer, MestoID)";
+        return "INSERT INTO zaposleni (ImePrezime, Username, Password, Menadzer, MestoID)";
     }
 
     @Override
     public String vratiVrednostiZaInsert() {
         return "("
                 + "'" + this.getImePrezime() + "',"
-                + "'" + this.getUsername()+ "',"
-                + "'" + this.getPassword()+ "',"
-                + "'" + this.isMenadzer()+ "',"
-                + "'" + this.getMestoBoravista().getPostanskiBroj() +
-                ")";
+                + "'" + this.getUsername() + "',"
+                + "'" + this.getPassword() + "',"
+                + "" + this.isMenadzer() + ","
+                + "" + this.getMestoBoravista().getPostanskiBroj()
+                + ")";
     }
 
     @Override
@@ -129,21 +139,129 @@ public class Zaposleni implements OpstiDomenskiObjekat{
     }
 
     @Override
-    public String vratiSELECTjointUpita() {
-        return "z.*, m.PostanskiBroj, m.Grad, m.Drzava";
+    public void postaviObjektaID(int id) {
+        this.zaposleniID = id;
     }
 
+    //Dobija se SELECT upitom, i to spajanjem tabela Mesto i Zaposleni
     @Override
-    public String vratiFROMjointUpita() {
-        return "zaposleni z JOIN mesto m ON (z.MestoID = m.PostanskiBroj)";
+    public OpstiDomenskiObjekat ucitajJedan(ResultSet rs) throws Exception {
+        Zaposleni zaposleni = null;
+        Mesto mesto = null;
+        
+        if (rs.next()) {
+            int zaposleniID = rs.getInt("ZaposleniID");
+            String imePrezime = rs.getString("ImePrezime");
+            String username = rs.getString("Username");
+            String password = rs.getString("Password");
+            boolean menadzer = rs.getBoolean("Menadzer");
+
+            int postanskiBroj = rs.getInt("PostanskiBroj");
+            String grad = rs.getString("Grad");
+            String drzava = rs.getString("Drzava");
+
+            mesto = new Mesto(postanskiBroj, grad, drzava);
+            zaposleni = new Zaposleni(zaposleniID, imePrezime, username, password, menadzer, mesto);
+        }
+        return zaposleni;
     }
 
+    //Upit kojim se zaposleni prijavljuje na sistem
+    public String vratiSELECTupit() {
+        return "SELECT z.*, m.PostanskiBroj, m.Grad, m.Drzava "
+                + "FROM zaposleni z JOIN mesto m ON (z.MestoID = m.PostanskiBroj) "
+                + "WHERE z.Username = '" + this.username + "' AND z.Password = '" + this.password + "'";
+    }
+
+    public String vratiINSERTupit() {
+        return "INSERT INTO zaposleni (ImePrezime, Username, Password, Menadzer, MestoID) "
+                + "VALUES " + vratiVrednostiZaInsert();
+    }
+
+    public String vratiDELETEupit() {
+        return "DELETE FROM zaposleni WHERE Username='" + this.username + "'";
+    }
+    
+    //SELECT (ovo ispod)
     @Override
-    public String vratiWHEREjointUpita() {
-        return "z.Username = '" + this.username + 
-                "' AND z.Password = '" + this.password+ "'";
+    public String dajSelectJedan() {
+        return "SELECT z.*, m.PostanskiBroj AS PostanskiBroj, m.Grad AS Grad, m.Drzava AS Drzava";
+    }
+    //FROM (ovo ispod)
+    @Override
+    public String dajFromJedan() {
+        return "FROM zaposleni z JOIN mesto m ON (z.MestoID = m.PostanskiBroj)";
+    }
+    //WHERE (ovo ispod)
+    @Override
+    public String dajWhereJedan() {
+        return "WHERE z.Username = '" + this.username
+                + "' AND z.Password = '" + this.password + "'";
     }
     
 
+
+    //WHERE (ovo ispod)
+    @Override
+    public String dajWhereSvi() {
+        return "WHERE Menadzer = 0";
+    }
+
+    @Override
+    public String dajSelectSvi() {
+        return "SELECT *";
+    }
+
+    @Override
+    public String dajFromSvi() {
+        return "FROM zaposleni";
+    }
+
+    @Override
+    public List<OpstiDomenskiObjekat> ucitajSve(ResultSet rs) throws Exception {
+        ArrayList<OpstiDomenskiObjekat> listaOdo = new ArrayList<>();
+        
+        while (rs.next()) {
+            int zaposleniID = rs.getInt("ZaposleniID");
+            String imePrezime = rs.getString("ImePrezime");
+            String username = rs.getString("Username");
+            String password = rs.getString("Password");
+            boolean menadzer = rs.getBoolean("Menadzer");
+
+            listaOdo.add(new Zaposleni(zaposleniID, imePrezime, username, password, menadzer, null));
+        }
+        return listaOdo;
+    }
+
+    @Override
+    public boolean jesteAutoIncrement() {
+        return true;
+    }
+
+    @Override
+    public String vratiParametreDelete() {
+        return "DELETE FROM zaposleni";
+    }
+
+    @Override
+    public String vratiVrednostiDelete() {
+        return "WHERE Username = '" + username +"' AND Password = '" + password + "'";
+    }
+
+    @Override
+    public String dajUpdate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String dajSet() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String dajUslovZaUpdate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
+
 }

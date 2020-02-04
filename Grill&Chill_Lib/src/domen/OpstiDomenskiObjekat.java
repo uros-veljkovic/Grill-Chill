@@ -6,6 +6,8 @@
 package domen;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.util.List;
 
 /**
  *
@@ -16,10 +18,26 @@ public interface OpstiDomenskiObjekat extends Serializable{
     String vratiNazivTabele();
     String vratiAtributeZaInsert();
     String vratiVrednostiZaInsert();
+    String vratiParametreDelete();
+    String vratiVrednostiDelete();
     String vratiUslovZaNadjiSlog();
     String vratiID();
-    String vratiSELECTjointUpita();
-    String vratiFROMjointUpita();
-    String vratiWHEREjointUpita();
+    
+    String dajSelectJedan();
+    String dajFromJedan();
+    String dajWhereJedan();
+    
+    String dajSelectSvi();
+    String dajFromSvi();
+    String dajWhereSvi(); //Koristimo kada filtriramo, ako ne koristimo, vracamo sve objekte
+    
+    String dajUpdate();
+    String dajSet();
+    String dajUslovZaUpdate();
+    
+    void postaviObjektaID(int id);
+    boolean jesteAutoIncrement();
+    OpstiDomenskiObjekat ucitajJedan(ResultSet rs) throws Exception;
+    List<OpstiDomenskiObjekat> ucitajSve(ResultSet rs) throws Exception;
     
 }

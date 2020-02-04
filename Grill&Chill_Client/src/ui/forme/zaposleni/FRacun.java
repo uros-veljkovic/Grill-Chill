@@ -449,65 +449,65 @@ public class FRacun extends javax.swing.JDialog {
     }//GEN-LAST:event_jtblProizvodiMouseClicked
 
     private void jbtnDodajStavkuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDodajStavkuActionPerformed
-
-        int red = jtblProizvodi.getSelectedRow();
-        if (red >= 0) {
-
-            ModelTabeleProizvod mtp = (ModelTabeleProizvod) jtblProizvodi.getModel();
-
-            Proizvod proizvod = mtp.vratiOdabraniProizvod(red);
-            int kolicina = Integer.valueOf(jtxtKolicina.getText());
-
-            ModelTabeleRacun mtsr = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
-            mtsr.dodajStavku(proizvod, kolicina);
-            ukupanIznos = getUkupanIznos();
-
-            jlblUkupanIznos.setText(ukupanIznos + "");
-
-        }
+//
+//        int red = jtblProizvodi.getSelectedRow();
+//        if (red >= 0) {
+//
+//            ModelTabeleProizvod mtp = (ModelTabeleProizvod) jtblProizvodi.getModel();
+//
+//            Proizvod proizvod = mtp.vratiOdabraniProizvod(red);
+//            int kolicina = Integer.valueOf(jtxtKolicina.getText());
+//
+//            ModelTabeleRacun mtsr = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
+//            mtsr.dodajStavku(proizvod, kolicina);
+//            ukupanIznos = getUkupanIznos();
+//
+//            jlblUkupanIznos.setText(ukupanIznos + "");
+//
+//        }
     }//GEN-LAST:event_jbtnDodajStavkuActionPerformed
 
     private void jbtnObrisiStavkuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnObrisiStavkuActionPerformed
-        int red = jtblStavkeRacuna.getSelectedRow();
-        if (red >= 0) {
-            ModelTabeleRacun modelStavka = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
-            modelStavka.obrisiStavku(red);
-
-            ukupanIznos = getUkupanIznos();
-            jlblUkupanIznos.setText(ukupanIznos + "");
-        }
+//        int red = jtblStavkeRacuna.getSelectedRow();
+//        if (red >= 0) {
+//            ModelTabeleRacun modelStavka = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
+//            modelStavka.obrisiStavku(red);
+//
+//            ukupanIznos = getUkupanIznos();
+//            jlblUkupanIznos.setText(ukupanIznos + "");
+//        }
     }//GEN-LAST:event_jbtnObrisiStavkuActionPerformed
 
     private void jbtnSacuvajRacunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSacuvajRacunActionPerformed
         // TODO: Kada se klikne u ovo dugme, postavlja se zaposleni koji je kreirao racun kao i datum racuna u sam racun
         //pa se dalje sam racun prosledjuje do kontrolera...
-        ModelTabeleRacun mtp = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
-        Racun racun = mtp.getRacun();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy.");
-        if (jtxtDatumKreiranja.getText().isEmpty()) {
-            jtxtDatumKreiranja.setText(sdf.format(new Date()));
-        }
-
-        racun.setKreiraoZaposleni(ulogovaniZaposleni);
-        try {
-            racun.setDatumIzrade(sdf.parse(jtxtDatumKreiranja.getText().trim()));
-        } catch (ParseException ex) {
-            Logger.getLogger(FRacun.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        racun.setRacunID(-1);
-
-        racun = KontrolerGUI.getInstanca().sacuvajRacun(racun);
-
-        if (racun.getRacunID() == -1) {
-            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da sacuva racun");
-            omoguciBtnSacuvajRacun(false);
-            omoguciBtnObrisiStavku(false);
-        } else {
-            jLabel11.setText(jLabel11.getText() + " " + racun.getRacunID());
-            JOptionPane.showMessageDialog(this, "Sistem je uspeo da kreira racun !");
-        }
-        this.dispose();
+//        ModelTabeleRacun mtp = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
+//        Racun racun = mtp.getRacun();
+//
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy.");
+//        if (jtxtDatumKreiranja.getText().isEmpty()) {
+//            jtxtDatumKreiranja.setText(sdf.format(new Date()));
+//        }
+//
+//        racun.setKreiraoZaposleni(ulogovaniZaposleni);
+//        try {
+//            racun.setDatumIzrade(sdf.parse(jtxtDatumKreiranja.getText().trim()));
+//        } catch (ParseException ex) {
+//            Logger.getLogger(FRacun.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        racun.setRacunID(-1);
+//
+//        racun = KontrolerGUI.getInstanca().sacuvajRacun(racun);
+//
+//        if (racun.getRacunID() == -1) {
+//            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da sacuva racun");
+//            omoguciBtnSacuvajRacun(false);
+//            omoguciBtnObrisiStavku(false);
+//        } else {
+//            jLabel11.setText(jLabel11.getText() + " " + racun.getRacunID());
+//            JOptionPane.showMessageDialog(this, "Sistem je uspeo da kreira racun !");
+//        }
+//        this.dispose();
     }//GEN-LAST:event_jbtnSacuvajRacunActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -528,52 +528,53 @@ public class FRacun extends javax.swing.JDialog {
     }//GEN-LAST:event_jbtnOmoguciIzmenuActionPerformed
 
     private void jbtnStornirajRacunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnStornirajRacunActionPerformed
-        int racunID = Integer.parseInt(jlblRacunID.getText());
-        Racun racun = new Racun(racunID, null, null, 0, false, false, null);
-        
-        boolean uspesno = KontrolerGUI.getInstanca().stornirajRacun(racun);
-        if(uspesno){
-            JOptionPane.showMessageDialog(this, "Sistem je uspeo da stornira racun.");
-        }else{
-            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da stornira racun.");
-        }
-        
-        omoguciPanelProizvodi(false);
-        omoguciPanelRacun(false);
-        omoguciIzmenuDatuma(false);
-        omoguciBtnIzmeni(false);
-        omoguciBtnObrisiStavku(false);
-        omoguciBtnStornirajRacun(false);
-        this.pack();
-        this.setLocationRelativeTo(null);
+//        int racunID = Integer.parseInt(jlblRacunID.getText());
+//        Racun racun = new Racun(racunID, null, null, 0, false, false, null);
+//        
+//        boolean uspesno = KontrolerGUI.getInstanca().stornirajRacun(racun);
+//        if(uspesno){
+//            JOptionPane.showMessageDialog(this, "Sistem je uspeo da stornira racun.");
+//        }else{
+//            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da stornira racun.");
+//        }
+//        
+//        omoguciPanelProizvodi(false);
+//        omoguciPanelRacun(false);
+//        omoguciIzmenuDatuma(false);
+//        omoguciBtnIzmeni(false);
+//        omoguciBtnObrisiStavku(false);
+//        omoguciBtnStornirajRacun(false);
+//        this.pack();
+//        this.setLocationRelativeTo(null);
     }//GEN-LAST:event_jbtnStornirajRacunActionPerformed
 
     private void jbtnIzmeniRacunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIzmeniRacunActionPerformed
-        Racun racun = dajRacunIzTabele();
-        boolean uspesno = KontrolerGUI.getInstanca().izmeniRacun(racun);
-        if(uspesno){
-            JOptionPane.showMessageDialog(this, "Sistem je uspesno izmenio racun.");
-        }else{
-            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da izmeni racun.");
-        }
+//        Racun racun = dajRacunIzTabele();
+//        boolean uspesno = KontrolerGUI.getInstanca().izmeniRacun(racun);
+//        if(uspesno){
+//            JOptionPane.showMessageDialog(this, "Sistem je uspesno izmenio racun.");
+//        }else{
+//            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da izmeni racun.");
+//        }
     }//GEN-LAST:event_jbtnIzmeniRacunActionPerformed
 
     private Racun dajRacunIzTabele() throws NumberFormatException {
-        int racunID = Integer.parseInt(jlblRacunID.getText());
-        int racunKreirao = Integer.parseInt(jlblRacunKreirao.getText());
-        Zaposleni zaposleni = new Zaposleni(racunID, "", "", "", false, null);
-        double ukupanIznos = Double.parseDouble(jlblUkupanIznos.getText());
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
-        Date datumIzrade = null;
-        try {
-            datumIzrade = sdf.parse(jtxtDatumKreiranja.getText());
-        } catch (ParseException ex) {
-            Logger.getLogger(FRacun.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        ModelTabeleRacun mtp = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
-        ArrayList<StavkaRacuna> stavke = mtp.getStavkeRacuna();
-        Racun racun = new Racun(racunID, zaposleni, datumIzrade, ukupanIznos, true, false, stavke);
-        return racun;
+//        int racunID = Integer.parseInt(jlblRacunID.getText());
+//        int racunKreirao = Integer.parseInt(jlblRacunKreirao.getText());
+//        Zaposleni zaposleni = new Zaposleni(racunID, "", "", "", false, null);
+//        double ukupanIznos = Double.parseDouble(jlblUkupanIznos.getText());
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
+//        Date datumIzrade = null;
+//        try {
+//            datumIzrade = sdf.parse(jtxtDatumKreiranja.getText());
+//        } catch (ParseException ex) {
+//            Logger.getLogger(FRacun.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        ModelTabeleRacun mtp = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
+//        ArrayList<StavkaRacuna> stavke = mtp.getStavkeRacuna();
+//        Racun racun = new Racun(racunID, zaposleni, datumIzrade, ukupanIznos, true, false, stavke);
+//        return racun;
+        return null;
     }
 
 
@@ -646,10 +647,9 @@ public class FRacun extends javax.swing.JDialog {
         jtblProizvodi.setModel(mtp);
 
         //TODO: Implementirati metodu vratiSveProizvode() u kontroleru
-        ArrayList<Proizvod> listaProizvoda = KontrolerGUI.getInstanca().vratiSveProizvode();
+//        ArrayList<Proizvod> listaProizvoda = KontrolerGUI.getInstanca().vratiSveProizvode();
 
-        mtp.postaviProizvode(listaProizvoda);
-
+//        mtp.postaviProizvode(listaProizvoda);
     }
 
     private void postaviTabeluStavkaRacuna() {

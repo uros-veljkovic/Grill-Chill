@@ -118,14 +118,16 @@ public class FPrijava extends javax.swing.JFrame {
         String password = String.valueOf(jpswLozinka.getPassword());
 
         try {
-            //TODO: Validacija
             ulogovaniZaposleni = KontrolerGUI.getInstanca().prijaviZaposlenog(username, password);
             FGlavnaForma glavnaForma = new FGlavnaForma(this);
             glavnaForma.setVisible(true);
             this.dispose();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da pronadje zaposlenog na osnovu unetih vrednosti za prijavljivanje");
-            return;
+            ex.printStackTrace();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da pronadje zaposlenog na osnovu unetih vrednosti za prijavljivanje");
+            ex.printStackTrace();
         }
 
     }//GEN-LAST:event_jbtnPrijavaActionPerformed
