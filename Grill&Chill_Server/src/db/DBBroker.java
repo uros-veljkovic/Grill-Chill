@@ -7,6 +7,7 @@ package db;
 
 import db.konstante.Konstante;
 import domen.OpstiDomenskiObjekat;
+import domen.StavkaRacuna;
 import domen.Zaposleni;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,6 +17,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import konstante.Operacija;
 import util.SettingsLoader;
 
 /**
@@ -109,13 +111,15 @@ public class DBBroker {
         Statement statement;
         try {
             statement = connection.createStatement();
-            statement.executeUpdate(upit, Statement.RETURN_GENERATED_KEYS);
 
             if (odo.jesteAutoIncrement()) {
+                statement.executeUpdate(upit, Statement.RETURN_GENERATED_KEYS); //Ovde puca pri unosenju stavke u bazu, jer nema generisane kljuceve
                 ResultSet rs = statement.getGeneratedKeys();
                 if (rs.next()) {
                     odo.postaviObjektaID(rs.getInt(1));
                 }
+            } else {
+                statement.executeUpdate(upit);
             }
             return odo;
         } catch (SQLException ex) {
@@ -129,18 +133,18 @@ public class DBBroker {
     public OpstiDomenskiObjekat obrisi(OpstiDomenskiObjekat odo) throws Exception {
         String upit = odo.vratiParametreDelete() + " " + odo.vratiVrednostiDelete();
 
-        Statement statement = null;
         try {
-            statement = connection.createStatement();
-            
-            if (1 == statement.executeUpdate(upit)) 
+            Statement statement = connection.createStatement();
+
+            if (1 == statement.executeUpdate(upit)) {
                 return odo;
-            else
+            } else {
                 throw new Exception("Sistem nije uspeo da obrise proizvod...");
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
+            throw new Exception("Proizvod ne  moze da se obrise jer se nalazi na nekom od racuna.");
         }
-        return null;
     }
 
     //Bukvalno kopirana metoda pronadjiSve(), sta raditi ????
@@ -170,5 +174,20 @@ public class DBBroker {
             Logger.getLogger(DBBroker.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public int vratiMaxID(StavkaRacuna stavkaRacuna) throws SQLException {
+        int id = 0;
+        String upit = stavkaRacuna.dajSelectMax() + " "
+                + stavkaRacuna.dajFromMax() + " "
+                + stavkaRacuna.dajWhereMax();
+        Statement statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery(upit);
+
+        if (rs.next()) {
+            id = Integer.valueOf(rs.getInt("MAX"));
+        }
+        return ++id;
+
     }
 }

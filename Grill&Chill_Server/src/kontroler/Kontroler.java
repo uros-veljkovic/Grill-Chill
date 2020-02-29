@@ -5,21 +5,30 @@
  */
 package kontroler;
 
+import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import db.DBBroker;
 import domen.Mesto;
 import domen.Proizvod;
+import domen.Racun;
+import domen.StavkaRacuna;
 import domen.Zaposleni;
 import forme.FGlavnaForma;
 import java.util.ArrayList;
 import java.util.List;
 import niti.NitKlijenta;
 import so.SOIzmeniProizvod;
+import so.SOIzmeniRacun;
 import so.SOKreirajProizvod;
+import so.SOKreirajRacun;
 import so.SOKreirajZaposlenog;
 import so.SOObrisiProizvod;
 import so.SOObrisiZaposlenog;
+import so.SOPretraziProizvod;
 import so.SOPretraziProizvode;
+import so.SOPretraziRacune;
+import so.SOPretraziStavkeRacuna;
 import so.SOPrijaviZaposlenog;
+import so.SOStornirajRacun;
 import so.SOVratiSvaMesta;
 import so.SOVratiSveProizvode;
 import so.SOVratiSveZaposlene;
@@ -131,5 +140,41 @@ public class Kontroler {
         SOVratiSveProizvode so = new SOVratiSveProizvode(proizvod);
         so.izvrsenjeSO();
         return so.getListaProizvoda();
+    }
+
+    public Racun kreirajRacun(Racun racun) throws Exception {
+        SOKreirajRacun so = new SOKreirajRacun(racun);
+        so.izvrsenjeSO();
+        return (Racun) so.getOpstiDomenskiObjekat();
+    }
+
+    public Racun stornirajRacun(Racun racun) throws Exception {
+        SOStornirajRacun so = new SOStornirajRacun(racun);
+        so.izvrsenjeSO();
+        return (Racun) so.getOpstiDomenskiObjekat();
+    }
+
+    public ArrayList<Racun> pretraziRacune(Racun racun) throws Exception {
+        SOPretraziRacune so = new SOPretraziRacune(racun);
+        so.izvrsenjeSO();
+        return so.getListaRacuna();
+    }
+
+    public ArrayList<StavkaRacuna> pretraziStavkeRacuna(Racun racun) throws Exception {
+        SOPretraziStavkeRacuna so = new SOPretraziStavkeRacuna(racun);
+        so.izvrsenjeSO();
+        return so.getListaStavki();
+    }
+
+    public Proizvod pretraziProizvod(Proizvod proizvod) throws Exception {
+        SOPretraziProizvod so = new SOPretraziProizvod(proizvod);
+        so.izvrsenjeSO();
+        return (Proizvod) so.getOpstiDomenskiObjekat();
+    }
+
+    public Racun izmeniRacun(Racun racun) throws Exception {
+        SOIzmeniRacun so = new SOIzmeniRacun(racun);
+        so.izvrsenjeSO();
+        return (Racun) so.getOpstiDomenskiObjekat();
     }
 }

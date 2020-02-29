@@ -7,6 +7,7 @@ package kontroler;
 
 import domen.Mesto;
 import domen.Proizvod;
+import domen.Racun;
 import domen.Zaposleni;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class KontrolerGUI {
         return instanca;
     }
 
+    //Metode vezane za klasu Zaposleni
     public Zaposleni prijaviZaposlenog(String username, String password) throws SQLException, Exception {
         Zaposleni zaposleni = new Zaposleni();
         zaposleni.setUsername(username);
@@ -69,19 +71,6 @@ public class KontrolerGUI {
 
         return true;
     }
-//
-//    public ArrayList<Proizvod> pretraziProizvode(String nazivProizvoda) throws SQLException{
-//        return (ArrayList<Proizvod>) servisProizvod.pretraziProizvode(nazivProizvoda);
-//    }
-//
-//    public boolean kreirajNoviProizvod(Proizvod proizvod) throws SQLException{
-//        return servisProizvod.kreirajNoviProizvod(proizvod);
-//    }
-//
-//    public Zaposleni getUlogovaniZaposleni() {
-//        return ulogovaniZaposleni;
-//    }
-//
 
     public ArrayList<Zaposleni> vratiSveZaposlene() throws SQLException, Exception {
         ArrayList<Zaposleni> listaZaposlenih = new ArrayList<>();
@@ -98,7 +87,6 @@ public class KontrolerGUI {
 
         return listaZaposlenih;
     }
-//
 
     public ArrayList<Mesto> vratiSvaMesta() throws SQLException, Exception {
         ArrayList<Mesto> listaMesta = new ArrayList<>();
@@ -116,7 +104,7 @@ public class KontrolerGUI {
         return listaMesta;
     }
 
-    public Zaposleni kreirajNovogZaposlenog(Zaposleni zaposleni) throws SQLException, Exception {
+    public Zaposleni kreirajZaposlenog(Zaposleni zaposleni) throws SQLException, Exception {
 
         KlijentskiZahtev zahtev = new KlijentskiZahtev(Operacija.KREIRAJ_ZAPOSLENOG, zaposleni);
 
@@ -130,57 +118,17 @@ public class KontrolerGUI {
         return (Zaposleni) odgovor.getObject();
 
     }
-//
-//    public boolean obrisiProizvod(Proizvod odabraniProizvod) {
-//        return servisProizvod.obrisiProizvod(odabraniProizvod);
-//    }
-//
-//    public boolean izmeniProizvod(Proizvod proizvod) {
-//        return servisProizvod.zapamtiProizvod(proizvod);
-//    }
-//
-//    public ArrayList<Proizvod> vratiSveProizvode() {
-//        return servisProizvod.vratiProizvode();
-//    }
-//
-//    public Racun sacuvajRacun(Racun racun) {
-//        return servisRacun.kreirajNoviRacun(racun);
-//    }
-//
-//    public ArrayList<Racun> pretraziRacune(Zaposleni zaposleni) {
-//        ArrayList<Racun> listaRacuna = new ArrayList<>();
-//        try {
-//            listaRacuna = (ArrayList<Racun>)(servisRacun.pretraziRacune(zaposleni));
-//        } catch (SQLException ex) {
-//            Logger.getLogger(KontrolerGUI.class.getName()).log(Level.SEVERE, null, ex);
-//        }finally{
-//            return listaRacuna;
-//        }
-//    }
-//
-//    public boolean stornirajRacun(Racun racun) {
-//        return servisRacun.stornirajRacun(racun);
-//    }
-//
-//    public boolean izmeniRacun(Racun racun) {
-//        try {
-//            servisRacun.izmeniRacun(racun);
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//            return false;
-//        }
-//        return true;
-//    }
 
     public Zaposleni getUlogovaniZaposleni() {
         return ulogovaniZaposleni;
     }
 
+    //Metode vezane za klasu Proizvod
     public ArrayList<Proizvod> pretraziProizvode(String nazivProizvoda) throws Exception {
 
         Proizvod proizvod = new Proizvod();
         proizvod.setNaziv(nazivProizvoda);
-        
+
         KlijentskiZahtev zahtev = new KlijentskiZahtev(Operacija.PRETRAZI_PROIZVODE, proizvod);
         Komunikator.getInstance().posaljiZahtev(zahtev);
 
@@ -188,7 +136,7 @@ public class KontrolerGUI {
         if (odgovor.getStatus() == Status.NEUSPESNO) {
             throw new Exception(odgovor.getPoruka());
         }
-        
+
         return (ArrayList<Proizvod>) odgovor.getObject();
 
     }
@@ -196,46 +144,94 @@ public class KontrolerGUI {
     public boolean izmeniProizvod(Proizvod proizvod) throws Exception {
         KlijentskiZahtev zahtev = new KlijentskiZahtev(Operacija.IZMENI_PROIZVOD, proizvod);
         Komunikator.getInstance().posaljiZahtev(zahtev);
-        
+
         ServerskiOdgovor odgovor = Komunikator.getInstance().primiOdgovor();
-        if(odgovor.getStatus() == Status.USPESNO)
+        if (odgovor.getStatus() == Status.USPESNO) {
             return true;
-        else
+        } else {
             throw new Exception(odgovor.getPoruka());
+        }
     }
 
     public Proizvod kreirajNoviProizvod(Proizvod proizvod) throws Exception {
         KlijentskiZahtev zahtev = new KlijentskiZahtev(Operacija.KREIRAJ_PROIZVOD, proizvod);
         Komunikator.getInstance().posaljiZahtev(zahtev);
-        
+
         ServerskiOdgovor odgovor = Komunikator.getInstance().primiOdgovor();
-        if(odgovor.getStatus() == Status.USPESNO)
+        if (odgovor.getStatus() == Status.USPESNO) {
             return (Proizvod) odgovor.getObject();
-        else
+        } else {
             throw new Exception(odgovor.getPoruka());
+        }
     }
 
-    public boolean obrisiProizvod(Proizvod odabraniProizvod) {
+    public boolean obrisiProizvod(Proizvod odabraniProizvod) throws Exception {
         KlijentskiZahtev zahtev = new KlijentskiZahtev(Operacija.OBRISI_PROIZVOD, odabraniProizvod);
         Komunikator.getInstance().posaljiZahtev(zahtev);
-        
+
         ServerskiOdgovor odgovor = Komunikator.getInstance().primiOdgovor();
-        if(odgovor.getStatus() == Status.USPESNO)
+        if (odgovor.getStatus() == Status.USPESNO) {
             return true;
-        return false;
+        }else{
+            throw new Exception(odgovor.getPoruka());
+        }
     }
 
     public ArrayList<Proizvod> vratiSveProizvode() throws Exception {
         KlijentskiZahtev zahtev = new KlijentskiZahtev(Operacija.DAJ_SVE_PROIZVODE, new Proizvod());
         Komunikator.getInstance().posaljiZahtev(zahtev);
+
+        ServerskiOdgovor odgovor = Komunikator.getInstance().primiOdgovor();
+        if (odgovor.getStatus() == Status.NEUSPESNO) {
+            throw new Exception(odgovor.getPoruka());
+        } else {
+            return (ArrayList<Proizvod>) odgovor.getObject();
+        }
+
+    }
+
+    //Metode vezane za klasu Racun
+    public Racun kreirajRacun(Racun racun) throws Exception {
+        KlijentskiZahtev zahtev = new KlijentskiZahtev(Operacija.KREIRAJ_RACUN, racun);
+        Komunikator.getInstance().posaljiZahtev(zahtev);
+
+        ServerskiOdgovor odgovor = Komunikator.getInstance().primiOdgovor();
+        if (odgovor.getStatus() == Status.NEUSPESNO) {
+            throw new Exception(odgovor.getPoruka());
+        } else {
+            return (Racun) odgovor.getObject();
+        }
+    }
+
+    public boolean stornirajRacun(Racun racun) {
+        KlijentskiZahtev zahtev = new KlijentskiZahtev(Operacija.STORNIRAJ_RACUN, racun);
+        Komunikator.getInstance().posaljiZahtev(zahtev);
         
         ServerskiOdgovor odgovor = Komunikator.getInstance().primiOdgovor();
-        if(odgovor.getStatus() == Status.NEUSPESNO)
-            throw new Exception(odgovor.getPoruka());
-        else
-            return (ArrayList<Proizvod>) odgovor.getObject();
+        return (odgovor.getStatus() == Status.USPESNO);
             
+    }
+
+    public ArrayList<Racun> pretraziRacune(Racun racun) {
+        KlijentskiZahtev zahtev = new KlijentskiZahtev(Operacija.PRETRAZI_RACUNE, racun);
+        Komunikator.getInstance().posaljiZahtev(zahtev);
         
+        ServerskiOdgovor odgovor = Komunikator.getInstance().primiOdgovor();
+        if(odgovor.getStatus() == Status.USPESNO)
+            return (ArrayList<Racun>) odgovor.getObject();
+        else
+            return null;
+    }
+
+    public boolean izmeniRacun(Racun racun) {
+        KlijentskiZahtev zahtev = new KlijentskiZahtev(Operacija.IZMENI_RACUN, racun);
+        Komunikator.getInstance().posaljiZahtev(zahtev);
+        
+        ServerskiOdgovor odgovor = Komunikator.getInstance().primiOdgovor();
+        if(odgovor.getStatus() == Status.USPESNO)
+            return true;
+        else
+            return false;
     }
 
 }

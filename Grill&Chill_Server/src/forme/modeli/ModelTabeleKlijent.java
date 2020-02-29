@@ -50,7 +50,7 @@ public class ModelTabeleKlijent extends AbstractTableModel {
             case 1:
                 return klijent.getSocket().getInetAddress().getHostName();
             case 2:
-                return sdf.format(klijent.getVreme());
+                return klijent.getVreme();
             default:
                 return "n/a";
         }

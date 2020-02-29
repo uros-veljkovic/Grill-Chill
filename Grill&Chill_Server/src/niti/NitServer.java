@@ -8,6 +8,7 @@ package niti;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Date;
 import kontroler.Kontroler;
@@ -34,7 +35,9 @@ public class NitServer extends Thread{
             
             while(!isInterrupted()){
                 Socket socket = serverSocket.accept();
-                NitKlijenta klijent = new NitKlijenta(socket, Kontroler.getInstance().getListaKlijenata().size() + 1, new Date());
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                String vreme = sdf.format(new Date());
+                NitKlijenta klijent = new NitKlijenta(socket, Kontroler.getInstance().getListaKlijenata().size() + 1, vreme);
                 klijent.start();
                 System.out.println("Klijent se povezao");
                 Kontroler.getInstance().dodajKlijenta(klijent);

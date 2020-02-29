@@ -7,6 +7,7 @@ package domen;
 
 import java.io.Serializable;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,29 +15,31 @@ import java.util.Objects;
  *
  * @author urosv
  */
-public class StavkaRacuna implements OpstiDomenskiObjekat{
-    
+public class StavkaRacuna implements OpstiDomenskiObjekat {
+
     private int racunID;
     private int stavkaID;
     private int kolicina;
     //TODO: izmeniti naziv atributa prodajnaCena u ukupanIznos
     private double ukupanIznos;
     private Proizvod proizvod;
+    private StatusStavke status;
 
     public StavkaRacuna() {
     }
+
     public StavkaRacuna(int racunID, int stavkaID, int kolicina, Proizvod proizvod) {
         this.racunID = racunID;
         this.stavkaID = stavkaID;
         this.kolicina = kolicina;
-        this.ukupanIznos = kolicina*proizvod.getCena();
+        this.ukupanIznos = kolicina * proizvod.getCena();
         this.proizvod = proizvod;
     }
-    
 
     public int getRacunID() {
         return racunID;
     }
+
     public void setRacunID(int racunID) {
         this.racunID = racunID;
     }
@@ -44,6 +47,7 @@ public class StavkaRacuna implements OpstiDomenskiObjekat{
     public int getStavkaID() {
         return stavkaID;
     }
+
     public void setStavkaID(int stavkaID) {
         this.stavkaID = stavkaID;
     }
@@ -51,6 +55,7 @@ public class StavkaRacuna implements OpstiDomenskiObjekat{
     public int getKolicina() {
         return kolicina;
     }
+
     public void setKolicina(int kolicina) {
         this.kolicina = kolicina;
     }
@@ -58,6 +63,7 @@ public class StavkaRacuna implements OpstiDomenskiObjekat{
     public double getUkupanIznos() {
         return ukupanIznos;
     }
+
     public void setUkupanIznos(double ukupanIznos) {
         this.ukupanIznos = ukupanIznos;
     }
@@ -65,14 +71,24 @@ public class StavkaRacuna implements OpstiDomenskiObjekat{
     public Proizvod getProizvod() {
         return proizvod;
     }
+
     public void setProizvod(Proizvod proizvod) {
         this.proizvod = proizvod;
+    }
+
+    public StatusStavke getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusStavke status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
         return proizvod.toString();
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -104,7 +120,7 @@ public class StavkaRacuna implements OpstiDomenskiObjekat{
 
     @Override
     public String vratiAtributeZaInsert() {
-        return "(StavkaID, RacunID, Kolicina, Proizvod, UkupanIznos)";
+        return "INSERT INTO stavkaRacuna (StavkaID, RacunID, Kolicina, Proizvod, UkupanIznos, StatusStavke)";
     }
 
     @Override
@@ -114,7 +130,8 @@ public class StavkaRacuna implements OpstiDomenskiObjekat{
                 + this.getRacunID() + ","
                 + this.getKolicina() + ","
                 + this.getProizvod().getProizvodID() + ","
-                + this.getUkupanIznos()
+                + this.getUkupanIznos() + ","
+                + "'" + this.getStatus() + "'"
                 + ")";
     }
 
@@ -127,6 +144,7 @@ public class StavkaRacuna implements OpstiDomenskiObjekat{
     public String vratiID() {
         return String.valueOf(this.getStavkaID());
     }
+
     @Override
     public void postaviObjektaID(int id) {
         this.racunID = id;
@@ -136,7 +154,6 @@ public class StavkaRacuna implements OpstiDomenskiObjekat{
     public OpstiDomenskiObjekat ucitajJedan(ResultSet rs) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
     @Override
     public String dajSelectJedan() {
@@ -155,22 +172,35 @@ public class StavkaRacuna implements OpstiDomenskiObjekat{
 
     @Override
     public String dajWhereSvi() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "WHERE RacunID = " + racunID;
     }
 
     @Override
     public String dajSelectSvi() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "SELECT *";
     }
 
     @Override
     public String dajFromSvi() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "FROM stavkaRacuna";
     }
 
     @Override
-    public List<OpstiDomenskiObjekat>  ucitajSve(ResultSet rs) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<OpstiDomenskiObjekat> ucitajSve(ResultSet rs) throws Exception {
+        ArrayList<OpstiDomenskiObjekat> listaStavkaRacuna = new ArrayList<>();
+
+        while (rs.next()) {
+            int stavkaID = rs.getInt("StavkaID");
+            int racunID = rs.getInt("RacunID");
+            int kolicina = rs.getInt("Kolicina");
+            int proizvodID = rs.getInt("Proizvod");
+
+            StavkaRacuna stavkaRacuna = new StavkaRacuna(racunID, stavkaID, kolicina,
+                    new Proizvod(proizvodID, null, null, 0.0, null));
+
+            listaStavkaRacuna.add(stavkaRacuna);
+        }
+        return listaStavkaRacuna;
     }
 
     @Override
@@ -180,32 +210,51 @@ public class StavkaRacuna implements OpstiDomenskiObjekat{
 
     @Override
     public String vratiParametreDelete() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "DELETE FROM stavkaracuna";
     }
 
     @Override
     public String vratiVrednostiDelete() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "WHERE RacunID = " + racunID + " AND StavkaID = " + stavkaID;
     }
 
     @Override
     public String dajUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "UPDATE stavkaracuna";
     }
 
     @Override
     public String dajSet() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "SET "
+                + "StavkaID = " + stavkaID + ","
+                + "Kolicina = " + kolicina + ","
+                + "UkupanIznos = " + ukupanIznos + ","
+                + "StatusStavke = " + "'" + status + "'";
     }
 
     @Override
     public String dajUslovZaUpdate() {
+        return "WHERE Proizvod = " + proizvod.getProizvodID() + " AND RacunID = " + racunID;
+    }
+
+    @Override
+    public String vratiMaxID() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
 
+    @Override
+    public String dajSelectMax() {
+        return "SELECT MAX(StavkaID) AS MAX";
+    }
 
-    
-    
+    @Override
+    public String dajFromMax() {
+        return "FROM stavkaRacuna";
+    }
+
+    @Override
+    public String dajWhereMax() {
+        return "WHERE RacunID = " + racunID;
+    }
+
 }

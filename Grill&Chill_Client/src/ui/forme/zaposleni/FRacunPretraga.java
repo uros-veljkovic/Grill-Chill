@@ -8,7 +8,7 @@ package ui.forme.zaposleni;
 import com.sun.java.swing.plaf.windows.resources.windows;
 import domen.Racun;
 import domen.Zaposleni;
-import hint.HintTextFieldUI;
+import ui.hint.HintTextFieldUI;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -169,31 +169,34 @@ public class FRacunPretraga extends javax.swing.JDialog {
 
     private void jbtnPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPretraziActionPerformed
 
-//        String zaposleniID = jtxtKreiraoZaposleni.getText();
-//
-//        if (!zaposleniID.isEmpty()) {
-//            Zaposleni zaposleni = new Zaposleni(Integer.parseInt(zaposleniID), null, null, null, false, null);
-//            ArrayList<Racun> lista = KontrolerGUI.getInstanca().pretraziRacune(zaposleni);
-//
-//            if (!lista.isEmpty()) {
-//                popuniTabelu(lista);
-//                JOptionPane.showMessageDialog(this, "Sistem je pronasao racune po zadatoj vrednosti.");
-//            } else {
-//                JOptionPane.showMessageDialog(this, "Sistem nije uspeo da pronadje racune po zadatoj vrednosti.");
-//                isprazniTabelu();
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Unesite vrednost ID-a za zaposlenog.");
-//        }
-//
+        String zaposleniID = jtxtKreiraoZaposleni.getText();
+
+        if (!zaposleniID.isEmpty()) {
+            Zaposleni zaposleni = new Zaposleni(Integer.parseInt(zaposleniID), null, null, null, false, null);
+            Racun racun = new Racun();
+            racun.setKreiraoZaposleni(zaposleni);
+
+            ArrayList<Racun> lista = KontrolerGUI.getInstanca().pretraziRacune(racun);
+
+            if (lista == null || lista.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje racune po zadatoj vrednosti.");
+                isprazniTabelu();
+            } else {
+                popuniTabelu(lista);
+                JOptionPane.showMessageDialog(this, "Sistem je nasao racune po zadatoj vrednosti.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Unesite vrednost ID-a za zaposlenog.");
+        }
+
 
     }//GEN-LAST:event_jbtnPretraziActionPerformed
 
     private void jbtnPrikaziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPrikaziActionPerformed
         ModelTabeleRacunPretraga mt = (ModelTabeleRacunPretraga) jtblRacun.getModel();
         Racun racun = mt.getRacun(jtblRacun.getSelectedRow());
-        
-        FRacun fRacun = new FRacun(null, true, ModeForm.FORM_PRETRAZI, racun);
+
+        FRacun fRacun = new FRacun(null, true, this.mode, racun); //OVDE BILA IZMENA
         fRacun.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jbtnPrikaziActionPerformed

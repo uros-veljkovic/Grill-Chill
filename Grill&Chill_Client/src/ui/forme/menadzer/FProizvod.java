@@ -260,22 +260,23 @@ public class FProizvod extends javax.swing.JDialog {
     }//GEN-LAST:event_jbtnOmoguciIzmenuActionPerformed
 
     private void jbtnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSacuvajActionPerformed
-        String naziv = jtxtNazivProizvoda.getText();
-        String opis = jtxtOpis.getText();
-        double cena = Double.parseDouble(jtxtCena.getText());
-        MernaJedinica mernaJedinica = (MernaJedinica) jcmbMernaJedinica.getSelectedItem();
-        //Umeso -1 staviti odabraniProizvod.getProizvodID();
-        Proizvod proizvod = new Proizvod(-1, naziv, opis, cena, mernaJedinica);
 
         try {
+            String naziv = jtxtNazivProizvoda.getText();
+            String opis = jtxtOpis.getText();
+            double cena = Double.parseDouble(jtxtCena.getText());
+            MernaJedinica mernaJedinica = (MernaJedinica) jcmbMernaJedinica.getSelectedItem();
+            Proizvod proizvod = new Proizvod(-1, naziv, opis, cena, mernaJedinica);
             proizvod = KontrolerGUI.getInstanca().kreirajNoviProizvod(proizvod);
             if (proizvod.getProizvodID() > 0) {
-                JOptionPane.showMessageDialog(this, "Sistem je kreirao proizvod.");
-                jtxtProizvodID.setText(proizvod.getProizvodID()+"");
+                JOptionPane.showMessageDialog(this, "Sistem je zapamtio proizvod.");
+                jtxtProizvodID.setText(proizvod.getProizvodID() + "");
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira proizvod.");
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti proizvod.");
+            Logger.getLogger(FProizvod.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da zapamti proizvod.");
             Logger.getLogger(FProizvod.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -285,38 +286,38 @@ public class FProizvod extends javax.swing.JDialog {
     private void jbtnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnObrisiActionPerformed
         boolean obrisan;
 
-        obrisan = KontrolerGUI.getInstanca().obrisiProizvod(odabraniProizvod);
-        if (obrisan) {
+        try {
+            obrisan = KontrolerGUI.getInstanca().obrisiProizvod(odabraniProizvod);
             JOptionPane.showMessageDialog(this, "Sistem je obrisao proizvod.");
             obrisiPodatkeSaForme();
             this.setVisible(false);
             odabraniProizvod = null;
-        } else {
-            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da obrise proizvod.");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
-
-
     }//GEN-LAST:event_jbtnObrisiActionPerformed
 
     private void jbtnIzmeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIzmeniActionPerformed
-        String naziv = jtxtNazivProizvoda.getText();
-        String opis = jtxtOpis.getText();
-        double cena = Double.parseDouble(jtxtCena.getText());
-        MernaJedinica mernaJedinica = (MernaJedinica) jcmbMernaJedinica.getSelectedItem();
-        int id = Integer.parseInt(jtxtProizvodID.getText());
-
-        Proizvod proizvod = new Proizvod(id, naziv, opis, cena, mernaJedinica);
 
         boolean izmenjen;
         try {
+            String naziv = jtxtNazivProizvoda.getText();
+            String opis = jtxtOpis.getText();
+            double cena = Double.parseDouble(jtxtCena.getText());
+            MernaJedinica mernaJedinica = (MernaJedinica) jcmbMernaJedinica.getSelectedItem();
+            int id = Integer.parseInt(jtxtProizvodID.getText());
+
+            Proizvod proizvod = new Proizvod(id, naziv, opis, cena, mernaJedinica);
             izmenjen = KontrolerGUI.getInstanca().izmeniProizvod(proizvod);
             if (izmenjen) {
-                JOptionPane.showMessageDialog(this, "Sistem je uspeo da izmeni proizvod.");
+                JOptionPane.showMessageDialog(this, "Sistem je izmenio proizvod.");
             } else {
-                JOptionPane.showMessageDialog(this, "Sistem nije uspeo da izmeni proizvod.");
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da izmeni proizvod.");
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da izmeni proizvod");
+            ex.printStackTrace();
+            return;
         }
 
 

@@ -22,9 +22,11 @@ import ui.modeli.ModelTabeleProizvod;
  * @author urosv
  */
 public class FProizvodPretraga extends javax.swing.JDialog {
+
     ModeForm mode;
     ArrayList<Proizvod> listaProizvoda;
     Proizvod odabranProizvod;
+
     /**
      * Creates new form FProizvodPretraga
      */
@@ -32,7 +34,7 @@ public class FProizvodPretraga extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         pripremiFormu(mode);
-        
+
     }
 
     /**
@@ -146,31 +148,36 @@ public class FProizvodPretraga extends javax.swing.JDialog {
         //Da li sam u liniji ispod morao da kazem da je parent null ?
         ModelTabeleProizvod mtp = (ModelTabeleProizvod) jtblPronadjeniProizvodi.getModel();
         odabranProizvod = mtp.vratiOdabraniProizvod(jtblPronadjeniProizvodi.getSelectedRow());
-        
-        FProizvod formaProizvod = new FProizvod((Frame)SwingUtilities.getWindowAncestor(this), true, mode, odabranProizvod);
+
+        FProizvod formaProizvod = new FProizvod((Frame) SwingUtilities.getWindowAncestor(this), true, mode, odabranProizvod);
         this.dispose();
         formaProizvod.setVisible(true);
     }//GEN-LAST:event_jbtnPrikaziDetaljeActionPerformed
 
     private void jbtnPretraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnPretraziActionPerformed
         String nazivProizvoda = jtxtVrednostZaPretragu.getText();
-        
+
         try {
             listaProizvoda = KontrolerGUI.getInstanca().pretraziProizvode(nazivProizvoda);
             ModelTabeleProizvod mtp = (ModelTabeleProizvod) jtblPronadjeniProizvodi.getModel();
             mtp.postaviProizvode(listaProizvoda);
-            
-            JOptionPane.showMessageDialog(this, "Sistem je uspeo da pronadje proizvode po zadatom kriterijumu.");
+
+            if (listaProizvoda == null || listaProizvoda.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje proizvode po zadatoj vrednosti.");
+                return;
+            }
+            JOptionPane.showMessageDialog(this, "Sistem je nasao proizvode po zadatoj vrednosti.");
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje proizvode po zadatoj vrednosti.");
+            ex.printStackTrace();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da nadje proizvode po zadatoj vrednosti.");
+            ex.printStackTrace();
         }
         ModelTabeleProizvod mtp = (ModelTabeleProizvod) jtblPronadjeniProizvodi.getModel();
         mtp.postaviProizvode(listaProizvoda);
-        
-    }//GEN-LAST:event_jbtnPretraziActionPerformed
 
+    }//GEN-LAST:event_jbtnPretraziActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

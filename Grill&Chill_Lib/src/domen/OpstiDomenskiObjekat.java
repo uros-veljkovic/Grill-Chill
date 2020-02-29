@@ -22,6 +22,7 @@ public interface OpstiDomenskiObjekat extends Serializable{
     String vratiVrednostiDelete();
     String vratiUslovZaNadjiSlog();
     String vratiID();
+    String vratiMaxID();
     
     String dajSelectJedan();
     String dajFromJedan();
@@ -34,6 +35,10 @@ public interface OpstiDomenskiObjekat extends Serializable{
     String dajUpdate();
     String dajSet();
     String dajUslovZaUpdate();
+    
+    String dajSelectMax();
+    String dajFromMax();
+    String dajWhereMax();
     
     void postaviObjektaID(int id);
     boolean jesteAutoIncrement();

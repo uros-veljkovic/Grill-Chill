@@ -21,5 +21,9 @@ public interface Operacija {
     static final int KREIRAJ_PROIZVOD = 8;
     static final int OBRISI_PROIZVOD = 9;
     static final int DAJ_SVE_PROIZVODE = 10;
+    static final int KREIRAJ_RACUN = 11;
+    static final int STORNIRAJ_RACUN = 12;
+    static final int PRETRAZI_RACUNE = 13;
+    static final int IZMENI_RACUN = 14;
 
 }

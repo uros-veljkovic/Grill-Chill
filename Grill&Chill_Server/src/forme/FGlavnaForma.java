@@ -6,9 +6,13 @@
 package forme;
 
 import forme.modeli.ModelTabeleKlijent;
+import javax.swing.JOptionPane;
+import konstante.DatabaseConsts;
 import kontroler.Kontroler;
 import niti.NitKlijenta;
+import niti.NitSat;
 import niti.NitServer;
+import util.SettingsLoader;
 
 /**
  *
@@ -17,12 +21,16 @@ import niti.NitServer;
 public class FGlavnaForma extends javax.swing.JFrame {
 
     private NitServer nitServer;
+    private NitSat nitSat;
+
     /**
      * Creates new form FGlavnaForma
      */
     public FGlavnaForma() {
         initComponents();
         srediTabelu();
+        popuniCmbDatabase();
+        disableProperties(false);
         proslediSeKontroleru();
         this.setLocationRelativeTo(null);
         this.pack();
@@ -41,16 +49,24 @@ public class FGlavnaForma extends javax.swing.JFrame {
         jtxtStatusServera = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblKlijenti = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jlblTrenutnoVreme = new javax.swing.JLabel();
+        jpnlProperties = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jtxtDatabaseName = new javax.swing.JTextField();
+        jbtnIzmeni = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jcmbDbms = new javax.swing.JComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmenuServer = new javax.swing.JMenu();
         jmiStart = new javax.swing.JMenuItem();
         jmiStop = new javax.swing.JMenuItem();
+        jmenuEdit = new javax.swing.JMenu();
+        jmiProperties = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("STATUS SERVERA :");
-
-        jtxtStatusServera.setText("[jtxtStatusServera]");
 
         jtblKlijenti.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -64,6 +80,55 @@ public class FGlavnaForma extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(jtblKlijenti);
+
+        jLabel2.setText("TRENUTNO VREME: ");
+
+        jpnlProperties.setBorder(javax.swing.BorderFactory.createTitledBorder("Properties"));
+
+        jLabel3.setText("Database name: ");
+
+        jbtnIzmeni.setText("Izmeni");
+        jbtnIzmeni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnIzmeniActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("DBMS:");
+
+        jcmbDbms.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout jpnlPropertiesLayout = new javax.swing.GroupLayout(jpnlProperties);
+        jpnlProperties.setLayout(jpnlPropertiesLayout);
+        jpnlPropertiesLayout.setHorizontalGroup(
+            jpnlPropertiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnlPropertiesLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jpnlPropertiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpnlPropertiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jtxtDatabaseName)
+                    .addComponent(jcmbDbms, 0, 130, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbtnIzmeni)
+                .addContainerGap())
+        );
+        jpnlPropertiesLayout.setVerticalGroup(
+            jpnlPropertiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpnlPropertiesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpnlPropertiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jbtnIzmeni)
+                    .addComponent(jtxtDatabaseName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jpnlPropertiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jcmbDbms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
 
         jmenuServer.setText("Server");
 
@@ -85,6 +150,18 @@ public class FGlavnaForma extends javax.swing.JFrame {
 
         jMenuBar1.add(jmenuServer);
 
+        jmenuEdit.setText("Edit");
+
+        jmiProperties.setText("Properties");
+        jmiProperties.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiPropertiesActionPerformed(evt);
+            }
+        });
+        jmenuEdit.add(jmiProperties);
+
+        jMenuBar1.add(jmenuEdit);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -94,44 +171,108 @@ public class FGlavnaForma extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jtxtStatusServera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
+                            .addComponent(jpnlProperties, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxtStatusServera, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jlblTrenutnoVreme, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jlblTrenutnoVreme, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jtxtStatusServera))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jtxtStatusServera, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(jpnlProperties, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jmiStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiStartActionPerformed
-        if(nitServer == null || !nitServer.isAlive()){
+        if (nitServer == null || !nitServer.isAlive()) {
             nitServer = new NitServer();
+            nitSat = new NitSat(this);
             nitServer.start();
+            nitSat.start();
             jmiStart.setEnabled(false);
-            jtxtStatusServera.setText("Server je pokrenut.");
+            jmenuEdit.setEnabled(false);
+            disableProperties(true);
+            jtxtStatusServera.setText("Server je pokrenut na portu " + SettingsLoader.getInstance().getValue("port"));
         }
     }//GEN-LAST:event_jmiStartActionPerformed
 
     private void jmiStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiStopActionPerformed
-        if(nitServer != null && nitServer.isAlive()){
+        if (nitServer != null && nitServer.isAlive()) {
             nitServer.interrupt();
             jmiStart.setEnabled(true);
+            disableProperties(true);
+            jmenuEdit.setEnabled(true);
             jtxtStatusServera.setText("Server je zaustavljen.");
         }
     }//GEN-LAST:event_jmiStopActionPerformed
+
+    private void jmiPropertiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPropertiesActionPerformed
+        disableProperties(false);
+    }//GEN-LAST:event_jmiPropertiesActionPerformed
+
+    private void jbtnIzmeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIzmeniActionPerformed
+        String databaseName = jtxtDatabaseName.getText();
+        if (databaseName.length() == 0) {
+            JOptionPane.showMessageDialog(this, "Unesite naziv baze.");
+            return;
+        }
+
+        String subp = (String) jcmbDbms.getSelectedItem();
+
+        switch (subp) {
+            case DatabaseConsts.DATABASE_MYSQL:
+                try {
+                    SettingsLoader.getInstance().setValue("driver", "com.mysql.jdbc.Driver");
+                    SettingsLoader.getInstance().setValue("url", "jdbc:mysql://localhost:3306/" + databaseName);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Neuspesna izmena fajla.");
+                    return;
+                }
+                JOptionPane.showMessageDialog(this, "Naziv baze: " + databaseName + "\nSUBP: " + subp);
+                break;
+
+            case DatabaseConsts.DATABASE_MSACCESS:
+                try {
+                    SettingsLoader.getInstance().setValue("driver", "sun.jdbc.odbc.JdbcOdbcDriver");
+                    SettingsLoader.getInstance().setValue("url", "jdbc:odbc:" + databaseName);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Neuspesna izmena fajla.");
+                    return;
+                }
+                JOptionPane.showMessageDialog(this, "Naziv baze: " + databaseName + "\nSUBP: " + subp);
+                break;
+
+            default:
+                break;
+
+        }
+    }//GEN-LAST:event_jbtnIzmeniActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,16 +288,24 @@ public class FGlavnaForma extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FGlavnaForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FGlavnaForma.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FGlavnaForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FGlavnaForma.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FGlavnaForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FGlavnaForma.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FGlavnaForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FGlavnaForma.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -170,12 +319,22 @@ public class FGlavnaForma extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbtnIzmeni;
+    private javax.swing.JComboBox jcmbDbms;
+    private javax.swing.JLabel jlblTrenutnoVreme;
+    private javax.swing.JMenu jmenuEdit;
     private javax.swing.JMenu jmenuServer;
+    private javax.swing.JMenuItem jmiProperties;
     private javax.swing.JMenuItem jmiStart;
     private javax.swing.JMenuItem jmiStop;
+    private javax.swing.JPanel jpnlProperties;
     private javax.swing.JTable jtblKlijenti;
+    private javax.swing.JTextField jtxtDatabaseName;
     private javax.swing.JLabel jtxtStatusServera;
     // End of variables declaration//GEN-END:variables
 
@@ -187,10 +346,28 @@ public class FGlavnaForma extends javax.swing.JFrame {
     public void dodajKlijentaUTabelu(NitKlijenta klijent) {
         ModelTabeleKlijent mtk = (ModelTabeleKlijent) jtblKlijenti.getModel();
         mtk.dodajKlijentaUTabelu(klijent);
-        
+
     }
 
     private void proslediSeKontroleru() {
         Kontroler.getInstance().dodajFormu(this);
+    }
+
+    public void postaviVreme(String time) {
+        jlblTrenutnoVreme.setText(time);
+    }
+
+    private void disableProperties(boolean option) {
+        jpnlProperties.setVisible(!option);
+        jmenuEdit.setEnabled(!option);
+        this.pack();
+    }
+
+    private void popuniCmbDatabase() {
+        jcmbDbms.removeAllItems();
+
+        jcmbDbms.addItem(DatabaseConsts.DATABASE_MYSQL);
+        jcmbDbms.addItem(DatabaseConsts.DATABASE_MSACCESS);
+
     }
 }

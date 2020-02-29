@@ -10,7 +10,7 @@ import domen.Proizvod;
 import domen.Racun;
 import domen.StavkaRacuna;
 import domen.Zaposleni;
-import hint.HintTextFieldUI;
+import ui.hint.HintTextFieldUI;
 import java.awt.GraphicsEnvironment;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,6 +48,7 @@ public class FRacun extends javax.swing.JDialog {
         postaviPocetneVrednosti();
         postaviUlogovanogZaposlenog();
         this.pack();
+        ispisiStavkeRacuna(); //TODO: obrisati
 
     }
 
@@ -62,6 +63,7 @@ public class FRacun extends javax.swing.JDialog {
         popuniPodatkeORacunu(racunZaPrikaz);
         this.pack();
         this.setLocationRelativeTo(null);
+        ispisiStavkeRacuna(); //TODO: obrisati
     }
 
     /**
@@ -164,7 +166,7 @@ public class FRacun extends javax.swing.JDialog {
             .addGroup(jpnlRacunLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jpnlRacunLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 753, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 865, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpnlRacunLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel7)
@@ -271,7 +273,7 @@ public class FRacun extends javax.swing.JDialog {
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jlblMernaJedinica)
-                        .addGap(0, 429, Short.MAX_VALUE))
+                        .addGap(0, 468, Short.MAX_VALUE))
                     .addGroup(jpnlInfoOProizvoduLayout.createSequentialGroup()
                         .addGroup(jpnlInfoOProizvoduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -292,7 +294,7 @@ public class FRacun extends javax.swing.JDialog {
                                 .addComponent(jScrollPane2)))))
                 .addContainerGap())
             .addGroup(jpnlInfoOProizvoduLayout.createSequentialGroup()
-                .addGap(191, 191, 191)
+                .addGap(245, 245, 245)
                 .addComponent(jbtnDodajStavku, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -324,7 +326,7 @@ public class FRacun extends javax.swing.JDialog {
                     .addGroup(jpnlInfoOProizvoduLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jbtnDodajStavku, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -389,24 +391,21 @@ public class FRacun extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jpnlProizvodi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jpnlRacun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())
+                    .addComponent(jpnlProizvodi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpnlRacun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(11, 11, 11)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jbtnOmoguciIzmenu, javax.swing.GroupLayout.PREFERRED_SIZE, 723, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jbtnOmoguciIzmenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jbtnStornirajRacun, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jbtnStornirajRacun, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(jbtnObrisiStavku)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(68, 68, 68)
                                 .addComponent(jbtnIzmeniRacun, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jbtnSacuvajRacun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addGap(18, 18, 18)
+                                .addComponent(jbtnSacuvajRacun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -458,9 +457,12 @@ public class FRacun extends javax.swing.JDialog {
         if (red >= 0) {
 
             ModelTabeleProizvod mtp = (ModelTabeleProizvod) jtblProizvodi.getModel();
-
             Proizvod proizvod = mtp.vratiOdabraniProizvod(red);
             int kolicina = Integer.valueOf(jtxtKolicina.getText());
+            if(kolicina <= 0){
+                JOptionPane.showMessageDialog(this, "Unesite kolicinu vecu od 0 !", "Greska", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             ModelTabeleRacun mtsr = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
             mtsr.dodajStavku(proizvod, kolicina);
@@ -469,50 +471,62 @@ public class FRacun extends javax.swing.JDialog {
             jlblUkupanIznos.setText(ukupanIznos + "");
 
         }
+        ispisiStavkeRacuna();
     }//GEN-LAST:event_jbtnDodajStavkuActionPerformed
 
     private void jbtnObrisiStavkuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnObrisiStavkuActionPerformed
         int red = jtblStavkeRacuna.getSelectedRow();
-        if (red >= 0) {
-            ModelTabeleRacun modelStavka = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
-            modelStavka.obrisiStavku(red);
 
-            ukupanIznos = getUkupanIznos();
-            jlblUkupanIznos.setText(ukupanIznos + "");
+        if (red >= 0) {
+            ModelTabeleRacun mtr = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
+            mtr.obrisiStavku(red);
+            jlblUkupanIznos.setText(mtr.getRacun().getUkupanIznos() + "");
         }
+
+        ispisiStavkeRacuna(); //TODO: obrisati
     }//GEN-LAST:event_jbtnObrisiStavkuActionPerformed
 
     private void jbtnSacuvajRacunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSacuvajRacunActionPerformed
+        Racun racun = postaviVrednostiRacunaIzTabele();
+
+        racun.postaviStavkeNaNovo();
+        racun.setKreiraoZaposleni(ulogovaniZaposleni);
+        try {
+            postaviDatumIzrade(racun);
+            racun = KontrolerGUI.getInstanca().kreirajRacun(racun);
+
+            if (racun.getRacunID() == -1) {
+                JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira racun");
+                omoguciBtnSacuvajRacun(false);
+                omoguciBtnObrisiStavku(false);
+            } else {
+                jlblRacunID.setText(racun.getRacunID() + "");
+                JOptionPane.showMessageDialog(this, "Sistem je kreirao racun");
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira racun");
+        }
+    }//GEN-LAST:event_jbtnSacuvajRacunActionPerformed
+
+    public Racun postaviVrednostiRacunaIzTabele() {
         // TODO: Kada se klikne u ovo dugme, postavlja se zaposleni koji je kreirao racun kao i datum racuna u sam racun
         //pa se dalje sam racun prosledjuje do kontrolera...
-//        ModelTabeleRacun mtp = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
-//        Racun racun = mtp.getRacun();
-//
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy.");
-//        if (jtxtDatumKreiranja.getText().isEmpty()) {
-//            jtxtDatumKreiranja.setText(sdf.format(new Date()));
-//        }
-//
-//        racun.setKreiraoZaposleni(ulogovaniZaposleni);
-//        try {
-//            racun.setDatumIzrade(sdf.parse(jtxtDatumKreiranja.getText().trim()));
-//        } catch (ParseException ex) {
-//            Logger.getLogger(FRacun.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        racun.setRacunID(-1);
-//
-//        racun = KontrolerGUI.getInstanca().sacuvajRacun(racun);
-//
-//        if (racun.getRacunID() == -1) {
-//            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da sacuva racun");
-//            omoguciBtnSacuvajRacun(false);
-//            omoguciBtnObrisiStavku(false);
-//        } else {
-//            jLabel11.setText(jLabel11.getText() + " " + racun.getRacunID());
-//            JOptionPane.showMessageDialog(this, "Sistem je uspeo da kreira racun !");
-//        }
-//        this.dispose();
-    }//GEN-LAST:event_jbtnSacuvajRacunActionPerformed
+        ModelTabeleRacun mtp = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
+        Racun racun = mtp.getRacun();
+        return racun;
+    }
+
+    public void postaviDatumIzrade(Racun racun) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy.");
+        if (jtxtDatumKreiranja.getText().isEmpty()) {
+            jtxtDatumKreiranja.setText(sdf.format(new Date()));
+        }
+        try {
+            racun.setDatumIzrade(sdf.parse(jtxtDatumKreiranja.getText().trim()));
+        } catch (ParseException ex) {
+            throw ex;
+        }
+    }
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         this.dispose(); //TODO: Implementirati da se nakon zatvaranja prozra vratimo na pretrazivanje racuna
@@ -532,53 +546,70 @@ public class FRacun extends javax.swing.JDialog {
     }//GEN-LAST:event_jbtnOmoguciIzmenuActionPerformed
 
     private void jbtnStornirajRacunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnStornirajRacunActionPerformed
-//        int racunID = Integer.parseInt(jlblRacunID.getText());
-//        Racun racun = new Racun(racunID, null, null, 0, false, false, null);
-//        
-//        boolean uspesno = KontrolerGUI.getInstanca().stornirajRacun(racun);
-//        if(uspesno){
-//            JOptionPane.showMessageDialog(this, "Sistem je uspeo da stornira racun.");
-//        }else{
-//            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da stornira racun.");
-//        }
-//        
-//        omoguciPanelProizvodi(false);
-//        omoguciPanelRacun(false);
-//        omoguciIzmenuDatuma(false);
-//        omoguciBtnIzmeni(false);
-//        omoguciBtnObrisiStavku(false);
-//        omoguciBtnStornirajRacun(false);
-//        this.pack();
-//        this.setLocationRelativeTo(null);
+        int racunID = Integer.parseInt(jlblRacunID.getText().trim());
+        Racun racun = new Racun(racunID, null, null, 0, false, true, null);
+
+        boolean uspesno = KontrolerGUI.getInstanca().stornirajRacun(racun);
+        if (uspesno) {
+            JOptionPane.showMessageDialog(this, "Sistem je uspeo da stornira racun.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da stornira racun.");
+        }
+
+        omoguciPanelProizvodi(false);
+        omoguciPanelRacun(false);
+        omoguciIzmenuDatuma(false);
+        omoguciBtnIzmeni(false);
+        omoguciBtnObrisiStavku(false);
+        omoguciBtnStornirajRacun(false);
+        this.pack();
+        this.setLocationRelativeTo(null);
     }//GEN-LAST:event_jbtnStornirajRacunActionPerformed
 
     private void jbtnIzmeniRacunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnIzmeniRacunActionPerformed
-//        Racun racun = dajRacunIzTabele();
-//        boolean uspesno = KontrolerGUI.getInstanca().izmeniRacun(racun);
-//        if(uspesno){
-//            JOptionPane.showMessageDialog(this, "Sistem je uspesno izmenio racun.");
-//        }else{
-//            JOptionPane.showMessageDialog(this, "Sistem nije uspeo da izmeni racun.");
-//        }
+        Racun racun = null;
+        try {
+            racun = dajRacunIzTabele();
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da izmeni racun.");
+            Logger.getLogger(FRacun.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da izmeni racun.");
+            Logger.getLogger(FRacun.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+
+        racun.postaviIDSvimStavkama(racun.getRacunID());
+
+        boolean uspesno = KontrolerGUI.getInstanca().izmeniRacun(racun);
+        if (uspesno) {
+            JOptionPane.showMessageDialog(this, "Sistem je izmenio racun.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da izmeni racun.");
+        }
     }//GEN-LAST:event_jbtnIzmeniRacunActionPerformed
 
-    private Racun dajRacunIzTabele() throws NumberFormatException {
-//        int racunID = Integer.parseInt(jlblRacunID.getText());
-//        int racunKreirao = Integer.parseInt(jlblRacunKreirao.getText());
-//        Zaposleni zaposleni = new Zaposleni(racunID, "", "", "", false, null);
-//        double ukupanIznos = Double.parseDouble(jlblUkupanIznos.getText());
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
-//        Date datumIzrade = null;
-//        try {
-//            datumIzrade = sdf.parse(jtxtDatumKreiranja.getText());
-//        } catch (ParseException ex) {
-//            Logger.getLogger(FRacun.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        ModelTabeleRacun mtp = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
-//        ArrayList<StavkaRacuna> stavke = mtp.getStavkeRacuna();
-//        Racun racun = new Racun(racunID, zaposleni, datumIzrade, ukupanIznos, true, false, stavke);
-//        return racun;
-        return null;
+    private Racun dajRacunIzTabele() throws NumberFormatException, ParseException {
+
+        Racun racun = null;
+        int racunID = Integer.parseInt(jlblRacunID.getText());
+        int racunKreirao = Integer.parseInt(jlblRacunKreirao.getText());
+        Zaposleni zaposleni = new Zaposleni(racunKreirao, "", "", "", false, null);
+        double ukupanIznos = Double.parseDouble(jlblUkupanIznos.getText());
+        Date datumIzrade = null;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
+            datumIzrade = sdf.parse(jtxtDatumKreiranja.getText());
+        } catch (ParseException ex) {
+            throw ex;
+        }
+
+        ModelTabeleRacun mtp = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
+        ArrayList<StavkaRacuna> stavke = mtp.getStavkeRacuna();
+
+        racun = new Racun(racunID, zaposleni, datumIzrade, ukupanIznos, true, false, stavke);
+        return racun;
     }
 
 
@@ -707,6 +738,8 @@ public class FRacun extends javax.swing.JDialog {
         omoguciBtnStornirajRacun(true);
         omoguciBtnSacuvajRacun(false);
         omoguciBtnObrisiStavku(false);
+        omoguciBtnIzmeni(false);
+        omoguciBtnOmoguciIzmenu(false);
     }
 
     private void omoguciPanelProizvodi(boolean option) {
@@ -760,6 +793,16 @@ public class FRacun extends javax.swing.JDialog {
 
     private void omoguciPanelRacun(boolean b) {
         jpnlRacun.setEnabled(false);
+    }
+
+    private void ispisiStavkeRacuna() {
+        ModelTabeleRacun mtp = (ModelTabeleRacun) jtblStavkeRacuna.getModel();
+        Racun racun = mtp.getRacun();
+
+        System.out.println("");
+        for (StavkaRacuna s : racun.getStavke()) {
+            System.out.println(s.getProizvod().getNaziv() + " " + s.getStatus());
+        }
     }
 
 }

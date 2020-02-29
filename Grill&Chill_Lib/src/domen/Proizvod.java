@@ -134,22 +134,31 @@ public class Proizvod implements OpstiDomenskiObjekat {
 
     @Override
     public OpstiDomenskiObjekat ucitajJedan(ResultSet rs) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Proizvod proizvod = new Proizvod();
+        
+        if(rs.next()){
+            proizvod.setProizvodID(rs.getInt("ProizvodID"));
+            proizvod.setCena(rs.getDouble("Cena"));
+            proizvod.setOpis(rs.getString("Opis"));
+            proizvod.setNaziv(rs.getString("Naziv"));
+            proizvod.setMernaJedinica(MernaJedinica.valueOf(rs.getString("MernaJedinica")));
+        }
+        return proizvod;
     }
 
     @Override
     public String dajSelectJedan() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "SELECT *";
     }
 
     @Override
     public String dajFromJedan() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "FROM proizvod";
     }
 
     @Override
     public String dajWhereJedan() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "WHERE ProizvodID = " + proizvodID;
     }
 
     @Override
@@ -215,6 +224,26 @@ public class Proizvod implements OpstiDomenskiObjekat {
     @Override
     public String dajUslovZaUpdate() {
         return "WHERE ProizvodID = " + proizvodID;
+    }
+
+    @Override
+    public String vratiMaxID() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String dajSelectMax() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String dajFromMax() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String dajWhereMax() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -7,6 +7,7 @@ package util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -18,24 +19,27 @@ import javax.swing.JOptionPane;
  * @author urosv
  */
 public class SettingsLoader {
-    
+
     private static SettingsLoader instance;
     private Properties properties;
-    
-    private SettingsLoader(){
+    private FileInputStream fis;
+    private FileOutputStream fos;
+
+    private SettingsLoader() {
         loadProperties();
     }
-    
-    public static SettingsLoader getInstance(){
-        if(instance == null)
+
+    public static SettingsLoader getInstance() {
+        if (instance == null) {
             instance = new SettingsLoader();
+        }
         return instance;
     }
-    
+
     //TODO: napraviti settings.properties fajl
     private void loadProperties() {
         try {
-            FileInputStream fis =new FileInputStream("settings.properties");
+            fis = new FileInputStream("server.properties");
             properties = new Properties();
             properties.load(fis);
         } catch (FileNotFoundException ex) {
@@ -44,9 +48,22 @@ public class SettingsLoader {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }
-    
-    public String getValue(String key){
+
+    public String getValue(String key) {
         return properties.getProperty(key);
     }
-    
+
+    public boolean setValue(String propertyName, String propertyValue) throws FileNotFoundException, IOException {
+        fos = new FileOutputStream("server.properties");
+
+        String lastPropertyValue1 = properties.getProperty(propertyName);
+        String lastPropertyValue2 = (String) properties.setProperty(propertyName, propertyValue);
+
+        if (lastPropertyValue1.equals(lastPropertyValue2)) {
+            properties.store(fos, null);
+            return true;
+        }
+        return false;
+    }
+
 }

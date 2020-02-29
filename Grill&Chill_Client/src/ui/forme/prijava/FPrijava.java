@@ -120,13 +120,14 @@ public class FPrijava extends javax.swing.JFrame {
         try {
             ulogovaniZaposleni = KontrolerGUI.getInstanca().prijaviZaposlenog(username, password);
             FGlavnaForma glavnaForma = new FGlavnaForma(this);
+            JOptionPane.showMessageDialog(this, "Zaposleni je uspesno ulogovan u sistem");
             glavnaForma.setVisible(true);
             this.dispose();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Sistem ne moze da pronadje zaposlenog na osnovu unetih vrednosti za prijavljivanje");
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da pronadje zaposlenog na osnovu unetih vrednosti");
             ex.printStackTrace();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Sistem ne moze da pronadje zaposlenog na osnovu unetih vrednosti za prijavljivanje");
+            JOptionPane.showMessageDialog(this, "Sistem ne moze da pronadje zaposlenog na osnovu unetih vrednosti");
             ex.printStackTrace();
         }
 
