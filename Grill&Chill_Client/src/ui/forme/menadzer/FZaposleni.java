@@ -24,6 +24,7 @@ import ui.forme.prijava.FPrijava;
 public class FZaposleni extends javax.swing.JDialog {
 
     Zaposleni ulogovanZaposleni;
+    ArrayList<Zaposleni> listaZaposlenih;
     ModeForm mode;
 
     /**
@@ -238,15 +239,20 @@ public class FZaposleni extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnKreirajZaposlenogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnKreirajZaposlenogActionPerformed
-        //zaposleniID = -1 jer u svakom slucaju je autoIncrement u bazi. Promeniti ?
-        int zaposleniID = -1;
+        try {
+            doesExistWith(jtxtKorisnickoIme.getText());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            return;
+        }
+        
         String ime = jtxtIme.getText();
         String prezime = jtxtPrezime.getText();
         String username = jtxtKorisnickoIme.getText();
         String password = jtxtLozinka.getText();
         Mesto mesto = (Mesto) jcmbMesto.getSelectedItem();
 
-        Zaposleni noviZaposleni = new Zaposleni(zaposleniID, ime + " " + prezime, username, password, false, mesto);
+        Zaposleni noviZaposleni = new Zaposleni(0, ime + " " + prezime, username, password, false, mesto);
         try {
             Zaposleni provera = KontrolerGUI.getInstanca().kreirajZaposlenog(noviZaposleni);
             if (provera == null) {
@@ -255,9 +261,6 @@ public class FZaposleni extends javax.swing.JDialog {
                 jtxtZaposleniID.setText(String.valueOf(provera.getZaposleniID()));
                 JOptionPane.showMessageDialog(this, "Sistem je kreirao zaposlenog");
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira zaposlenog");
-            ex.printStackTrace();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Sistem ne moze da kreira zaposlenog");
             ex.printStackTrace();
@@ -329,8 +332,6 @@ public class FZaposleni extends javax.swing.JDialog {
 
     private void popuniComboZaposleni() {
         jcmbZaposleni.removeAllItems();
-//
-        ArrayList<Zaposleni> listaZaposlenih = null;
         try {
             listaZaposlenih = KontrolerGUI.getInstanca().vratiSveZaposlene();
             for (Zaposleni zaposleni : listaZaposlenih) {
@@ -377,6 +378,13 @@ public class FZaposleni extends javax.swing.JDialog {
 
     private void osveziComboZaposleni() {
         popuniComboZaposleni();
+    }
+
+    private void doesExistWith(String newUsername) throws Exception {
+        for (Zaposleni zaposleni : listaZaposlenih) {
+            if(zaposleni.getUsername().equals(newUsername))
+                throw new Exception("Sistem ne moze da kreira zaposlenog.");
+        }
     }
 
 }
